@@ -4,64 +4,170 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Compagnons+ 🐾</title>
+
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f2fa;
+  background: #f5f1fa;
   color: #30283b;
 }
+
 header {
-  background: #7952a5;
+  background: linear-gradient(135deg, #7952a5, #a47acb);
   color: white;
-  padding: 25px;
+  padding: 35px 15px;
   text-align: center;
 }
-header h1 { margin: 0; }
+
+header h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
 nav {
   background: white;
   padding: 15px;
   display: flex;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
+  box-shadow: 0 2px 8px #00000010;
 }
+
 button {
   background: #7952a5;
   color: white;
-  border: 0;
+  border: none;
+  padding: 12px 17px;
   border-radius: 9px;
-  padding: 12px 18px;
   cursor: pointer;
+  font-size: 14px;
 }
-button:hover { background: #603c8a; }
+
+button:hover {
+  background: #603c8a;
+}
+
+button.danger {
+  background: #bd4055;
+}
+
+button.secondary {
+  background: #777;
+}
+
 main {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 25px auto;
   padding: 15px;
 }
+
 .card {
   background: white;
-  padding: 20px;
-  border-radius: 14px;
+  padding: 25px;
+  border-radius: 15px;
   margin-bottom: 20px;
-  box-shadow: 0 3px 12px #00000012;
+  box-shadow: 0 4px 15px #00000010;
 }
-input, select {
+
+.hidden {
+  display: none;
+}
+
+input, select, textarea {
   width: 100%;
   padding: 12px;
   margin: 7px 0 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  font-family: inherit;
 }
-.animal {
+
+label {
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.stat {
   background: #eee6f7;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 10px;
+  padding: 22px;
+  border-radius: 12px;
+  text-align: center;
 }
-.hidden { display: none; }
+
+.stat h2 {
+  color: #7952a5;
+  font-size: 30px;
+}
+
+.animal {
+  background: #f0e9f8;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.animal img {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.entry {
+  background: #f5f1fa;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.notice {
+  background: #fff4d9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #777;
+}
+
+@media(max-width:600px) {
+  header h1 {
+    font-size: 28px;
+  }
+
+  main {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+}
 </style>
 </head>
 
@@ -76,23 +182,59 @@ input, select {
   <button onclick="afficher('accueil')">🏠 Accueil</button>
   <button onclick="afficher('animaux')">🐶 Mes animaux</button>
   <button onclick="afficher('sante')">💉 Santé</button>
+  <button onclick="afficher('portees')">🐾 Portées</button>
   <button onclick="afficher('depenses')">💰 Dépenses</button>
 </nav>
 
 <main>
 
 <section id="accueil" class="card">
-  <h2>Bienvenue sur Compagnons+!</h2>
-  <p>Gérez facilement les informations de vos animaux.</p>
-  <h3 id="total">0 animal enregistré</h3>
+  <h2>Bienvenue sur Compagnons+ 💜</h2>
+
+  <p>Votre espace personnel pour prendre soin de vos compagnons.</p>
+
+  <div class="grid">
+
+    <div class="stat">
+      <h2 id="totalAnimaux">0</h2>
+      <p>🐶 Animaux enregistrés</p>
+    </div>
+
+    <div class="stat">
+      <h2 id="totalSoins">0</h2>
+      <p>💉 Soins enregistrés</p>
+    </div>
+
+    <div class="stat">
+      <h2 id="totalPortees">0</h2>
+      <p>🐾 Portées enregistrées</p>
+    </div>
+
+    <div class="stat">
+      <h2 id="totalDepenses">0 $</h2>
+      <p>💰 Dépenses totales</p>
+    </div>
+
+  </div>
+
+  <div class="notice">
+    💡 Vos informations sont enregistrées uniquement dans
+    ce navigateur. Ne supprimez pas les données du site.
+  </div>
+
 </section>
 
-<section id="animaux" class="card hidden">
-  <h2>🐾 Mes animaux</h2>
 
-  <h3>Ajouter un compagnon</h3>
+<section id="animaux" class="card hidden">
+
+  <h2>🐶 Mes animaux</h2>
+
+  <h3 id="titreFormAnimal">Ajouter un compagnon</h3>
 
   <form id="formAnimal">
+
+    <input type="hidden" id="animalIndex">
+
     <label>Nom</label>
     <input id="nom" required placeholder="Ex. Molly">
 
@@ -103,99 +245,625 @@ input, select {
       <option>Lapin</option>
       <option>Oiseau</option>
       <option>Reptile</option>
+      <option>Poisson</option>
       <option>Autre</option>
+    </select>
+
+    <label>Race</label>
+    <input id="race" placeholder="Ex. Labernois">
+
+    <label>Sexe</label>
+    <select id="sexe">
+      <option value="">Non précisé</option>
+      <option>Femelle</option>
+      <option>Mâle</option>
     </select>
 
     <label>Date de naissance</label>
     <input type="date" id="naissance">
 
-    <label>Race</label>
-    <input id="race" placeholder="Ex. Labernois">
+    <label>Poids actuel (kg)</label>
+    <input type="number" id="poids" min="0" step="0.01">
 
-    <button type="submit">➕ Ajouter mon animal</button>
+    <label>Photo</label>
+    <input type="file" id="photo" accept="image/*">
+
+    <label>Notes</label>
+    <textarea id="notes" rows="3"
+      placeholder="Caractère, habitudes, informations importantes..."></textarea>
+
+    <button type="submit" id="boutonAnimal">
+      ➕ Enregistrer mon animal
+    </button>
+
+    <button type="button" class="secondary"
+      onclick="annulerModification()">
+      Annuler
+    </button>
+
   </form>
 
-  <h3>Mes compagnons</h3>
+  <h3>🐾 Mes compagnons</h3>
+
   <div id="listeAnimaux"></div>
+
 </section>
+
 
 <section id="sante" class="card hidden">
-  <h2>💉 Santé</h2>
-  <p>Le suivi des vaccins et des rendez-vous arrive bientôt!</p>
+
+  <h2>💉 Santé et soins</h2>
+
+  <p>Enregistrez les vaccins, vermifuges, traitements et rendez-vous.</p>
+
+  <form id="formSante">
+
+    <label>Animal</label>
+    <select id="animalSante" required></select>
+
+    <label>Type de soin</label>
+    <select id="typeSoin">
+      <option>Vaccin</option>
+      <option>Vermifuge</option>
+      <option>Rendez-vous vétérinaire</option>
+      <option>Médicament</option>
+      <option>Autre</option>
+    </select>
+
+    <label>Date</label>
+    <input type="date" id="dateSoin" required>
+
+    <label>Prochain rappel (facultatif)</label>
+    <input type="date" id="rappelSoin">
+
+    <label>Notes</label>
+    <textarea id="notesSoin"></textarea>
+
+    <button type="submit">💉 Enregistrer le soin</button>
+
+  </form>
+
+  <h3>Historique des soins</h3>
+
+  <div id="listeSoins"></div>
+
 </section>
 
+
+<section id="portees" class="card hidden">
+
+  <h2>🐾 Suivi des portées</h2>
+
+  <p>Suivez les naissances de chiots, chatons et autres bébés.</p>
+
+  <form id="formPortee">
+
+    <label>Maman</label>
+    <select id="mamanPortee" required></select>
+
+    <label>Date de naissance de la portée</label>
+    <input type="date" id="datePortee" required>
+
+    <label>Nombre de bébés</label>
+    <input type="number" id="nombreBebes" min="0" required>
+
+    <label>Notes</label>
+    <textarea id="notesPortee"
+      placeholder="Informations sur la naissance et les petits..."></textarea>
+
+    <button type="submit">🐾 Enregistrer la portée</button>
+
+  </form>
+
+  <h3>Mes portées</h3>
+
+  <div id="listePortees"></div>
+
+</section>
+
+
 <section id="depenses" class="card hidden">
-  <h2>💰 Dépenses</h2>
-  <p>Le suivi des dépenses arrive bientôt!</p>
+
+  <h2>💰 Suivi des dépenses</h2>
+
+  <form id="formDepense">
+
+    <label>Catégorie</label>
+    <select id="categorieDepense">
+      <option>Nourriture</option>
+      <option>Vétérinaire</option>
+      <option>Médicaments</option>
+      <option>Accessoires</option>
+      <option>Toilettage</option>
+      <option>Autre</option>
+    </select>
+
+    <label>Montant ($ CAD)</label>
+    <input type="number" id="montantDepense"
+      min="0.01" step="0.01" required>
+
+    <label>Date</label>
+    <input type="date" id="dateDepense" required>
+
+    <label>Description</label>
+    <input id="descriptionDepense"
+      placeholder="Ex. Croquettes pour Molly">
+
+    <button type="submit">💰 Ajouter la dépense</button>
+
+  </form>
+
+  <h3>Historique des dépenses</h3>
+
+  <div id="listeDepenses"></div>
+
 </section>
 
 </main>
 
+<footer>
+  🐾 Compagnons+ — Version 2.0
+</footer>
+
 <script>
-let animaux = [];
 
-try {
-  const donnees = JSON.parse(localStorage.getItem("compagnons_animaux"));
-  if (Array.isArray(donnees)) animaux = donnees;
-} catch (erreur) {
-  console.warn("Impossible de charger les données.");
+// ===== SAUVEGARDE =====
+
+function charger(cle) {
+  try {
+    const valeur = JSON.parse(localStorage.getItem(cle));
+    return Array.isArray(valeur) ? valeur : [];
+  } catch {
+    return [];
+  }
 }
 
-function afficher(section) {
-  document.querySelectorAll("main section").forEach(element => {
-    element.classList.add("hidden");
+let animaux = charger("compagnons_animaux");
+let soins = charger("compagnons_soins");
+let portees = charger("compagnons_portees");
+let depenses = charger("compagnons_depenses");
+
+function sauvegarder(cle, donnees) {
+  try {
+    localStorage.setItem(cle, JSON.stringify(donnees));
+    return true;
+  } catch {
+    alert("Espace de stockage insuffisant. Les nouvelles données ne sont pas enregistrées.");
+    return false;
+  }
+}
+
+// ===== NAVIGATION =====
+
+function afficher(id) {
+  document.querySelectorAll("main section").forEach(section => {
+    section.classList.add("hidden");
   });
-  document.getElementById(section).classList.remove("hidden");
+
+  document.getElementById(id).classList.remove("hidden");
+
+  window.scrollTo(0, 0);
 }
 
-function enregistrer() {
-  localStorage.setItem("compagnons_animaux", JSON.stringify(animaux));
+// ===== OUTILS =====
+
+function element(texte, balise = "p") {
+  const e = document.createElement(balise);
+  e.textContent = texte;
+  return e;
 }
 
-function actualiser() {
+function bouton(texte, action, danger = false) {
+  const b = document.createElement("button");
+  b.textContent = texte;
+  b.type = "button";
+
+  if (danger) b.className = "danger";
+
+  b.addEventListener("click", action);
+
+  return b;
+}
+
+function carte(conteneur, lignes, actions = []) {
+  const div = document.createElement("div");
+  div.className = "entry";
+
+  lignes.forEach(ligne => {
+    div.appendChild(element(ligne));
+  });
+
+  actions.forEach(action => {
+    div.appendChild(action);
+  });
+
+  conteneur.appendChild(div);
+}
+
+function dateJour() {
+  const maintenant = new Date();
+  const annee = maintenant.getFullYear();
+  const mois = String(maintenant.getMonth() + 1).padStart(2, "0");
+  const jour = String(maintenant.getDate()).padStart(2, "0");
+  return `${annee}-${mois}-${jour}`;
+}
+
+// ===== ANIMAUX =====
+
+function actualiserAnimaux() {
   const liste = document.getElementById("listeAnimaux");
   liste.replaceChildren();
 
-  animaux.forEach(animal => {
-    const carte = document.createElement("div");
-    carte.className = "animal";
+  animaux.forEach((animal, index) => {
 
-    const titre = document.createElement("h3");
-    titre.textContent = "🐾 " + animal.nom;
+    const div = document.createElement("div");
+    div.className = "animal";
 
-    const details = document.createElement("p");
-    details.textContent =
-      animal.espece + " | " +
-      (animal.race || "Race non précisée") +
-      (animal.naissance ? " | Né(e) le " + animal.naissance : "");
+    if (animal.photo) {
+      const img = document.createElement("img");
+      img.src = animal.photo;
+      img.alt = "Photo de " + animal.nom;
+      div.appendChild(img);
+    }
 
-    carte.append(titre, details);
-    liste.appendChild(carte);
+    div.appendChild(element("🐾 " + animal.nom, "h3"));
+
+    div.appendChild(element(
+      animal.espece + " | " + (animal.race || "Race non précisée")
+    ));
+
+    if (animal.sexe) {
+      div.appendChild(element("Sexe : " + animal.sexe));
+    }
+
+    if (animal.naissance) {
+      div.appendChild(element(
+        "Naissance : " + animal.naissance
+      ));
+    }
+
+    if (animal.poids) {
+      div.appendChild(element(
+        "Poids : " + animal.poids + " kg"
+      ));
+    }
+
+    if (animal.notes) {
+      div.appendChild(element("Notes : " + animal.notes));
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    actions.appendChild(
+      bouton("✏️ Modifier", () => modifierAnimal(index))
+    );
+
+    actions.appendChild(
+      bouton("🗑️ Supprimer", () => supprimerAnimal(index), true)
+    );
+
+    div.appendChild(actions);
+    liste.appendChild(div);
   });
 
-  document.getElementById("total").textContent =
-    animaux.length + " animal(aux) enregistré(s)";
+  actualiserSelecteurs();
+  actualiserTableau();
 }
 
-document.getElementById("formAnimal").addEventListener("submit", function(e) {
+function modifierAnimal(index) {
+  const a = animaux[index];
+
+  document.getElementById("animalIndex").value = index;
+  document.getElementById("nom").value = a.nom || "";
+  document.getElementById("espece").value = a.espece || "Autre";
+  document.getElementById("race").value = a.race || "";
+  document.getElementById("sexe").value = a.sexe || "";
+  document.getElementById("naissance").value = a.naissance || "";
+  document.getElementById("poids").value = a.poids || "";
+  document.getElementById("notes").value = a.notes || "";
+
+  document.getElementById("titreFormAnimal").textContent =
+    "Modifier " + a.nom;
+
+  document.getElementById("boutonAnimal").textContent =
+    "💾 Enregistrer les modifications";
+
+  afficher("animaux");
+}
+
+function annulerModification() {
+  document.getElementById("formAnimal").reset();
+  document.getElementById("animalIndex").value = "";
+
+  document.getElementById("titreFormAnimal").textContent =
+    "Ajouter un compagnon";
+
+  document.getElementById("boutonAnimal").textContent =
+    "➕ Enregistrer mon animal";
+}
+
+function supprimerAnimal(index) {
+  const nom = animaux[index].nom;
+
+  if (!confirm("Supprimer définitivement la fiche de " + nom + " ?")) {
+    return;
+  }
+
+  const copie = animaux.filter((_, i) => i !== index);
+
+  if (sauvegarder("compagnons_animaux", copie)) {
+    animaux = copie;
+    annulerModification();
+    actualiserAnimaux();
+  }
+}
+
+document.getElementById("formAnimal")
+.addEventListener("submit", async function(e) {
+
   e.preventDefault();
 
+  const indexTexte = document.getElementById("animalIndex").value;
+  const index = indexTexte === "" ? -1 : Number(indexTexte);
+
+  const ancien = index >= 0 ? animaux[index] : {};
+
   const animal = {
+    ...ancien,
     nom: document.getElementById("nom").value.trim(),
     espece: document.getElementById("espece").value,
+    race: document.getElementById("race").value.trim(),
+    sexe: document.getElementById("sexe").value,
     naissance: document.getElementById("naissance").value,
-    race: document.getElementById("race").value.trim()
+    poids: document.getElementById("poids").value,
+    notes: document.getElementById("notes").value.trim()
   };
 
-  if (!animal.nom) return;
+  const fichier = document.getElementById("photo").files[0];
 
-  animaux.push(animal);
-  enregistrer();
-  actualiser();
-  this.reset();
+  if (fichier) {
+    if (fichier.size > 300000) {
+      alert("La photo doit faire moins de 300 Ko pour cette version.");
+      return;
+    }
+
+    animal.photo = await new Promise(resolve => {
+      const lecteur = new FileReader();
+      lecteur.onload = () => resolve(lecteur.result);
+      lecteur.readAsDataURL(fichier);
+    });
+  }
+
+  const copie = [...animaux];
+
+  if (index >= 0) {
+    copie[index] = animal;
+  } else {
+    copie.push(animal);
+  }
+
+  if (sauvegarder("compagnons_animaux", copie)) {
+    animaux = copie;
+    annulerModification();
+    actualiserAnimaux();
+  }
 });
 
-actualiser();
+// ===== SELECTEURS =====
+
+function actualiserSelecteurs() {
+  ["animalSante", "mamanPortee"].forEach(id => {
+    const select = document.getElementById(id);
+    const precedent = select.value;
+
+    select.replaceChildren();
+
+    animaux.forEach((animal, index) => {
+      const option = document.createElement("option");
+      option.value = index;
+      option.textContent = animal.nom;
+      select.appendChild(option);
+    });
+
+    if ([...select.options].some(o => o.value === precedent)) {
+      select.value = precedent;
+    }
+  });
+}
+
+// ===== SANTÉ =====
+
+document.getElementById("formSante")
+.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const index = Number(document.getElementById("animalSante").value);
+
+  if (!animaux[index]) {
+    alert("Ajoutez d'abord un animal.");
+    return;
+  }
+
+  const soin = {
+    animal: animaux[index].nom,
+    type: document.getElementById("typeSoin").value,
+    date: document.getElementById("dateSoin").value,
+    rappel: document.getElementById("rappelSoin").value,
+    notes: document.getElementById("notesSoin").value
+  };
+
+  const copie = [...soins, soin];
+
+  if (sauvegarder("compagnons_soins", copie)) {
+    soins = copie;
+    this.reset();
+    actualiserSoins();
+  }
+});
+
+function actualiserSoins() {
+  const liste = document.getElementById("listeSoins");
+  liste.replaceChildren();
+
+  soins.forEach((soin, index) => {
+    carte(liste, [
+      "🐾 " + soin.animal,
+      soin.type + " — " + soin.date,
+      soin.rappel ? "Prochain rappel : " + soin.rappel : "",
+      soin.notes || ""
+    ], [
+      bouton("🗑️ Supprimer", () => {
+        if (!confirm("Supprimer ce soin ?")) return;
+
+        const copie = soins.filter((_, i) => i !== index);
+
+        if (sauvegarder("compagnons_soins", copie)) {
+          soins = copie;
+          actualiserSoins();
+        }
+      }, true)
+    ]);
+  });
+
+  actualiserTableau();
+}
+
+// ===== PORTÉES =====
+
+document.getElementById("formPortee")
+.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const index = Number(document.getElementById("mamanPortee").value);
+
+  if (!animaux[index]) {
+    alert("Ajoutez d'abord la maman dans Mes animaux.");
+    return;
+  }
+
+  const portee = {
+    maman: animaux[index].nom,
+    date: document.getElementById("datePortee").value,
+    nombre: Number(document.getElementById("nombreBebes").value),
+    notes: document.getElementById("notesPortee").value
+  };
+
+  const copie = [...portees, portee];
+
+  if (sauvegarder("compagnons_portees", copie)) {
+    portees = copie;
+    this.reset();
+    actualiserPortees();
+  }
+});
+
+function actualiserPortees() {
+  const liste = document.getElementById("listePortees");
+  liste.replaceChildren();
+
+  portees.forEach((portee, index) => {
+    carte(liste, [
+      "🐾 Maman : " + portee.maman,
+      "Naissance : " + portee.date,
+      "Nombre de bébés : " + portee.nombre,
+      portee.notes || ""
+    ], [
+      bouton("🗑️ Supprimer", () => {
+        if (!confirm("Supprimer cette portée ?")) return;
+
+        const copie = portees.filter((_, i) => i !== index);
+
+        if (sauvegarder("compagnons_portees", copie)) {
+          portees = copie;
+          actualiserPortees();
+        }
+      }, true)
+    ]);
+  });
+
+  actualiserTableau();
+}
+
+// ===== DÉPENSES =====
+
+document.getElementById("formDepense")
+.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const depense = {
+    categorie: document.getElementById("categorieDepense").value,
+    montant: Number(document.getElementById("montantDepense").value),
+    date: document.getElementById("dateDepense").value,
+    description: document.getElementById("descriptionDepense").value
+  };
+
+  const copie = [...depenses, depense];
+
+  if (sauvegarder("compagnons_depenses", copie)) {
+    depenses = copie;
+    this.reset();
+    actualiserDepenses();
+  }
+});
+
+function actualiserDepenses() {
+  const liste = document.getElementById("listeDepenses");
+  liste.replaceChildren();
+
+  depenses.forEach((depense, index) => {
+    carte(liste, [
+      depense.categorie,
+      depense.montant.toFixed(2) + " $ CAD",
+      depense.date,
+      depense.description || ""
+    ], [
+      bouton("🗑️ Supprimer", () => {
+        if (!confirm("Supprimer cette dépense ?")) return;
+
+        const copie = depenses.filter((_, i) => i !== index);
+
+        if (sauvegarder("compagnons_depenses", copie)) {
+          depenses = copie;
+          actualiserDepenses();
+        }
+      }, true)
+    ]);
+  });
+
+  actualiserTableau();
+}
+
+// ===== TABLEAU DE BORD =====
+
+function actualiserTableau() {
+  document.getElementById("totalAnimaux").textContent =
+    animaux.length;
+
+  document.getElementById("totalSoins").textContent =
+    soins.length;
+
+  document.getElementById("totalPortees").textContent =
+    portees.length;
+
+  const total = depenses.reduce(
+    (somme, depense) => somme + depense.montant, 0
+  );
+
+  document.getElementById("totalDepenses").textContent =
+    total.toFixed(2) + " $";
+}
+
+// ===== INITIALISATION =====
+
+document.getElementById("dateSoin").value = dateJour();
+document.getElementById("dateDepense").value = dateJour();
+
+actualiserAnimaux();
+actualiserSoins();
+actualiserPortees();
+actualiserDepenses();
+
 </script>
 
 </body>
