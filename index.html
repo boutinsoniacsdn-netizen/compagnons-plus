@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compagnons+ 🐾</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f2fa;
+  color: #30283b;
+}
+header {
+  background: #7952a5;
+  color: white;
+  padding: 25px;
+  text-align: center;
+}
+header h1 { margin: 0; }
+nav {
+  background: white;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+button {
+  background: #7952a5;
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 18px;
+  cursor: pointer;
+}
+button:hover { background: #603c8a; }
+main {
+  max-width: 1000px;
+  margin: 25px auto;
+  padding: 15px;
+}
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px #00000012;
+}
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 7px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.animal {
+  background: #eee6f7;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+.hidden { display: none; }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🐾 Compagnons+</h1>
+  <p>Parce que chaque compagnon mérite le meilleur ❤️</p>
+</header>
+
+<nav>
+  <button onclick="afficher('accueil')">🏠 Accueil</button>
+  <button onclick="afficher('animaux')">🐶 Mes animaux</button>
+  <button onclick="afficher('sante')">💉 Santé</button>
+  <button onclick="afficher('depenses')">💰 Dépenses</button>
+</nav>
+
+<main>
+
+<section id="accueil" class="card">
+  <h2>Bienvenue sur Compagnons+!</h2>
+  <p>Gérez facilement les informations de vos animaux.</p>
+  <h3 id="total">0 animal enregistré</h3>
+</section>
+
+<section id="animaux" class="card hidden">
+  <h2>🐾 Mes animaux</h2>
+
+  <h3>Ajouter un compagnon</h3>
+
+  <form id="formAnimal">
+    <label>Nom</label>
+    <input id="nom" required placeholder="Ex. Molly">
+
+    <label>Espèce</label>
+    <select id="espece">
+      <option>Chien</option>
+      <option>Chat</option>
+      <option>Lapin</option>
+      <option>Oiseau</option>
+      <option>Reptile</option>
+      <option>Autre</option>
+    </select>
+
+    <label>Date de naissance</label>
+    <input type="date" id="naissance">
+
+    <label>Race</label>
+    <input id="race" placeholder="Ex. Labernois">
+
+    <button type="submit">➕ Ajouter mon animal</button>
+  </form>
+
+  <h3>Mes compagnons</h3>
+  <div id="listeAnimaux"></div>
+</section>
+
+<section id="sante" class="card hidden">
+  <h2>💉 Santé</h2>
+  <p>Le suivi des vaccins et des rendez-vous arrive bientôt!</p>
+</section>
+
+<section id="depenses" class="card hidden">
+  <h2>💰 Dépenses</h2>
+  <p>Le suivi des dépenses arrive bientôt!</p>
+</section>
+
+</main>
+
+<script>
+let animaux = [];
+
+try {
+  const donnees = JSON.parse(localStorage.getItem("compagnons_animaux"));
+  if (Array.isArray(donnees)) animaux = donnees;
+} catch (erreur) {
+  console.warn("Impossible de charger les données.");
+}
+
+function afficher(section) {
+  document.querySelectorAll("main section").forEach(element => {
+    element.classList.add("hidden");
+  });
+  document.getElementById(section).classList.remove("hidden");
+}
+
+function enregistrer() {
+  localStorage.setItem("compagnons_animaux", JSON.stringify(animaux));
+}
+
+function actualiser() {
+  const liste = document.getElementById("listeAnimaux");
+  liste.replaceChildren();
+
+  animaux.forEach(animal => {
+    const carte = document.createElement("div");
+    carte.className = "animal";
+
+    const titre = document.createElement("h3");
+    titre.textContent = "🐾 " + animal.nom;
+
+    const details = document.createElement("p");
+    details.textContent =
+      animal.espece + " | " +
+      (animal.race || "Race non précisée") +
+      (animal.naissance ? " | Né(e) le " + animal.naissance : "");
+
+    carte.append(titre, details);
+    liste.appendChild(carte);
+  });
+
+  document.getElementById("total").textContent =
+    animaux.length + " animal(aux) enregistré(s)";
+}
+
+document.getElementById("formAnimal").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const animal = {
+    nom: document.getElementById("nom").value.trim(),
+    espece: document.getElementById("espece").value,
+    naissance: document.getElementById("naissance").value,
+    race: document.getElementById("race").value.trim()
+  };
+
+  if (!animal.nom) return;
+
+  animaux.push(animal);
+  enregistrer();
+  actualiser();
+  this.reset();
+});
+
+actualiser();
+</script>
+
+</body>
+</html>
