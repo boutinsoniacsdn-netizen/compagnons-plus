@@ -1,870 +1,838 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Compagnons+ 🐾</title>
-
-<style>
+<html lang="fr-CA">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Compagnons+ 3.0 &mdash; D&eacute;monstration
+  </title>
+  <style>
+   :root {
+    --violet:#7952a5;
+    --fond:#f5f1fa;
+    --texte:#30283b
+}
 * {
-  box-sizing: border-box;
+    box-sizing:border-box
 }
-
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f1fa;
-  color: #30283b;
+    margin:0;
+    background:var(--fond);
+    color:var(--texte);
+    font:16px Arial,sans-serif
 }
-
 header {
-  background: linear-gradient(135deg, #7952a5, #a47acb);
-  color: white;
-  padding: 35px 15px;
-  text-align: center;
+    background:linear-gradient(120deg,#7952a5,#a47acb);
+    color:white;
+    text-align:center;
+    padding:28px 12px
 }
-
 header h1 {
-  font-size: 36px;
-  margin: 0;
+    margin:0
 }
-
-header p {
-  margin-bottom: 0;
-}
-
 nav {
-  background: white;
-  padding: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  box-shadow: 0 2px 8px #00000010;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    background:white;
+    padding:13px;
+    box-shadow:0 2px 8px #0001
 }
-
 button {
-  background: #7952a5;
-  color: white;
-  border: none;
-  padding: 12px 17px;
-  border-radius: 9px;
-  cursor: pointer;
-  font-size: 14px;
+    background:var(--violet);
+    color:white;
+    border:0;
+    border-radius:8px;
+    padding:11px 14px;
+    cursor:pointer
 }
-
 button:hover {
-  background: #603c8a;
+    filter:brightness(.92)
 }
-
-button.danger {
-  background: #bd4055;
+button:disabled {
+    opacity:.5;
+    cursor:not-allowed
 }
-
-button.secondary {
-  background: #777;
+.danger {
+    background:#b53d55
 }
-
+.muted {
+    background:#666
+}
 main {
-  max-width: 1100px;
-  margin: 25px auto;
-  padding: 15px;
+    max-width:1050px;
+    margin:20px auto;
+    padding:0 14px
 }
-
 .card {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 15px #00000010;
+    background:white;
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:18px;
+    box-shadow:0 3px 12px #0001
 }
-
 .hidden {
-  display: none;
+    display:none
 }
-
-input, select, textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 7px 0 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-family: inherit;
-}
-
-label {
-  font-weight: bold;
-}
-
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:12px
 }
-
 .stat {
-  background: #eee6f7;
-  padding: 22px;
-  border-radius: 12px;
-  text-align: center;
+    background:#f0e8fa;
+    padding:18px;
+    border-radius:12px;
+    text-align:center
 }
-
-.stat h2 {
-  color: #7952a5;
-  font-size: 30px;
+.stat strong {
+    font-size:27px;
+    color:var(--violet)
 }
-
-.animal {
-  background: #f0e9f8;
-  border-radius: 12px;
-  padding: 20px;
-  margin: 15px 0;
+label {
+    display:block;
+    font-weight:bold;
+    margin:12px 0 5px
 }
-
-.animal img {
-  width: 130px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 12px;
+input,select,textarea {
+    display:block;
+    width:100%;
+    padding:10px;
+    border:1px solid #bbb;
+    border-radius:8px;
+    font:inherit
 }
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 15px;
+input[type=checkbox] {
+    width:auto;
+    display:inline-block;
+    margin-right:8px
 }
-
+label.check {
+    font-weight:normal;
+    display:flex;
+    align-items:flex-start;
+    gap:5px
+}
 .entry {
-  background: #f5f1fa;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 8px;
+    border:1px solid #e0d6e9;
+    background:#faf8fc;
+    padding:15px;
+    border-radius:10px;
+    margin:12px 0
 }
-
+.entry img {
+    max-width:120px;
+    max-height:120px;
+    object-fit:cover;
+    border-radius:10px
+}
+.actions {
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:10px
+}
 .notice {
-  background: #fff4d9;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 20px;
+    padding:14px;
+    background:#fff1d4;
+    border-radius:10px;
+    margin:10px 0
 }
-
+.ok {
+    background:#e1f6e7
+}
+.small {
+    font-size:13px;
+    color:#555
+}
 footer {
-  text-align: center;
-  padding: 25px;
-  color: #777;
+    text-align:center;
+    padding:20px;
+    color:#666
 }
-
-@media(max-width:600px) {
-  header h1 {
-    font-size: 28px;
-  }
-
-  main {
-    padding: 10px;
-  }
-
-  .card {
-    padding: 17px;
-  }
+h2 {
+    color:#62418b
 }
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>🐾 Compagnons+</h1>
-  <p>Parce que chaque compagnon mérite le meilleur ❤️</p>
-</header>
-
-<nav>
-  <button onclick="afficher('accueil')">🏠 Accueil</button>
-  <button onclick="afficher('animaux')">🐶 Mes animaux</button>
-  <button onclick="afficher('sante')">💉 Santé</button>
-  <button onclick="afficher('portees')">🐾 Portées</button>
-  <button onclick="afficher('depenses')">💰 Dépenses</button>
-</nav>
-
-<main>
-
-<section id="accueil" class="card">
-  <h2>Bienvenue sur Compagnons+ 💜</h2>
-
-  <p>Votre espace personnel pour prendre soin de vos compagnons.</p>
-
-  <div class="grid">
-
-    <div class="stat">
-      <h2 id="totalAnimaux">0</h2>
-      <p>🐶 Animaux enregistrés</p>
+fieldset {
+    border:1px solid #ddd;
+    border-radius:10px;
+    margin:16px 0;
+    padding:14px
+}
+legend {
+    font-weight:bold;
+    color:#62418b
+}
+#prix {
+    font-size:23px;
+    font-weight:bold;
+    color:#62418b
+}
+a {
+    color:#62418b
+}
+  </style>
+ </head>
+ <body>
+  <header>
+   <h1>
+    🐾 Compagnons+
+   </h1>
+   <p>
+    Parce que chaque compagnon m&eacute;rite le meilleur ❤️
+   </p>
+   <strong>
+    Version 3.0 &mdash; Prototype de d&eacute;monstration
+   </strong>
+  </header>
+  <nav>
+   <button data-page="accueil">
+    🏠 Accueil
+   </button>
+   <button data-page="animaux">
+    🐶 Mes animaux
+   </button>
+   <button data-page="sante">
+    💉 Sant&eacute;
+   </button>
+   <button data-page="portees">
+    🐾 Port&eacute;es
+   </button>
+   <button data-page="depenses">
+    💰 D&eacute;penses
+   </button>
+   <button data-page="pension">
+    🏡 Pension
+   </button>
+   <button data-page="gestion">
+    📋 Gestion (d&eacute;mo)
+   </button>
+  </nav>
+  <main>
+   <section class="card" id="accueil">
+    <h2>
+     Bienvenue sur Compagnons+ 💜
+    </h2>
+    <div class="grid">
+     <div class="stat">
+      <strong id="nbAnimaux">
+       0
+      </strong>
+      <p>
+       Animaux
+      </p>
+     </div>
+     <div class="stat">
+      <strong id="nbSoins">
+       0
+      </strong>
+      <p>
+       Soins
+      </p>
+     </div>
+     <div class="stat">
+      <strong id="nbPortees">
+       0
+      </strong>
+      <p>
+       Port&eacute;es
+      </p>
+     </div>
+     <div class="stat">
+      <strong id="nbDepenses">
+       0 $
+      </strong>
+      <p>
+       D&eacute;penses
+      </p>
+     </div>
     </div>
-
-    <div class="stat">
-      <h2 id="totalSoins">0</h2>
-      <p>💉 Soins enregistrés</p>
+    <p class="notice">
+     🔒 D&eacute;monstration locale : les donn&eacute;es restent dans ce navigateur. Les r&eacute;servations ne sont
+     <b>
+      pas transmises
+     </b>
+     &agrave; la pension. N'entrez aucune v&eacute;ritable donn&eacute;e personnelle ou m&eacute;dicale dans cette d&eacute;mo publique.
+    </p>
+    <div class="entry">
+     <h3>
+      💾 Sauvegarde de mes donn&eacute;es
+     </h3>
+     <p>
+      T&eacute;l&eacute;chargez une copie de vos donn&eacute;es locales avant toute mise &agrave; jour ou changement de navigateur. Conservez le fichier en lieu s&ucirc;r.
+     </p>
+     <button id="exportSauvegarde" type="button">
+      ⬇️ T&eacute;l&eacute;charger ma sauvegarde (JSON)
+     </button>
     </div>
-
-    <div class="stat">
-      <h2 id="totalPortees">0</h2>
-      <p>🐾 Portées enregistrées</p>
+   </section>
+   <section class="card hidden" id="animaux">
+    <h2>
+     🐶 Mes animaux
+    </h2>
+    <form id="animalForm">
+     <input id="editAnimal" type="hidden"/>
+     <label>
+      Nom
+      <input id="nom" required=""/>
+     </label>
+     <label>
+      Esp&egrave;ce
+      <select id="espece">
+       <option>
+        Chien
+       </option>
+       <option>
+        Chat
+       </option>
+       <option>
+        Lapin
+       </option>
+       <option>
+        Oiseau
+       </option>
+       <option>
+        Reptile
+       </option>
+       <option>
+        Poisson
+       </option>
+       <option>
+        Autre
+       </option>
+      </select>
+     </label>
+     <label>
+      Race
+      <input id="race"/>
+     </label>
+     <label>
+      Sexe
+      <select id="sexe">
+       <option value="">
+        Non pr&eacute;cis&eacute;
+       </option>
+       <option>
+        Femelle
+       </option>
+       <option>
+        M&acirc;le
+       </option>
+      </select>
+     </label>
+     <label>
+      Naissance
+      <input id="naissance" type="date"/>
+     </label>
+     <label>
+      Poids (kg)
+      <input id="poids" min="0" step=".01" type="number"/>
+     </label>
+     <label>
+      Photo (moins de 300 Ko)
+      <input accept="image/*" id="photo" type="file"/>
+     </label>
+     <label>
+      Notes
+      <textarea id="notes"></textarea>
+     </label>
+     <button>
+      💾 Enregistrer l'animal
+     </button>
+     <button class="muted" id="annulerAnimal" type="button">
+      Annuler la modification
+     </button>
+    </form>
+    <h3>
+     Mes compagnons
+    </h3>
+    <div id="listeAnimaux">
     </div>
-
-    <div class="stat">
-      <h2 id="totalDepenses">0 $</h2>
-      <p>💰 Dépenses totales</p>
+   </section>
+   <section class="card hidden" id="sante">
+    <h2>
+     💉 Sant&eacute;
+    </h2>
+    <form id="soinForm">
+     <label>
+      Animal
+      <select id="animalSante" required="">
+      </select>
+     </label>
+     <label>
+      Type
+      <select id="typeSoin">
+       <option>
+        Vaccin
+       </option>
+       <option>
+        Vermifuge
+       </option>
+       <option>
+        Rendez-vous v&eacute;t&eacute;rinaire
+       </option>
+       <option>
+        M&eacute;dicament
+       </option>
+       <option>
+        Autre
+       </option>
+      </select>
+     </label>
+     <label>
+      Date
+      <input id="dateSoin" required="" type="date"/>
+     </label>
+     <label>
+      Rappel facultatif
+      <input id="rappelSoin" type="date"/>
+     </label>
+     <label>
+      Notes
+      <textarea id="notesSoin"></textarea>
+     </label>
+     <button>
+      Enregistrer le soin
+     </button>
+    </form>
+    <div id="listeSoins">
     </div>
-
-  </div>
-
-  <div class="notice">
-    💡 Vos informations sont enregistrées uniquement dans
-    ce navigateur. Ne supprimez pas les données du site.
-  </div>
-
-</section>
-
-
-<section id="animaux" class="card hidden">
-
-  <h2>🐶 Mes animaux</h2>
-
-  <h3 id="titreFormAnimal">Ajouter un compagnon</h3>
-
-  <form id="formAnimal">
-
-    <input type="hidden" id="animalIndex">
-
-    <label>Nom</label>
-    <input id="nom" required placeholder="Ex. Molly">
-
-    <label>Espèce</label>
-    <select id="espece">
-      <option>Chien</option>
-      <option>Chat</option>
-      <option>Lapin</option>
-      <option>Oiseau</option>
-      <option>Reptile</option>
-      <option>Poisson</option>
-      <option>Autre</option>
-    </select>
-
-    <label>Race</label>
-    <input id="race" placeholder="Ex. Labernois">
-
-    <label>Sexe</label>
-    <select id="sexe">
-      <option value="">Non précisé</option>
-      <option>Femelle</option>
-      <option>Mâle</option>
-    </select>
-
-    <label>Date de naissance</label>
-    <input type="date" id="naissance">
-
-    <label>Poids actuel (kg)</label>
-    <input type="number" id="poids" min="0" step="0.01">
-
-    <label>Photo</label>
-    <input type="file" id="photo" accept="image/*">
-
-    <label>Notes</label>
-    <textarea id="notes" rows="3"
-      placeholder="Caractère, habitudes, informations importantes..."></textarea>
-
-    <button type="submit" id="boutonAnimal">
-      ➕ Enregistrer mon animal
-    </button>
-
-    <button type="button" class="secondary"
-      onclick="annulerModification()">
-      Annuler
-    </button>
-
-  </form>
-
-  <h3>🐾 Mes compagnons</h3>
-
-  <div id="listeAnimaux"></div>
-
-</section>
-
-
-<section id="sante" class="card hidden">
-
-  <h2>💉 Santé et soins</h2>
-
-  <p>Enregistrez les vaccins, vermifuges, traitements et rendez-vous.</p>
-
-  <form id="formSante">
-
-    <label>Animal</label>
-    <select id="animalSante" required></select>
-
-    <label>Type de soin</label>
-    <select id="typeSoin">
-      <option>Vaccin</option>
-      <option>Vermifuge</option>
-      <option>Rendez-vous vétérinaire</option>
-      <option>Médicament</option>
-      <option>Autre</option>
-    </select>
-
-    <label>Date</label>
-    <input type="date" id="dateSoin" required>
-
-    <label>Prochain rappel (facultatif)</label>
-    <input type="date" id="rappelSoin">
-
-    <label>Notes</label>
-    <textarea id="notesSoin"></textarea>
-
-    <button type="submit">💉 Enregistrer le soin</button>
-
-  </form>
-
-  <h3>Historique des soins</h3>
-
-  <div id="listeSoins"></div>
-
-</section>
-
-
-<section id="portees" class="card hidden">
-
-  <h2>🐾 Suivi des portées</h2>
-
-  <p>Suivez les naissances de chiots, chatons et autres bébés.</p>
-
-  <form id="formPortee">
-
-    <label>Maman</label>
-    <select id="mamanPortee" required></select>
-
-    <label>Date de naissance de la portée</label>
-    <input type="date" id="datePortee" required>
-
-    <label>Nombre de bébés</label>
-    <input type="number" id="nombreBebes" min="0" required>
-
-    <label>Notes</label>
-    <textarea id="notesPortee"
-      placeholder="Informations sur la naissance et les petits..."></textarea>
-
-    <button type="submit">🐾 Enregistrer la portée</button>
-
-  </form>
-
-  <h3>Mes portées</h3>
-
-  <div id="listePortees"></div>
-
-</section>
-
-
-<section id="depenses" class="card hidden">
-
-  <h2>💰 Suivi des dépenses</h2>
-
-  <form id="formDepense">
-
-    <label>Catégorie</label>
-    <select id="categorieDepense">
-      <option>Nourriture</option>
-      <option>Vétérinaire</option>
-      <option>Médicaments</option>
-      <option>Accessoires</option>
-      <option>Toilettage</option>
-      <option>Autre</option>
-    </select>
-
-    <label>Montant ($ CAD)</label>
-    <input type="number" id="montantDepense"
-      min="0.01" step="0.01" required>
-
-    <label>Date</label>
-    <input type="date" id="dateDepense" required>
-
-    <label>Description</label>
-    <input id="descriptionDepense"
-      placeholder="Ex. Croquettes pour Molly">
-
-    <button type="submit">💰 Ajouter la dépense</button>
-
-  </form>
-
-  <h3>Historique des dépenses</h3>
-
-  <div id="listeDepenses"></div>
-
-</section>
-
-</main>
-
-<footer>
-  🐾 Compagnons+ — Version 2.0
-</footer>
-
-<script>
-
-// ===== SAUVEGARDE =====
-
-function charger(cle) {
-  try {
-    const valeur = JSON.parse(localStorage.getItem(cle));
-    return Array.isArray(valeur) ? valeur : [];
-  } catch {
-    return [];
-  }
-}
-
-let animaux = charger("compagnons_animaux");
-let soins = charger("compagnons_soins");
-let portees = charger("compagnons_portees");
-let depenses = charger("compagnons_depenses");
-
-function sauvegarder(cle, donnees) {
-  try {
-    localStorage.setItem(cle, JSON.stringify(donnees));
-    return true;
-  } catch {
-    alert("Espace de stockage insuffisant. Les nouvelles données ne sont pas enregistrées.");
-    return false;
-  }
-}
-
-// ===== NAVIGATION =====
-
-function afficher(id) {
-  document.querySelectorAll("main section").forEach(section => {
-    section.classList.add("hidden");
-  });
-
-  document.getElementById(id).classList.remove("hidden");
-
-  window.scrollTo(0, 0);
-}
-
-// ===== OUTILS =====
-
-function element(texte, balise = "p") {
-  const e = document.createElement(balise);
-  e.textContent = texte;
-  return e;
-}
-
-function bouton(texte, action, danger = false) {
-  const b = document.createElement("button");
-  b.textContent = texte;
-  b.type = "button";
-
-  if (danger) b.className = "danger";
-
-  b.addEventListener("click", action);
-
-  return b;
-}
-
-function carte(conteneur, lignes, actions = []) {
-  const div = document.createElement("div");
-  div.className = "entry";
-
-  lignes.forEach(ligne => {
-    div.appendChild(element(ligne));
-  });
-
-  actions.forEach(action => {
-    div.appendChild(action);
-  });
-
-  conteneur.appendChild(div);
-}
-
-function dateJour() {
-  const maintenant = new Date();
-  const annee = maintenant.getFullYear();
-  const mois = String(maintenant.getMonth() + 1).padStart(2, "0");
-  const jour = String(maintenant.getDate()).padStart(2, "0");
-  return `${annee}-${mois}-${jour}`;
-}
-
-// ===== ANIMAUX =====
-
-function actualiserAnimaux() {
-  const liste = document.getElementById("listeAnimaux");
-  liste.replaceChildren();
-
-  animaux.forEach((animal, index) => {
-
-    const div = document.createElement("div");
-    div.className = "animal";
-
-    if (animal.photo) {
-      const img = document.createElement("img");
-      img.src = animal.photo;
-      img.alt = "Photo de " + animal.nom;
-      div.appendChild(img);
-    }
-
-    div.appendChild(element("🐾 " + animal.nom, "h3"));
-
-    div.appendChild(element(
-      animal.espece + " | " + (animal.race || "Race non précisée")
-    ));
-
-    if (animal.sexe) {
-      div.appendChild(element("Sexe : " + animal.sexe));
-    }
-
-    if (animal.naissance) {
-      div.appendChild(element(
-        "Naissance : " + animal.naissance
-      ));
-    }
-
-    if (animal.poids) {
-      div.appendChild(element(
-        "Poids : " + animal.poids + " kg"
-      ));
-    }
-
-    if (animal.notes) {
-      div.appendChild(element("Notes : " + animal.notes));
-    }
-
-    const actions = document.createElement("div");
-    actions.className = "actions";
-
-    actions.appendChild(
-      bouton("✏️ Modifier", () => modifierAnimal(index))
-    );
-
-    actions.appendChild(
-      bouton("🗑️ Supprimer", () => supprimerAnimal(index), true)
-    );
-
-    div.appendChild(actions);
-    liste.appendChild(div);
-  });
-
-  actualiserSelecteurs();
-  actualiserTableau();
-}
-
-function modifierAnimal(index) {
-  const a = animaux[index];
-
-  document.getElementById("animalIndex").value = index;
-  document.getElementById("nom").value = a.nom || "";
-  document.getElementById("espece").value = a.espece || "Autre";
-  document.getElementById("race").value = a.race || "";
-  document.getElementById("sexe").value = a.sexe || "";
-  document.getElementById("naissance").value = a.naissance || "";
-  document.getElementById("poids").value = a.poids || "";
-  document.getElementById("notes").value = a.notes || "";
-
-  document.getElementById("titreFormAnimal").textContent =
-    "Modifier " + a.nom;
-
-  document.getElementById("boutonAnimal").textContent =
-    "💾 Enregistrer les modifications";
-
-  afficher("animaux");
-}
-
-function annulerModification() {
-  document.getElementById("formAnimal").reset();
-  document.getElementById("animalIndex").value = "";
-
-  document.getElementById("titreFormAnimal").textContent =
-    "Ajouter un compagnon";
-
-  document.getElementById("boutonAnimal").textContent =
-    "➕ Enregistrer mon animal";
-}
-
-function supprimerAnimal(index) {
-  const nom = animaux[index].nom;
-
-  if (!confirm("Supprimer définitivement la fiche de " + nom + " ?")) {
-    return;
-  }
-
-  const copie = animaux.filter((_, i) => i !== index);
-
-  if (sauvegarder("compagnons_animaux", copie)) {
-    animaux = copie;
-    annulerModification();
-    actualiserAnimaux();
-  }
-}
-
-document.getElementById("formAnimal")
-.addEventListener("submit", async function(e) {
-
-  e.preventDefault();
-
-  const indexTexte = document.getElementById("animalIndex").value;
-  const index = indexTexte === "" ? -1 : Number(indexTexte);
-
-  const ancien = index >= 0 ? animaux[index] : {};
-
-  const animal = {
-    ...ancien,
-    nom: document.getElementById("nom").value.trim(),
-    espece: document.getElementById("espece").value,
-    race: document.getElementById("race").value.trim(),
-    sexe: document.getElementById("sexe").value,
-    naissance: document.getElementById("naissance").value,
-    poids: document.getElementById("poids").value,
-    notes: document.getElementById("notes").value.trim()
-  };
-
-  const fichier = document.getElementById("photo").files[0];
-
-  if (fichier) {
-    if (fichier.size > 300000) {
-      alert("La photo doit faire moins de 300 Ko pour cette version.");
-      return;
-    }
-
-    animal.photo = await new Promise(resolve => {
-      const lecteur = new FileReader();
-      lecteur.onload = () => resolve(lecteur.result);
-      lecteur.readAsDataURL(fichier);
+   </section>
+   <section class="card hidden" id="portees">
+    <h2>
+     🐾 Port&eacute;es
+    </h2>
+    <form id="porteeForm">
+     <label>
+      Maman
+      <select id="mamanPortee" required="">
+      </select>
+     </label>
+     <label>
+      Naissance
+      <input id="datePortee" required="" type="date"/>
+     </label>
+     <label>
+      Nombre de b&eacute;b&eacute;s
+      <input id="nombreBebes" min="0" required="" type="number"/>
+     </label>
+     <label>
+      Notes
+      <textarea id="notesPortee"></textarea>
+     </label>
+     <button>
+      Enregistrer la port&eacute;e
+     </button>
+    </form>
+    <div id="listePortees">
+    </div>
+   </section>
+   <section class="card hidden" id="depenses">
+    <h2>
+     💰 D&eacute;penses
+    </h2>
+    <form id="depenseForm">
+     <label>
+      Cat&eacute;gorie
+      <select id="categorieDepense">
+       <option>
+        Nourriture
+       </option>
+       <option>
+        V&eacute;t&eacute;rinaire
+       </option>
+       <option>
+        M&eacute;dicaments
+       </option>
+       <option>
+        Accessoires
+       </option>
+       <option>
+        Toilettage
+       </option>
+       <option>
+        Autre
+       </option>
+      </select>
+     </label>
+     <label>
+      Montant CAD
+      <input id="montantDepense" min=".01" required="" step=".01" type="number"/>
+     </label>
+     <label>
+      Date
+      <input id="dateDepense" required="" type="date"/>
+     </label>
+     <label>
+      Description
+      <input id="descriptionDepense"/>
+     </label>
+     <button>
+      Ajouter la d&eacute;pense
+     </button>
+    </form>
+    <div id="listeDepenses">
+    </div>
+   </section>
+   <section class="card hidden" id="pension">
+    <h2>
+     🏡 Pension Chez Sosou &mdash; demande de r&eacute;servation
+    </h2>
+    <p class="notice">
+     ⚠️ Ceci est un
+     <b>
+      simulateur
+     </b>
+     . Aucune demande n'est envoy&eacute;e &agrave; Chez Sosou et aucune place n'est r&eacute;ellement r&eacute;serv&eacute;e. Utilisez des informations fictives pour tester.
+    </p>
+    <p>
+     Capacit&eacute; de d&eacute;monstration :
+     <b>
+      4 chiens
+     </b>
+     et
+     <b>
+      4 chats
+     </b>
+     simultan&eacute;ment. Les chiens et chiots partagent les 4 places chiens; les chats et chatons partagent les 4 places chats.
+    </p>
+    <form id="reservationForm">
+     <fieldset>
+      <legend>
+       1. S&eacute;jour et tarif
+      </legend>
+      <label>
+       Cat&eacute;gorie
+       <select id="categorieRes">
+        <option value="chien">
+         Chien adulte &mdash; 60 $/nuit
+        </option>
+        <option value="chiot">
+         Chiot &mdash; 40 $/nuit
+        </option>
+        <option value="chat">
+         Chat adulte &mdash; 30 $/nuit
+        </option>
+        <option value="chaton">
+         Chaton &mdash; 20 $/nuit
+        </option>
+       </select>
+      </label>
+      <label>
+       Arriv&eacute;e
+       <input id="arrivee" required="" type="date"/>
+      </label>
+      <label>
+       D&eacute;part
+       <input id="depart" required="" type="date"/>
+      </label>
+      <label>
+       Nombre d'animaux
+       <input id="quantite" max="4" min="1" required="" type="number" value="1"/>
+      </label>
+      <p id="disponibilite">
+       Choisissez les dates pour v&eacute;rifier les places de d&eacute;monstration.
+      </p>
+      <p id="prix">
+       Total estim&eacute; : &mdash;
+      </p>
+     </fieldset>
+     <fieldset>
+      <legend>
+       2. Fiche d'admission (donn&eacute;es fictives uniquement)
+      </legend>
+      <label>
+       Nom du propri&eacute;taire (fictif)
+       <input id="client" required=""/>
+      </label>
+      <label>
+       Courriel de contact (fictif)
+       <input id="courriel" required="" type="email"/>
+      </label>
+      <label>
+       Nom de l'animal
+       <input id="nomPension" required=""/>
+      </label>
+      <label>
+       &Acirc;ge approximatif
+       <input id="agePension" placeholder="Ex. 3 ans"/>
+      </label>
+      <label>
+       Comportement avec les chiens
+       <select id="sociableChiens">
+        <option>
+         Inconnu
+        </option>
+        <option>
+         Sociable
+        </option>
+        <option>
+         &Agrave; surveiller
+        </option>
+        <option>
+         Non sociable
+        </option>
+       </select>
+      </label>
+      <label>
+       Comportement avec les chats
+       <select id="sociableChats">
+        <option>
+         Inconnu
+        </option>
+        <option>
+         Sociable
+        </option>
+        <option>
+         &Agrave; surveiller
+        </option>
+        <option>
+         Non sociable
+        </option>
+       </select>
+      </label>
+      <label>
+       H&eacute;bergement s&eacute;par&eacute; n&eacute;cessaire?
+       <select id="separation">
+        <option>
+         Non
+        </option>
+        <option>
+         Oui
+        </option>
+        <option>
+         &Agrave; discuter
+        </option>
+       </select>
+      </label>
+      <label>
+       Carnet de vaccination disponible?
+       <select id="carnet">
+        <option>
+         Oui
+        </option>
+        <option>
+         Non
+        </option>
+        <option>
+         Je ne sais pas
+        </option>
+       </select>
+      </label>
+      <p class="small">
+       Une copie pourra &ecirc;tre transmise plus tard par un canal s&eacute;curis&eacute;. Aucun document n'est t&eacute;l&eacute;vers&eacute; dans cette d&eacute;monstration.
+      </p>
+      <label>
+       Alimentation et habitudes
+       <textarea id="habitudes"></textarea>
+      </label>
+      <label>
+       Allergies, traitements ou besoins particuliers (fictifs)
+       <textarea id="besoins"></textarea>
+      </label>
+      <label>
+       V&eacute;t&eacute;rinaire habituel (fictif)
+       <input id="veterinaire"/>
+      </label>
+      <label>
+       Contact d'urgence (fictif)
+       <input id="urgence"/>
+      </label>
+     </fieldset>
+     <fieldset>
+      <legend>
+       3. Contrat et autorisation &mdash; aper&ccedil;u non contractuel
+      </legend>
+      <p>
+       Je d&eacute;clare avoir fourni les renseignements pertinents sur la sant&eacute; et le comportement de mon animal. Je reconnais les risques ordinaires li&eacute;s &agrave; la garde d'animaux. Cette reconnaissance n'&eacute;carte pas les responsabilit&eacute;s que la loi impose &agrave; la pension.
+      </p>
+      <p>
+       En cas d'urgence, j'autorise la pension &agrave; faire &eacute;valuer mon animal par un v&eacute;t&eacute;rinaire et &agrave; permettre les soins urgents n&eacute;cessaires si je suis injoignable. Les frais seront r&eacute;partis selon les circonstances et la loi applicable. La pension tentera de me contacter d&egrave;s que possible.
+      </p>
+      <label class="check">
+       <input id="accepteContrat" required="" type="checkbox"/>
+       J'ai lu cet aper&ccedil;u du contrat (simulation).
+      </label>
+      <label class="check">
+       <input id="accepteUrgence" required="" type="checkbox"/>
+       J'accepte l'autorisation v&eacute;t&eacute;rinaire d'urgence (simulation).
+      </label>
+      <label>
+       Nom saisi comme signature de d&eacute;monstration
+       <input id="signature" placeholder="Nom fictif" required=""/>
+      </label>
+      <p class="small">
+       Ce formulaire n'est pas une signature &eacute;lectronique juridiquement d&eacute;ploy&eacute;e. Un contrat valid&eacute; et une preuve de consentement s&eacute;curis&eacute;e seront n&eacute;cessaires avant ouverture.
+      </p>
+     </fieldset>
+     <button type="submit">
+      📨 Simuler une demande
+     </button>
+    </form>
+    <p id="resultatRes" role="status">
+    </p>
+   </section>
+   <section class="card hidden" id="gestion">
+    <h2>
+     📋 Gestion des demandes &mdash; d&eacute;monstration locale
+    </h2>
+    <p class="notice">
+     🔒 Cet &eacute;cran n'est
+     <b>
+      pas un espace administratrice prot&eacute;g&eacute;
+     </b>
+     . Toute personne ouvrant ce site peut voir son propre tableau local. N'y inscrivez aucune donn&eacute;e r&eacute;elle.
+    </p>
+    <p>
+     Les demandes &laquo; en attente &raquo; ne bloquent pas les places; seules les demandes &laquo; confirm&eacute;es &raquo; les occupent dans ce navigateur. Aucune synchronisation entre visiteurs.
+    </p>
+    <div id="listeReservations">
+    </div>
+   </section>
+  </main>
+  <footer>
+   🐾 Compagnons+ 3.0 &mdash; prototype local, sans r&eacute;servation r&eacute;elle
+  </footer>
+  <script>
+   'use strict';
+const $=id=>document.getElementById(id), key={animaux:'compagnons_animaux',soins:'compagnons_soins',portees:'compagnons_portees',depenses:'compagnons_depenses',reservations:'compagnons_reservations_demo_v3'};
+function load(k){try{let v=JSON.parse(localStorage.getItem(k));
+return Array.isArray(v)?v:[]}catch{return []}}
+const state={};
+for(let k of Object.keys(key))state[k]=load(key[k]);
+function commit(k,arr){try{localStorage.setItem(key[k],JSON.stringify(arr));
+state[k]=arr;
+render();
+return true}catch{alert('Stockage local plein : rien n’a été enregistré.');
+return false}}
+function txt(tag,value){let el=document.createElement(tag);
+el.textContent=String(value??'');
+return el}
+function action(label,fn,danger=false){let b=txt('button',label);
+b.type='button';
+if(danger)b.className='danger';
+b.onclick=fn;
+return b}
+function show(id){document.querySelectorAll('main>section').forEach(s=>s.classList.toggle('hidden',s.id!==id));
+scrollTo(0,0)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.page));
+function dateToday(){let d=new Date();
+return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
+function row(target,lines,buttons=[]){let d=document.createElement('div');
+d.className='entry';
+lines.forEach(x=>{if(x!==undefined&&x!==null&&x!=='')d.append(txt('p',x))});
+let a=document.createElement('div');
+a.className='actions';
+buttons.forEach(b=>a.append(b));
+d.append(a);
+target.append(d);
+return d}
+function remove(k,i){if(confirm('Supprimer cet élément?'))commit(k,state[k].filter((_,j)=>i!==j))}
+function render(){ $('nbAnimaux').textContent=state.animaux.length;
+$('nbSoins').textContent=state.soins.length;
+$('nbPortees').textContent=state.portees.length;
+$('nbDepenses').textContent=state.depenses.reduce((s,d)=>s+(Number(d.montant)||0),0).toFixed(2)+' $';
+let la=$('listeAnimaux');
+la.replaceChildren();
+state.animaux.forEach((a,i)=>{let d=row(la,['🐾 '+a.nom,[a.espece,a.race].filter(Boolean).join(' — '),a.sexe,a.naissance,a.poids?'Poids : '+a.poids+' kg':'',a.notes],[action('✏️ Modifier',()=>editAnimal(i)),action('🗑️ Supprimer',()=>remove('animaux',i),true)]);if(a.photo){let img=document.createElement('img');img.src=a.photo;img.alt='Photo de '+a.nom;d.prepend(img)}});
+for(let id of ['animalSante','mamanPortee']){let sel=$(id),old=sel.value;
+sel.replaceChildren();
+state.animaux.forEach((a,i)=>{let o=new Option(a.nom,i);sel.add(o)});
+if([...sel.options].some(o=>o.value===old))sel.value=old}
+for(let [k,target,fmt] of [['soins','listeSoins',s=>[s.animal,s.type+' — '+s.date,s.rappel?'Rappel : '+s.rappel:'',s.notes]],['portees','listePortees',p=>['Maman : '+p.maman,'Naissance : '+p.date,'Bébés : '+p.nombre,p.notes]],['depenses','listeDepenses',d=>[d.categorie,(Number(d.montant)||0).toFixed(2)+' $ CAD',d.date,d.description]]]){$(target).replaceChildren();
+state[k].forEach((item,i)=>row($(target),fmt(item),[action('🗑️ Supprimer',()=>remove(k,i),true)]))}
+renderReservations();
+checkAvailability()}
+function editAnimal(i){let a=state.animaux[i];
+$('editAnimal').value=i;
+for(let k of ['nom','espece','race','sexe','naissance','poids','notes'])$(k).value=a[k]??'';
+show('animaux');
+$('nom').focus()}
+function resetAnimal(){$('animalForm').reset();
+$('editAnimal').value=''}$('annulerAnimal').onclick=resetAnimal;
+$('animalForm').onsubmit=async e=>{e.preventDefault();
+let idx=$('editAnimal').value,i=idx===''?-1:Number(idx),a={...(i>=0?state.animaux[i]:{})};
+for(let k of ['nom','espece','race','sexe','naissance','poids','notes'])a[k]=$(k).value.trim();
+let f=$('photo').files[0];
+if(f){if(f.size>300000){alert('Photo trop grande : maximum 300 Ko.');
+return}a.photo=await new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(f)})}let next=[...state.animaux];
+if(i>=0)next[i]=a;
+else next.push(a);
+if(commit('animaux',next))resetAnimal()};
+$('soinForm').onsubmit=e=>{e.preventDefault();
+let a=state.animaux[Number($('animalSante').value)];
+if(!a){alert('Ajoutez un animal.');
+return}let s={animal:a.nom,type:$('typeSoin').value,date:$('dateSoin').value,rappel:$('rappelSoin').value,notes:$('notesSoin').value};
+if(commit('soins',[...state.soins,s])){e.target.reset();
+$('dateSoin').value=dateToday()}};
+$('porteeForm').onsubmit=e=>{e.preventDefault();
+let a=state.animaux[Number($('mamanPortee').value)];
+if(!a){alert('Ajoutez la maman.');
+return}let p={maman:a.nom,date:$('datePortee').value,nombre:Number($('nombreBebes').value),notes:$('notesPortee').value};
+if(commit('portees',[...state.portees,p]))e.target.reset()};
+$('depenseForm').onsubmit=e=>{e.preventDefault();
+let d={categorie:$('categorieDepense').value,montant:Number($('montantDepense').value),date:$('dateDepense').value,description:$('descriptionDepense').value};
+if(commit('depenses',[...state.depenses,d])){e.target.reset();
+$('dateDepense').value=dateToday()}};
+const rates={chien:60,chiot:40,chat:30,chaton:20};
+const group=c=>['chien','chiot'].includes(c)?'chien':'chat';
+function dayUTC(s){return Date.parse(s+'T00:00:00Z')/86400000}
+function validStay(){let a=$('arrivee').value,d=$('depart').value,q=Number($('quantite').value);
+if(!a||!d||!Number.isInteger(q)||q<1||q>4)return null;
+let nights=dayUTC(d)-dayUTC(a);
+if(!Number.isInteger(nights)||nights<1)return null;
+return {a,d,q,nights,c:$('categorieRes').value}}
+function freeSlots(stay){let capacity=4,chosen=group(stay.c);
+for(let day=dayUTC(stay.a);day<dayUTC(stay.d);day++){let used=state.reservations.filter(r=>r.status==='confirmée'&&group(r.categorie)===chosen&&dayUTC(r.arrivee)<=day&&day<dayUTC(r.depart)).reduce((s,r)=>s+Number(r.quantite),0);
+capacity=Math.min(capacity,4-used)}return capacity}
+function checkAvailability(){let s=validStay();
+if(!s){$('disponibilite').textContent='Sélectionnez des dates valides (au moins 1 nuit).';
+$('prix').textContent='Total estimé : —';
+return}let free=freeSlots(s);
+$('disponibilite').textContent=`Disponibilité simulée : ${free} place(s) ${group(s.c)==='chien'?'chien':'chat'} restante(s) sur toute la période. ${s.q<=free?'Demande possible.':'Capacité dépassée.'}`;
+$('prix').textContent=`Total estimé : ${(s.nights*s.q*rates[s.c]).toFixed(2)} $ CAD (${s.nights} nuit(s))`}
+for(let id of ['categorieRes','arrivee','depart','quantite'])$(id).addEventListener('change',checkAvailability);
+$('reservationForm').onsubmit=e=>{e.preventDefault();
+let s=validStay();
+if(!s){alert('Choisissez des dates valides.');
+return}if(s.q>freeSlots(s)){alert('Pas assez de places pour cette période dans cette démonstration.');
+return}if(!$('accepteContrat').checked||!$('accepteUrgence').checked){alert('Veuillez lire les deux consentements.');
+return}let fields={client:'client',courriel:'courriel',animal:'nomPension',age:'agePension',chiens:'sociableChiens',chats:'sociableChats',separation:'separation',carnet:'carnet',habitudes:'habitudes',besoins:'besoins',veterinaire:'veterinaire',urgence:'urgence',signature:'signature'};
+let r={id:Date.now()+'-'+Math.random().toString(36).slice(2,7),categorie:s.c,arrivee:s.a,depart:s.d,quantite:s.q,total:s.nights*s.q*rates[s.c],status:'en attente',cree:new Date().toISOString(),contratDemo:true,urgenceDemo:true};
+for(let [k,id] of Object.entries(fields))r[k]=$(id).value.trim();
+if(commit('reservations',[...state.reservations,r])){$('resultatRes').textContent='✅ Demande de démonstration enregistrée dans CE navigateur seulement. Elle n’a PAS été envoyée à la pension.';
+e.target.reset();
+checkAvailability()}};
+function renderReservations(){let list=$('listeReservations');
+list.replaceChildren();
+if(!state.reservations.length){list.append(txt('p','Aucune demande de démonstration.'));
+return}state.reservations.forEach((r,i)=>{let buttons=[];if(r.status==='en attente'){buttons.push(action('✅ Confirmer (démo)',()=>{let stay={a:r.arrivee,d:r.depart,q:Number(r.quantite),c:r.categorie};if(freeSlots(stay)<stay.q){alert('Capacité dépassée pour cette période.');return}let next=[...state.reservations];next[i]={...r,status:'confirmée'};commit('reservations',next)}));buttons.push(action('❌ Refuser',()=>{let next=[...state.reservations];next[i]={...r,status:'refusée'};commit('reservations',next)}))}buttons.push(action('🗑️ Supprimer',()=>remove('reservations',i),true));row(list,[`État : ${r.status}`,`${r.animal} (${r.categorie}) — ${r.quantite} animal(aux)`,`Du ${r.arrivee} au ${r.depart} — ${Number(r.total).toFixed(2)} $`, `Demande fictive de ${r.client}`,`Carnet : ${r.carnet} | Séparation : ${r.separation}`],buttons)})}
+$('dateSoin').value=dateToday();
+$('dateDepense').value=dateToday();
+render();
+
+
+// Exportation des données locales : sauvegarde manuelle, sans envoi à un serveur.
+$('exportSauvegarde').addEventListener('click', () => {
+    const sauvegarde = {
+        version: '3.0',
+        date: new Date().toISOString(),
+        animaux: state.animaux,
+        soins: state.soins,
+        portees: state.portees,
+        depenses: state.depenses,
+        reservationsDemo: state.reservations
+    };
+    const fichier = new Blob([JSON.stringify(sauvegarde, null, 2)], {
+        type: 'application/json'
     });
-  }
-
-  const copie = [...animaux];
-
-  if (index >= 0) {
-    copie[index] = animal;
-  } else {
-    copie.push(animal);
-  }
-
-  if (sauvegarder("compagnons_animaux", copie)) {
-    animaux = copie;
-    annulerModification();
-    actualiserAnimaux();
-  }
+    const lien = document.createElement('a');
+    lien.href = URL.createObjectURL(fichier);
+    lien.download = 'compagnons-plus-sauvegarde-' + dateToday() + '.json';
+    lien.click();
+    setTimeout(() => URL.revokeObjectURL(lien.href), 1000);
 });
-
-// ===== SELECTEURS =====
-
-function actualiserSelecteurs() {
-  ["animalSante", "mamanPortee"].forEach(id => {
-    const select = document.getElementById(id);
-    const precedent = select.value;
-
-    select.replaceChildren();
-
-    animaux.forEach((animal, index) => {
-      const option = document.createElement("option");
-      option.value = index;
-      option.textContent = animal.nom;
-      select.appendChild(option);
-    });
-
-    if ([...select.options].some(o => o.value === precedent)) {
-      select.value = precedent;
-    }
-  });
-}
-
-// ===== SANTÉ =====
-
-document.getElementById("formSante")
-.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const index = Number(document.getElementById("animalSante").value);
-
-  if (!animaux[index]) {
-    alert("Ajoutez d'abord un animal.");
-    return;
-  }
-
-  const soin = {
-    animal: animaux[index].nom,
-    type: document.getElementById("typeSoin").value,
-    date: document.getElementById("dateSoin").value,
-    rappel: document.getElementById("rappelSoin").value,
-    notes: document.getElementById("notesSoin").value
-  };
-
-  const copie = [...soins, soin];
-
-  if (sauvegarder("compagnons_soins", copie)) {
-    soins = copie;
-    this.reset();
-    actualiserSoins();
-  }
-});
-
-function actualiserSoins() {
-  const liste = document.getElementById("listeSoins");
-  liste.replaceChildren();
-
-  soins.forEach((soin, index) => {
-    carte(liste, [
-      "🐾 " + soin.animal,
-      soin.type + " — " + soin.date,
-      soin.rappel ? "Prochain rappel : " + soin.rappel : "",
-      soin.notes || ""
-    ], [
-      bouton("🗑️ Supprimer", () => {
-        if (!confirm("Supprimer ce soin ?")) return;
-
-        const copie = soins.filter((_, i) => i !== index);
-
-        if (sauvegarder("compagnons_soins", copie)) {
-          soins = copie;
-          actualiserSoins();
-        }
-      }, true)
-    ]);
-  });
-
-  actualiserTableau();
-}
-
-// ===== PORTÉES =====
-
-document.getElementById("formPortee")
-.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const index = Number(document.getElementById("mamanPortee").value);
-
-  if (!animaux[index]) {
-    alert("Ajoutez d'abord la maman dans Mes animaux.");
-    return;
-  }
-
-  const portee = {
-    maman: animaux[index].nom,
-    date: document.getElementById("datePortee").value,
-    nombre: Number(document.getElementById("nombreBebes").value),
-    notes: document.getElementById("notesPortee").value
-  };
-
-  const copie = [...portees, portee];
-
-  if (sauvegarder("compagnons_portees", copie)) {
-    portees = copie;
-    this.reset();
-    actualiserPortees();
-  }
-});
-
-function actualiserPortees() {
-  const liste = document.getElementById("listePortees");
-  liste.replaceChildren();
-
-  portees.forEach((portee, index) => {
-    carte(liste, [
-      "🐾 Maman : " + portee.maman,
-      "Naissance : " + portee.date,
-      "Nombre de bébés : " + portee.nombre,
-      portee.notes || ""
-    ], [
-      bouton("🗑️ Supprimer", () => {
-        if (!confirm("Supprimer cette portée ?")) return;
-
-        const copie = portees.filter((_, i) => i !== index);
-
-        if (sauvegarder("compagnons_portees", copie)) {
-          portees = copie;
-          actualiserPortees();
-        }
-      }, true)
-    ]);
-  });
-
-  actualiserTableau();
-}
-
-// ===== DÉPENSES =====
-
-document.getElementById("formDepense")
-.addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const depense = {
-    categorie: document.getElementById("categorieDepense").value,
-    montant: Number(document.getElementById("montantDepense").value),
-    date: document.getElementById("dateDepense").value,
-    description: document.getElementById("descriptionDepense").value
-  };
-
-  const copie = [...depenses, depense];
-
-  if (sauvegarder("compagnons_depenses", copie)) {
-    depenses = copie;
-    this.reset();
-    actualiserDepenses();
-  }
-});
-
-function actualiserDepenses() {
-  const liste = document.getElementById("listeDepenses");
-  liste.replaceChildren();
-
-  depenses.forEach((depense, index) => {
-    carte(liste, [
-      depense.categorie,
-      depense.montant.toFixed(2) + " $ CAD",
-      depense.date,
-      depense.description || ""
-    ], [
-      bouton("🗑️ Supprimer", () => {
-        if (!confirm("Supprimer cette dépense ?")) return;
-
-        const copie = depenses.filter((_, i) => i !== index);
-
-        if (sauvegarder("compagnons_depenses", copie)) {
-          depenses = copie;
-          actualiserDepenses();
-        }
-      }, true)
-    ]);
-  });
-
-  actualiserTableau();
-}
-
-// ===== TABLEAU DE BORD =====
-
-function actualiserTableau() {
-  document.getElementById("totalAnimaux").textContent =
-    animaux.length;
-
-  document.getElementById("totalSoins").textContent =
-    soins.length;
-
-  document.getElementById("totalPortees").textContent =
-    portees.length;
-
-  const total = depenses.reduce(
-    (somme, depense) => somme + depense.montant, 0
-  );
-
-  document.getElementById("totalDepenses").textContent =
-    total.toFixed(2) + " $";
-}
-
-// ===== INITIALISATION =====
-
-document.getElementById("dateSoin").value = dateJour();
-document.getElementById("dateDepense").value = dateJour();
-
-actualiserAnimaux();
-actualiserSoins();
-actualiserPortees();
-actualiserDepenses();
-
-</script>
-
-</body>
+  </script>
+ </body>
 </html>
