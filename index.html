@@ -4,7 +4,13 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Compagnons+ 3.1 — Gestion améliorée (démo locale)</title>
-<style>
+   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "https://nrrbjzaufcxbbxxktngl.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_nxKZHfFwbz56ndkz5xVdjg_XIUdZlGX";
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+   <style>
    :root {
     --violet:#7952a5;
     --fond:#f5f1fa;
