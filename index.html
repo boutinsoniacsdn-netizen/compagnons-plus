@@ -226,6 +226,9 @@ a {
 <button data-page="gestion">
     📋 Gestion (démo)
    </button>
+   <button type="button" id="boutonDeconnexion">
+  🚪 Se déconnecter
+</button>
 </nav>
 <main>
    <section class="card" id="connexion">
@@ -254,7 +257,7 @@ a {
 <button type="button" id="boutonInscription">📝 Créer un compte</button>
   <p id="messageConnexion" role="status"></p>
 </section>
-<section class="card" id="accueil">
+<section class="card hidden" id="accueil">
 <h2>
      Bienvenue sur Compagnons+ 💜
     </h2>
@@ -764,6 +767,12 @@ connexionForm.addEventListener('submit', async (e) => {
     }
 
     if (data.user) {
+      utilisateurConnecteId = data.user.id;
+       for (let k of Object.keys(key)) {
+  state[k] = load(k);
+}
+render();
+       show('accueil');
       messageConnexion.textContent = '✅ Connexion réussie!';
       document.getElementById('motDePasseConnexion').value = '';
     }
@@ -802,11 +811,29 @@ document.getElementById('boutonInscription').addEventListener('click', async () 
     }
 });
 const $=id=>document.getElementById(id), key={animaux:'compagnons_animaux',soins:'compagnons_soins',portees:'compagnons_portees',depenses:'compagnons_depenses',reservations:'compagnons_reservations_demo_v3'};
-function load(k){try{let v=JSON.parse(localStorage.getItem(k));
-return Array.isArray(v)?v:[]}catch{return []}}
+let utilisateurConnecteId = null;
+
+function cleUtilisateur(k) {
+  if (!utilisateurConnecteId) {
+    return null;
+  }
+  return key[k] + '_' + utilisateurConnecteId;
+}
+function load(k) {
+  if (!utilisateurConnecteId) return [];
+
+  try {
+   const v = JSON.parse(localStorage.getItem(cleUtilisateur(k)));
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
 const state={};
 for(let k of Object.keys(key))state[k]=load(key[k]);
-function commit(k,arr){try{localStorage.setItem(key[k],JSON.stringify(arr));
+function commit(k,arr){try{
+if (!utilisateurConnecteId) { alert('Connecte-toi pour enregistrer.'); return false; }
+localStorage.setItem(cleUtilisateur(k),JSON.stringify(arr));
 state[k]=arr;
 render();
 return true}catch{alert('Stockage local plein : rien n’a été enregistré.');
@@ -819,8 +846,17 @@ b.type='button';
 if(danger)b.className='danger';
 b.onclick=fn;
 return b}
-function show(id){document.querySelectorAll('main>section').forEach(s=>s.classList.toggle('hidden',s.id!==id));
-scrollTo(0,0)}
+function show(id) {
+  if (!utilisateurConnecteId && id !== 'connexion') {
+    id = 'connexion';
+  }
+
+  document.querySelectorAll('main>section').forEach(s => {
+    s.classList.toggle('hidden', s.id !== id);
+  });
+
+  scrollTo(0, 0);
+}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.page));
 function dateToday(){let d=new Date();
 return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
@@ -1152,7 +1188,39 @@ $('exportSauvegarde').onclick = () => {
 };
 // L'ancien gestionnaire d'export de v3 utilise addEventListener et s'exécute aussi;
 // il sera retiré dans le fichier généré pour éviter les téléchargements en double.
+document.getElementById('boutonDeconnexion').addEventListener('click', async () => {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    alert('Erreur de déconnexion : ' + error.message);
+    return;
+  }
+
+  utilisateurConnecteId = null;
+
+  for (const k of Object.keys(key)) {
+    state[k] = [];
+  }
+
+  render();
+  show('connexion');
+
+  document.getElementById('messageConnexion').textContent =
+    '✅ Vous êtes déconnecté.';
+});
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  setTimeout(() => {
+    utilisateurConnecteId = session?.user?.id ?? null;
+
+    for (const k of Object.keys(key)) {
+      state[k] = utilisateurConnecteId ? load(k) : [];
+    }
+
+    render();
+  }, 0);
+});
 render();
+show('connexion');
 </script>
 </body>
 </html>
