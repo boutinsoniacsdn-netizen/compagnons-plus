@@ -251,7 +251,7 @@ a {
 
     <button type="submit">🔑 Se connecter</button>
   </form>
-
+<button type="button" id="boutonInscription">📝 Créer un compte</button>
   <p id="messageConnexion" role="status"></p>
 </section>
 <section class="card" id="accueil">
@@ -771,6 +771,35 @@ connexionForm.addEventListener('submit', async (e) => {
     messageConnexion.textContent = '❌ Erreur de connexion. Réessaie.';
     console.error(error);
   }
+});
+document.getElementById('boutonInscription').addEventListener('click', async () => {
+    const email = document.getElementById('emailConnexion').value.trim();
+    const password = document.getElementById('motDePasseConnexion').value;
+    const message = document.getElementById('messageConnexion');
+
+    if (!email || !password) {
+        message.textContent = '⚠️ Entre ton courriel et un mot de passe pour créer ton compte.';
+        return;
+    }
+
+    message.textContent = 'Création du compte en cours...';
+
+    try {
+        const { data, error } = await supabaseClient.auth.signUp({
+            email,
+            password
+        });
+
+        if (error) {
+            message.textContent = '❌ Inscription impossible : ' + error.message;
+            return;
+        }
+
+        message.textContent = '✅ Inscription demandée! Vérifie ton courriel pour confirmer ton compte.';
+    } catch (error) {
+        message.textContent = '❌ Erreur pendant l’inscription.';
+        console.error(error);
+    }
 });
 const $=id=>document.getElementById(id), key={animaux:'compagnons_animaux',soins:'compagnons_soins',portees:'compagnons_portees',depenses:'compagnons_depenses',reservations:'compagnons_reservations_demo_v3'};
 function load(k){try{let v=JSON.parse(localStorage.getItem(k));
