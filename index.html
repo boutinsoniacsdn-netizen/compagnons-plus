@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr-CA">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width,initial-scale=1" name="viewport"/>
-  <title>
-   Compagnons+ 3.0 &mdash; D&eacute;monstration
-  </title>
-  <style>
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Compagnons+ 3.1 — Gestion améliorée (démo locale)</title>
+<style>
    :root {
     --violet:#7952a5;
     --fond:#f5f1fa;
@@ -172,322 +170,336 @@ legend {
 a {
     color:#62418b
 }
-  </style>
- </head>
- <body>
-  <header>
-   <h1>
+  
+/* Améliorations 3.1 : fiches compactes, filtres et tableaux */
+.animal-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; }
+.animal-grid .entry { margin:0; min-width:0; overflow-wrap:anywhere; }
+.animal-grid .entry img { width:90px; height:90px; object-fit:cover; float:right; margin:0 0 8px 8px; }
+.toolbar { display:flex; flex-wrap:wrap; align-items:end; gap:12px; margin:15px 0; }
+.toolbar > label { flex:1 1 180px; margin:0; }
+.inline-note { background:#f0e8fa; padding:12px; border-radius:9px; margin:12px 0; }
+.table-scroll { overflow-x:auto; }
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin:12px 0; }
+.stat-mini { background:#f0e8fa; padding:12px; border-radius:10px; }
+.stat-mini strong { display:block; font-size:20px; color:#62418b; }
+.entry:after { content:""; display:block; clear:both; }
+@media (max-width:600px) { main { padding:10px; } .card { padding:14px; } }
+</style>
+</head>
+<body>
+<header>
+<h1>
     🐾 Compagnons+
    </h1>
-   <p>
-    Parce que chaque compagnon m&eacute;rite le meilleur ❤️
+<p>
+    Parce que chaque compagnon mérite le meilleur ❤️
    </p>
-   <strong>
-    Version 3.0 &mdash; Prototype de d&eacute;monstration
+<strong>
+    Version 3.1 — Prototype de démonstration
    </strong>
-  </header>
-  <nav>
-   <button data-page="accueil">
+</header>
+<nav>
+<button data-page="accueil">
     🏠 Accueil
    </button>
-   <button data-page="animaux">
+<button data-page="animaux">
     🐶 Mes animaux
    </button>
-   <button data-page="sante">
-    💉 Sant&eacute;
+<button data-page="sante">
+    💉 Santé
    </button>
-   <button data-page="portees">
-    🐾 Port&eacute;es
+<button data-page="portees">
+    🐾 Portées
    </button>
-   <button data-page="depenses">
-    💰 D&eacute;penses
+<button data-page="depenses">
+    💰 Dépenses
    </button>
-   <button data-page="pension">
+<button data-page="pension">
     🏡 Pension
    </button>
-   <button data-page="gestion">
-    📋 Gestion (d&eacute;mo)
+<button data-page="gestion">
+    📋 Gestion (démo)
    </button>
-  </nav>
-  <main>
-   <section class="card" id="accueil">
-    <h2>
+</nav>
+<main>
+<section class="card" id="accueil">
+<h2>
      Bienvenue sur Compagnons+ 💜
     </h2>
-    <div class="grid">
-     <div class="stat">
-      <strong id="nbAnimaux">
+<div class="grid">
+<div class="stat">
+<strong id="nbAnimaux">
        0
       </strong>
-      <p>
+<p>
        Animaux
       </p>
-     </div>
-     <div class="stat">
-      <strong id="nbSoins">
+</div>
+<div class="stat">
+<strong id="nbSoins">
        0
       </strong>
-      <p>
+<p>
        Soins
       </p>
-     </div>
-     <div class="stat">
-      <strong id="nbPortees">
+</div>
+<div class="stat">
+<strong id="nbPortees">
        0
       </strong>
-      <p>
-       Port&eacute;es
+<p>
+       Portées
       </p>
-     </div>
-     <div class="stat">
-      <strong id="nbDepenses">
+</div>
+<div class="stat">
+<strong id="nbDepenses">
        0 $
       </strong>
-      <p>
-       D&eacute;penses
+<p>
+       Dépenses
       </p>
-     </div>
-    </div>
-    <p class="notice">
-     🔒 D&eacute;monstration locale : les donn&eacute;es restent dans ce navigateur. Les r&eacute;servations ne sont
+</div>
+</div>
+<p class="notice">
+     🔒 Démonstration locale : les données restent dans ce navigateur. Les réservations ne sont
      <b>
       pas transmises
      </b>
-     &agrave; la pension. N'entrez aucune v&eacute;ritable donn&eacute;e personnelle ou m&eacute;dicale dans cette d&eacute;mo publique.
+     à la pension. N'entrez aucune véritable donnée personnelle ou médicale dans cette démo publique.
     </p>
-    <div class="entry">
-     <h3>
-      💾 Sauvegarde de mes donn&eacute;es
+<div class="entry">
+<h3>
+      💾 Sauvegarde de mes données
      </h3>
-     <p>
-      T&eacute;l&eacute;chargez une copie de vos donn&eacute;es locales avant toute mise &agrave; jour ou changement de navigateur. Conservez le fichier en lieu s&ucirc;r.
+<p>
+      Téléchargez une copie de vos données locales avant toute mise à jour ou changement de navigateur. Conservez le fichier en lieu sûr.
      </p>
-     <button id="exportSauvegarde" type="button">
-      ⬇️ T&eacute;l&eacute;charger ma sauvegarde (JSON)
+<button id="exportSauvegarde" type="button">
+      ⬇️ Télécharger ma sauvegarde (JSON)
      </button>
-    </div>
-   </section>
-   <section class="card hidden" id="animaux">
-    <h2>
+</div>
+</section>
+<section class="card hidden" id="animaux">
+<h2>
      🐶 Mes animaux
     </h2>
-    <form id="animalForm">
-     <input id="editAnimal" type="hidden"/>
-     <label>
+<form id="animalForm">
+<input id="editAnimal" type="hidden"/>
+<label>
       Nom
       <input id="nom" required=""/>
-     </label>
-     <label>
-      Esp&egrave;ce
+</label>
+<label>
+      Espèce
       <select id="espece">
-       <option>
+<option>
         Chien
        </option>
-       <option>
+<option>
         Chat
        </option>
-       <option>
+<option>
         Lapin
        </option>
-       <option>
+<option>
         Oiseau
        </option>
-       <option>
+<option>
         Reptile
        </option>
-       <option>
+<option>
         Poisson
        </option>
-       <option>
+<option>
         Autre
        </option>
-      </select>
-     </label>
-     <label>
+</select>
+</label>
+<label>
       Race
       <input id="race"/>
-     </label>
-     <label>
+</label>
+<label>
       Sexe
       <select id="sexe">
-       <option value="">
-        Non pr&eacute;cis&eacute;
+<option value="">
+        Non précisé
        </option>
-       <option>
+<option>
         Femelle
        </option>
-       <option>
-        M&acirc;le
+<option>
+        Mâle
        </option>
-      </select>
-     </label>
-     <label>
+</select>
+</label>
+<label>
       Naissance
       <input id="naissance" type="date"/>
-     </label>
-     <label>
+</label>
+<label>
       Poids (kg)
       <input id="poids" min="0" step=".01" type="number"/>
-     </label>
-     <label>
+</label>
+<label>
       Photo (moins de 300 Ko)
       <input accept="image/*" id="photo" type="file"/>
-     </label>
-     <label>
+</label>
+<label>
       Notes
       <textarea id="notes"></textarea>
-     </label>
-     <button>
+</label><label>Statut<select id="statutAnimal"><option value="actif">À la maison / actif</option><option value="disponible">Disponible à l’adoption</option><option value="reserve">Réservé</option><option value="adopte">Adopté</option><option value="decede">Décédé — souvenir ❤️</option></select></label><label>Portée d’origine (facultatif)<select id="origineAnimal"><option value="">Aucune portée liée</option></select></label>
+<button>
       💾 Enregistrer l'animal
      </button>
-     <button class="muted" id="annulerAnimal" type="button">
+<button class="muted" id="annulerAnimal" type="button">
       Annuler la modification
      </button>
-    </form>
-    <h3>
+</form>
+<h3>
      Mes compagnons
     </h3>
-    <div id="listeAnimaux">
-    </div>
-   </section>
-   <section class="card hidden" id="sante">
-    <h2>
-     💉 Sant&eacute;
+<div class="toolbar"><label>🔎 Rechercher un animal<input id="rechercheAnimal" placeholder="Nom, race, notes..."/></label><label>🐾 Filtrer<select id="filtreAnimal"><option value="tous">Tous</option><option value="Chien">Chiens</option><option value="Chat">Chats</option><option value="actifs">Animaux actifs</option><option value="archives">Souvenirs / décédés</option><option value="adoption">Disponibles à l’adoption</option></select></label></div><div class="animal-grid" id="listeAnimaux">
+</div>
+</section>
+<section class="card hidden" id="sante">
+<h2>
+     💉 Santé
     </h2>
-    <form id="soinForm">
-     <label>
+<form id="soinForm">
+<label>
       Animal
       <select id="animalSante" required="">
-      </select>
-     </label>
-     <label>
+</select>
+</label>
+<label>
       Type
       <select id="typeSoin">
-       <option>
+<option>
         Vaccin
        </option>
-       <option>
+<option>
         Vermifuge
        </option>
-       <option>
-        Rendez-vous v&eacute;t&eacute;rinaire
+<option>
+        Rendez-vous vétérinaire
        </option>
-       <option>
-        M&eacute;dicament
+<option>
+        Médicament
        </option>
-       <option>
+<option>
         Autre
        </option>
-      </select>
-     </label>
-     <label>
+</select>
+</label>
+<label>
       Date
       <input id="dateSoin" required="" type="date"/>
-     </label>
-     <label>
+</label>
+<label>
       Rappel facultatif
       <input id="rappelSoin" type="date"/>
-     </label>
-     <label>
+</label>
+<label>
       Notes
       <textarea id="notesSoin"></textarea>
-     </label>
-     <button>
+</label>
+<button>
       Enregistrer le soin
      </button>
-    </form>
-    <div id="listeSoins">
-    </div>
-   </section>
-   <section class="card hidden" id="portees">
-    <h2>
-     🐾 Port&eacute;es
+</form>
+<p class="small">Les soins peuvent être liés à chaque bébé : choisissez son nom dans le menu Animal. Les rappels sont indicatifs, sans notification automatique.</p><div id="listeSoins">
+</div>
+</section>
+<section class="card hidden" id="portees">
+<h2>
+     🐾 Portées
     </h2>
-    <form id="porteeForm">
-     <label>
+<form id="porteeForm"><input id="editPortee" type="hidden"/>
+<label>
       Maman
       <select id="mamanPortee" required="">
-      </select>
-     </label>
-     <label>
+</select>
+</label>
+<label>
       Naissance
       <input id="datePortee" required="" type="date"/>
-     </label>
-     <label>
-      Nombre de b&eacute;b&eacute;s
+</label>
+<label>
+      Nombre de bébés
       <input id="nombreBebes" min="0" required="" type="number"/>
-     </label>
-     <label>
+</label>
+<label>
       Notes
       <textarea id="notesPortee"></textarea>
-     </label>
-     <button>
-      Enregistrer la port&eacute;e
-     </button>
-    </form>
-    <div id="listePortees">
-    </div>
-   </section>
-   <section class="card hidden" id="depenses">
-    <h2>
-     💰 D&eacute;penses
+</label>
+<button>
+      Enregistrer la portée
+     </button><button class="muted" id="annulerPortee" type="button">Annuler la modification</button>
+</form>
+<p class="inline-note">🐣 Associez les bébés à leur portée depuis « Mes animaux ». Vous pourrez suivre leur croissance, leurs soins et leur statut d’adoption.</p><h3>⚖️ Journal de croissance</h3><form id="croissanceForm"><label>Bébé<select id="animalCroissance" required=""></select></label><label>Date<input id="dateCroissance" required="" type="date"/></label><label>Poids (kg)<input id="poidsCroissance" min="0.001" required="" step="0.001" type="number"/></label><label>Notes<input id="notesCroissance"/></label><button>Ajouter la pesée</button></form><div id="listeCroissance"></div><h3>Portées enregistrées</h3><div id="listePortees">
+</div>
+</section>
+<section class="card hidden" id="depenses">
+<h2>
+     💰 Dépenses
     </h2>
-    <form id="depenseForm">
-     <label>
-      Cat&eacute;gorie
+<form id="depenseForm"><input id="editDepense" type="hidden"/>
+<label>
+      Catégorie
       <select id="categorieDepense">
-       <option>
+<option>
         Nourriture
        </option>
-       <option>
-        V&eacute;t&eacute;rinaire
+<option>
+        Vétérinaire
        </option>
-       <option>
-        M&eacute;dicaments
+<option>
+        Médicaments
        </option>
-       <option>
+<option>
         Accessoires
        </option>
-       <option>
+<option>
         Toilettage
        </option>
-       <option>
+<option>
         Autre
        </option>
-      </select>
-     </label>
-     <label>
+</select>
+</label>
+<label>
       Montant CAD
       <input id="montantDepense" min=".01" required="" step=".01" type="number"/>
-     </label>
-     <label>
+</label>
+<label>
       Date
       <input id="dateDepense" required="" type="date"/>
-     </label>
-     <label>
+</label>
+<label>
       Description
       <input id="descriptionDepense"/>
-     </label>
-     <button>
-      Ajouter la d&eacute;pense
-     </button>
-    </form>
-    <div id="listeDepenses">
-    </div>
-   </section>
-   <section class="card hidden" id="pension">
-    <h2>
-     🏡 Pension Chez Sosou &mdash; demande de r&eacute;servation
+</label><label>Associer à un animal (facultatif)<select id="animalDepense"><option value="">Aucun</option></select></label><label>Associer à une portée (facultatif)<select id="porteeDepense"><option value="">Aucune</option></select></label>
+<button>
+      Ajouter la dépense
+     </button><button class="muted" id="annulerDepense" type="button">Annuler la modification</button>
+</form>
+<div class="stats-grid" id="statsFinances"></div><h3>📊 Résumé par catégorie</h3><div id="resumeCategories"></div><h3>💵 Revenus</h3><form id="revenuForm"><input id="editRevenu" type="hidden"/><label>Source<select id="sourceRevenu"><option>Pension</option><option>Adoption</option><option>Autre</option></select></label><label>Montant CAD<input id="montantRevenu" min="0.01" required="" step="0.01" type="number"/></label><label>Date<input id="dateRevenu" required="" type="date"/></label><label>Description<input id="descriptionRevenu"/></label><button>Enregistrer le revenu</button><button class="muted" id="annulerRevenu" type="button">Annuler la modification</button></form><div id="listeRevenus"></div><h3>🧾 Historique des dépenses</h3><div id="listeDepenses">
+</div>
+</section>
+<section class="card hidden" id="pension">
+<h2>
+     🏡 Pension Chez Sosou — demande de réservation
     </h2>
-    <p class="notice">
+<p class="notice">
      ⚠️ Ceci est un
      <b>
       simulateur
      </b>
-     . Aucune demande n'est envoy&eacute;e &agrave; Chez Sosou et aucune place n'est r&eacute;ellement r&eacute;serv&eacute;e. Utilisez des informations fictives pour tester.
+     . Aucune demande n'est envoyée à Chez Sosou et aucune place n'est réellement réservée. Utilisez des informations fictives pour tester.
     </p>
-    <p>
-     Capacit&eacute; de d&eacute;monstration :
+<p>
+     Capacité de démonstration :
      <b>
       4 chiens
      </b>
@@ -495,206 +507,206 @@ a {
      <b>
       4 chats
      </b>
-     simultan&eacute;ment. Les chiens et chiots partagent les 4 places chiens; les chats et chatons partagent les 4 places chats.
+     simultanément. Les chiens et chiots partagent les 4 places chiens; les chats et chatons partagent les 4 places chats.
     </p>
-    <form id="reservationForm">
-     <fieldset>
-      <legend>
-       1. S&eacute;jour et tarif
+<form id="reservationForm">
+<fieldset>
+<legend>
+       1. Séjour et tarif
       </legend>
-      <label>
-       Cat&eacute;gorie
+<label>
+       Catégorie
        <select id="categorieRes">
-        <option value="chien">
-         Chien adulte &mdash; 60 $/nuit
+<option value="chien">
+         Chien adulte — 60 $/nuit
         </option>
-        <option value="chiot">
-         Chiot &mdash; 40 $/nuit
+<option value="chiot">
+         Chiot — 40 $/nuit
         </option>
-        <option value="chat">
-         Chat adulte &mdash; 30 $/nuit
+<option value="chat">
+         Chat adulte — 30 $/nuit
         </option>
-        <option value="chaton">
-         Chaton &mdash; 20 $/nuit
+<option value="chaton">
+         Chaton — 20 $/nuit
         </option>
-       </select>
-      </label>
-      <label>
-       Arriv&eacute;e
+</select>
+</label>
+<label>
+       Arrivée
        <input id="arrivee" required="" type="date"/>
-      </label>
-      <label>
-       D&eacute;part
+</label>
+<label>
+       Départ
        <input id="depart" required="" type="date"/>
-      </label>
-      <label>
+</label>
+<label>
        Nombre d'animaux
        <input id="quantite" max="4" min="1" required="" type="number" value="1"/>
-      </label>
-      <p id="disponibilite">
-       Choisissez les dates pour v&eacute;rifier les places de d&eacute;monstration.
+</label>
+<p id="disponibilite">
+       Choisissez les dates pour vérifier les places de démonstration.
       </p>
-      <p id="prix">
-       Total estim&eacute; : &mdash;
+<p id="prix">
+       Total estimé : —
       </p>
-     </fieldset>
-     <fieldset>
-      <legend>
-       2. Fiche d'admission (donn&eacute;es fictives uniquement)
+</fieldset>
+<fieldset>
+<legend>
+       2. Fiche d'admission (données fictives uniquement)
       </legend>
-      <label>
-       Nom du propri&eacute;taire (fictif)
+<label>
+       Nom du propriétaire (fictif)
        <input id="client" required=""/>
-      </label>
-      <label>
+</label>
+<label>
        Courriel de contact (fictif)
        <input id="courriel" required="" type="email"/>
-      </label>
-      <label>
+</label>
+<label>
        Nom de l'animal
        <input id="nomPension" required=""/>
-      </label>
-      <label>
-       &Acirc;ge approximatif
+</label>
+<label>
+       Âge approximatif
        <input id="agePension" placeholder="Ex. 3 ans"/>
-      </label>
-      <label>
+</label>
+<label>
        Comportement avec les chiens
        <select id="sociableChiens">
-        <option>
+<option>
          Inconnu
         </option>
-        <option>
+<option>
          Sociable
         </option>
-        <option>
-         &Agrave; surveiller
+<option>
+         À surveiller
         </option>
-        <option>
+<option>
          Non sociable
         </option>
-       </select>
-      </label>
-      <label>
+</select>
+</label>
+<label>
        Comportement avec les chats
        <select id="sociableChats">
-        <option>
+<option>
          Inconnu
         </option>
-        <option>
+<option>
          Sociable
         </option>
-        <option>
-         &Agrave; surveiller
+<option>
+         À surveiller
         </option>
-        <option>
+<option>
          Non sociable
         </option>
-       </select>
-      </label>
-      <label>
-       H&eacute;bergement s&eacute;par&eacute; n&eacute;cessaire?
+</select>
+</label>
+<label>
+       Hébergement séparé nécessaire?
        <select id="separation">
-        <option>
+<option>
          Non
         </option>
-        <option>
+<option>
          Oui
         </option>
-        <option>
-         &Agrave; discuter
+<option>
+         À discuter
         </option>
-       </select>
-      </label>
-      <label>
+</select>
+</label>
+<label>
        Carnet de vaccination disponible?
        <select id="carnet">
-        <option>
+<option>
          Oui
         </option>
-        <option>
+<option>
          Non
         </option>
-        <option>
+<option>
          Je ne sais pas
         </option>
-       </select>
-      </label>
-      <p class="small">
-       Une copie pourra &ecirc;tre transmise plus tard par un canal s&eacute;curis&eacute;. Aucun document n'est t&eacute;l&eacute;vers&eacute; dans cette d&eacute;monstration.
+</select>
+</label>
+<p class="small">
+       Une copie pourra être transmise plus tard par un canal sécurisé. Aucun document n'est téléversé dans cette démonstration.
       </p>
-      <label>
+<label>
        Alimentation et habitudes
        <textarea id="habitudes"></textarea>
-      </label>
-      <label>
+</label>
+<label>
        Allergies, traitements ou besoins particuliers (fictifs)
        <textarea id="besoins"></textarea>
-      </label>
-      <label>
-       V&eacute;t&eacute;rinaire habituel (fictif)
+</label>
+<label>
+       Vétérinaire habituel (fictif)
        <input id="veterinaire"/>
-      </label>
-      <label>
+</label>
+<label>
        Contact d'urgence (fictif)
        <input id="urgence"/>
-      </label>
-     </fieldset>
-     <fieldset>
-      <legend>
-       3. Contrat et autorisation &mdash; aper&ccedil;u non contractuel
+</label>
+</fieldset>
+<fieldset>
+<legend>
+       3. Contrat et autorisation — aperçu non contractuel
       </legend>
-      <p>
-       Je d&eacute;clare avoir fourni les renseignements pertinents sur la sant&eacute; et le comportement de mon animal. Je reconnais les risques ordinaires li&eacute;s &agrave; la garde d'animaux. Cette reconnaissance n'&eacute;carte pas les responsabilit&eacute;s que la loi impose &agrave; la pension.
+<p>
+       Je déclare avoir fourni les renseignements pertinents sur la santé et le comportement de mon animal. Je reconnais les risques ordinaires liés à la garde d'animaux. Cette reconnaissance n'écarte pas les responsabilités que la loi impose à la pension.
       </p>
-      <p>
-       En cas d'urgence, j'autorise la pension &agrave; faire &eacute;valuer mon animal par un v&eacute;t&eacute;rinaire et &agrave; permettre les soins urgents n&eacute;cessaires si je suis injoignable. Les frais seront r&eacute;partis selon les circonstances et la loi applicable. La pension tentera de me contacter d&egrave;s que possible.
+<p>
+       En cas d'urgence, j'autorise la pension à faire évaluer mon animal par un vétérinaire et à permettre les soins urgents nécessaires si je suis injoignable. Les frais seront répartis selon les circonstances et la loi applicable. La pension tentera de me contacter dès que possible.
       </p>
-      <label class="check">
-       <input id="accepteContrat" required="" type="checkbox"/>
-       J'ai lu cet aper&ccedil;u du contrat (simulation).
+<label class="check">
+<input id="accepteContrat" required="" type="checkbox"/>
+       J'ai lu cet aperçu du contrat (simulation).
       </label>
-      <label class="check">
-       <input id="accepteUrgence" required="" type="checkbox"/>
-       J'accepte l'autorisation v&eacute;t&eacute;rinaire d'urgence (simulation).
+<label class="check">
+<input id="accepteUrgence" required="" type="checkbox"/>
+       J'accepte l'autorisation vétérinaire d'urgence (simulation).
       </label>
-      <label>
-       Nom saisi comme signature de d&eacute;monstration
+<label class="check"><input id="consentVideo" type="checkbox"/>J’autorise facultativement la diffusion publique de photos/vidéos de mon animal sur « La vraie vie, sans filtre » (simulation).</label><p class="small">Ce choix n’influence pas la demande. Aucune vidéo n’est diffusée automatiquement.</p><label>
+       Nom saisi comme signature de démonstration
        <input id="signature" placeholder="Nom fictif" required=""/>
-      </label>
-      <p class="small">
-       Ce formulaire n'est pas une signature &eacute;lectronique juridiquement d&eacute;ploy&eacute;e. Un contrat valid&eacute; et une preuve de consentement s&eacute;curis&eacute;e seront n&eacute;cessaires avant ouverture.
+</label>
+<p class="small">
+       Ce formulaire n'est pas une signature électronique juridiquement déployée. Un contrat validé et une preuve de consentement sécurisée seront nécessaires avant ouverture.
       </p>
-     </fieldset>
-     <button type="submit">
+</fieldset>
+<button type="submit">
       📨 Simuler une demande
      </button>
-    </form>
-    <p id="resultatRes" role="status">
-    </p>
-   </section>
-   <section class="card hidden" id="gestion">
-    <h2>
-     📋 Gestion des demandes &mdash; d&eacute;monstration locale
+</form>
+<p id="resultatRes" role="status">
+</p>
+</section>
+<section class="card hidden" id="gestion">
+<h2>
+     📋 Gestion des demandes — démonstration locale
     </h2>
-    <p class="notice">
-     🔒 Cet &eacute;cran n'est
+<p class="notice">
+     🔒 Cet écran n'est
      <b>
-      pas un espace administratrice prot&eacute;g&eacute;
+      pas un espace administratrice protégé
      </b>
-     . Toute personne ouvrant ce site peut voir son propre tableau local. N'y inscrivez aucune donn&eacute;e r&eacute;elle.
+     . Toute personne ouvrant ce site peut voir son propre tableau local. N'y inscrivez aucune donnée réelle.
     </p>
-    <p>
-     Les demandes &laquo; en attente &raquo; ne bloquent pas les places; seules les demandes &laquo; confirm&eacute;es &raquo; les occupent dans ce navigateur. Aucune synchronisation entre visiteurs.
+<p>
+     Les demandes « en attente » ne bloquent pas les places; seules les demandes « confirmées » les occupent dans ce navigateur. Aucune synchronisation entre visiteurs.
     </p>
-    <div id="listeReservations">
-    </div>
-   </section>
-  </main>
-  <footer>
-   🐾 Compagnons+ 3.0 &mdash; prototype local, sans r&eacute;servation r&eacute;elle
+<div id="listeReservations">
+</div>
+</section>
+</main>
+<footer>
+   🐾 Compagnons+ 3.1 — prototype local, sans réservation réelle
   </footer>
-  <script>
+<script>
    'use strict';
 const $=id=>document.getElementById(id), key={animaux:'compagnons_animaux',soins:'compagnons_soins',portees:'compagnons_portees',depenses:'compagnons_depenses',reservations:'compagnons_reservations_demo_v3'};
 function load(k){try{let v=JSON.parse(localStorage.getItem(k));
@@ -813,26 +825,241 @@ $('dateDepense').value=dateToday();
 render();
 
 
-// Exportation des données locales : sauvegarde manuelle, sans envoi à un serveur.
-$('exportSauvegarde').addEventListener('click', () => {
-    const sauvegarde = {
-        version: '3.0',
-        date: new Date().toISOString(),
-        animaux: state.animaux,
-        soins: state.soins,
-        portees: state.portees,
-        depenses: state.depenses,
-        reservationsDemo: state.reservations
-    };
-    const fichier = new Blob([JSON.stringify(sauvegarde, null, 2)], {
-        type: 'application/json'
+
+
+
+// ===================== VERSION 3.1 : AMÉLIORATIONS =====================
+// Les anciennes clés localStorage sont conservées : aucune fiche existante n'est effacée.
+const EXTRA_KEYS = {
+    croissance: 'compagnons_croissance_v31',
+    revenus: 'compagnons_revenus_v31'
+};
+state.croissance = load(EXTRA_KEYS.croissance);
+state.revenus = load(EXTRA_KEYS.revenus);
+key.croissance = EXTRA_KEYS.croissance;
+key.revenus = EXTRA_KEYS.revenus;
+const newId = () => 'cp-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+const money = n => (Number(n) || 0).toLocaleString('fr-CA', {style:'currency',currency:'CAD'});
+const animalId = a => a.id || '';
+const porteeId = p => p.id || '';
+const animalById = id => state.animaux.find(a => a.id === id);
+const porteeById = id => state.portees.find(p => p.id === id);
+const porteeLabel = p => `${p.maman} — ${p.date}`;
+const activeStatus = a => !['decede','adopte'].includes(a.statut || 'actif');
+
+// Migration prudente : uniquement des identifiants stables et des statuts par défaut.
+// En cas de stockage saturé, on laisse les anciennes données intactes.
+function migrateIds(collection) {
+    if (state[collection].every(x => x.id)) return;
+    const next = state[collection].map(x => ({...x, id: x.id || newId()}));
+    try {
+        localStorage.setItem(key[collection], JSON.stringify(next));
+        state[collection] = next;
+    } catch (error) {
+        alert('Sauvegarde locale saturée. Exportez vos données avant de continuer.');
+    }
+}
+['animaux','portees','depenses','soins'].forEach(migrateIds);
+
+function optionsFor(selectId, entries, label, placeholder) {
+    const sel = $(selectId), old = sel.value;
+    sel.replaceChildren(new Option(placeholder, ''));
+    entries.forEach(item => sel.add(new Option(label(item), item.id)));
+    if ([...sel.options].some(o => o.value === old)) sel.value = old;
+}
+
+function statMini(label, value) {
+    const div = document.createElement('div');
+    div.className = 'stat-mini';
+    const strong = txt('strong', value);
+    div.append(strong, txt('span', label));
+    return div;
+}
+
+function renderFinance() {
+    const expenses = state.depenses.reduce((s, d) => s + (Number(d.montant) || 0), 0);
+    const revenues = state.revenus.reduce((s, d) => s + (Number(d.montant) || 0), 0);
+    const month = dateToday().slice(0,7), year = dateToday().slice(0,4);
+    const expMonth = state.depenses.filter(d => (d.date || '').startsWith(month)).reduce((s,d) => s + Number(d.montant || 0),0);
+    const expYear = state.depenses.filter(d => (d.date || '').startsWith(year)).reduce((s,d) => s + Number(d.montant || 0),0);
+    const months = new Set(state.depenses.filter(d => d.date).map(d => d.date.slice(0,7))).size;
+    const box = $('statsFinances'); box.replaceChildren();
+    [['Dépenses ce mois',expMonth],['Dépenses cette année',expYear],['Moyenne par mois enregistré', months ? expenses/months : 0],['Revenus totaux',revenues],['Solde revenus − dépenses',revenues-expenses]].forEach(([l,v])=>box.append(statMini(l,money(v))));
+    const byCat = {};
+    state.depenses.forEach(d => byCat[d.categorie] = (byCat[d.categorie] || 0) + Number(d.montant || 0));
+    const summary = $('resumeCategories'); summary.replaceChildren();
+    Object.entries(byCat).sort((a,b)=>b[1]-a[1]).forEach(([c,v])=>summary.append(txt('p',`${c} : ${money(v)}`)));
+    if (!Object.keys(byCat).length) summary.append(txt('p','Aucune dépense.'));
+    const revenuesList = $('listeRevenus'); revenuesList.replaceChildren();
+    state.revenus.forEach((d,i)=>row(revenuesList,[d.source,money(d.montant),d.date,d.description],[action('✏️ Modifier',()=>editRevenue(i)),action('🗑️ Supprimer',()=>remove('revenus',i),true)]));
+}
+
+function renderGrowth() {
+    const box = $('listeCroissance'); box.replaceChildren();
+    const sorted = [...state.croissance].sort((a,b) => a.date.localeCompare(b.date));
+    if (!sorted.length) box.append(txt('p','Aucune pesée enregistrée.'));
+    sorted.forEach(r => {
+        const a = animalById(r.animalId);
+        row(box,[`${a ? a.nom : r.animalNom || 'Animal archivé'} — ${r.date}`,`Poids : ${r.poids} kg`,r.notes],[action('🗑️ Supprimer',()=>{
+            const i = state.croissance.findIndex(x=>x.id===r.id);
+            if(i>=0) remove('croissance',i);
+        },true)]);
     });
-    const lien = document.createElement('a');
-    lien.href = URL.createObjectURL(fichier);
-    lien.download = 'compagnons-plus-sauvegarde-' + dateToday() + '.json';
-    lien.click();
-    setTimeout(() => URL.revokeObjectURL(lien.href), 1000);
-});
-  </script>
- </body>
+}
+
+const originalRender = render;
+render = function enhancedRender() {
+    originalRender();
+    optionsFor('origineAnimal',state.portees,porteeLabel,'Aucune portée liée');
+    optionsFor('animalCroissance',state.animaux,a=>a.nom,'Choisir un bébé');
+    optionsFor('animalDepense',state.animaux,a=>a.nom,'Aucun animal');
+    optionsFor('porteeDepense',state.portees,porteeLabel,'Aucune portée');
+    const query = $('rechercheAnimal').value.trim().toLocaleLowerCase('fr-CA');
+    const filter = $('filtreAnimal').value;
+    const cards = $('listeAnimaux'); cards.replaceChildren();
+    state.animaux.forEach((a,i) => {
+        const status = a.statut || 'actif';
+        const searchable = [a.nom,a.espece,a.race,a.notes].join(' ').toLocaleLowerCase('fr-CA');
+        if (query && !searchable.includes(query)) return;
+        if (filter === 'Chien' || filter === 'Chat') {if(a.espece !== filter)return;}
+        if (filter === 'actifs' && !activeStatus(a)) return;
+        if (filter === 'archives' && status !== 'decede') return;
+        if (filter === 'adoption' && status !== 'disponible') return;
+        const origin = porteeById(a.porteeId);
+        const d = row(cards,[`🐾 ${a.nom}`, [a.espece,a.race].filter(Boolean).join(' — '),a.sexe,a.naissance,a.poids?`Poids : ${a.poids} kg`:'',`Statut : ${status}`,origin?`Portée : ${porteeLabel(origin)}`:'',a.notes],[action('✏️ Modifier',()=>editAnimal(i)),action('🗑️ Supprimer',()=>remove('animaux',i),true)]);
+        if(a.photo){const img=document.createElement('img');img.src=a.photo;img.alt='Photo de '+a.nom;d.prepend(img);}
+    });
+    const pList = $('listePortees'); pList.replaceChildren();
+    state.portees.forEach((p,i)=>{
+        const babies = state.animaux.filter(a=>a.porteeId && a.porteeId===p.id);
+        const expenses = state.depenses.filter(d=>d.porteeId && d.porteeId===p.id).reduce((s,d)=>s+Number(d.montant||0),0);
+        row(pList,[`Maman : ${p.maman}`,`Naissance : ${p.date}`,`Bébés déclarés : ${p.nombre}`,`Bébés associés : ${babies.length}${babies.length?' — '+babies.map(a=>a.nom).join(', '):''}`,`Dépenses associées : ${money(expenses)}`,p.notes],[action('✏️ Modifier',()=>editLitter(i)),action('🗑️ Supprimer',()=>remove('portees',i),true)]);
+    });
+    const dList = $('listeDepenses'); dList.replaceChildren();
+    state.depenses.forEach((d,i)=>{
+        const animal = animalById(d.animalId), litter = porteeById(d.porteeId);
+        row(dList,[d.categorie,money(d.montant),d.date,d.description,animal?`Animal : ${animal.nom}`:'',litter?`Portée : ${porteeLabel(litter)}`:''],[action('✏️ Modifier',()=>editExpense(i)),action('🗑️ Supprimer',()=>remove('depenses',i),true)]);
+    });
+    // Le sélecteur de soins de la v3 d'origine reste compatible avec ses anciennes données.
+    renderFinance(); renderGrowth();
+    $('nbAnimaux').textContent=state.animaux.filter(activeStatus).length;
+};
+
+$('rechercheAnimal').addEventListener('input',render);
+$('filtreAnimal').addEventListener('change',render);
+const originalEditAnimal = editAnimal;
+editAnimal = function(i) {
+    originalEditAnimal(i);
+    const a=state.animaux[i];
+    $('statutAnimal').value=a.statut||'actif';
+    $('origineAnimal').value=a.porteeId||'';
+};
+$('annulerAnimal').addEventListener('click',()=>{$('statutAnimal').value='actif';$('origineAnimal').value='';});
+$('animalForm').onsubmit = async e => {
+    e.preventDefault();
+    const indexText=$('editAnimal').value;
+    const i=indexText===''?-1:Number(indexText);
+    const a={...(i>=0?state.animaux[i]:{}),id:i>=0?state.animaux[i].id:newId()};
+    for(const field of ['nom','espece','race','sexe','naissance','poids','notes'])a[field]=$(field).value.trim();
+    a.statut=$('statutAnimal').value;
+    a.porteeId=$('origineAnimal').value;
+    const photo=$('photo').files[0];
+    if(photo){
+        if(photo.size>300000){alert('Photo trop grande : maximum 300 Ko.');return;}
+        try{a.photo=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(photo);});}
+        catch{alert('Impossible de lire la photo.');return;}
+    }
+    const next=[...state.animaux]; if(i>=0)next[i]=a;else next.push(a);
+    if(commit('animaux',next)){$('animalForm').reset();$('editAnimal').value='';}
+};
+
+function editLitter(i) {
+    const p=state.portees[i]; $('editPortee').value=i;
+    $('datePortee').value=p.date; $('nombreBebes').value=p.nombre; $('notesPortee').value=p.notes||'';
+    const motherIndex=state.animaux.findIndex(a=>a.nom===p.maman);
+    if(motherIndex>=0)$('mamanPortee').value=String(motherIndex);
+    show('portees');$('datePortee').focus();
+}
+$('annulerPortee').onclick=()=>{$('porteeForm').reset();$('editPortee').value='';};
+$('porteeForm').onsubmit=e=>{
+    e.preventDefault();
+    const a=state.animaux[Number($('mamanPortee').value)];
+    if(!a){alert('Choisissez une maman.');return;}
+    const i=$('editPortee').value===''?-1:Number($('editPortee').value);
+    const p={id:i>=0?state.portees[i].id:newId(),maman:a.nom,date:$('datePortee').value,nombre:Number($('nombreBebes').value),notes:$('notesPortee').value};
+    const next=[...state.portees];if(i>=0)next[i]=p;else next.push(p);
+    if(commit('portees',next)){$('porteeForm').reset();$('editPortee').value='';}
+};
+
+$('dateCroissance').value=dateToday();
+$('croissanceForm').onsubmit=e=>{
+    e.preventDefault();
+    const a=animalById($('animalCroissance').value);
+    if(!a){alert('Choisissez un animal.');return;}
+    const item={id:newId(),animalId:a.id,animalNom:a.nom,date:$('dateCroissance').value,poids:Number($('poidsCroissance').value),notes:$('notesCroissance').value};
+    if(commit('croissance',[...state.croissance,item])){$('croissanceForm').reset();$('dateCroissance').value=dateToday();}
+};
+
+function editExpense(i) {
+    const d=state.depenses[i];$('editDepense').value=i;
+    $('categorieDepense').value=d.categorie;$('montantDepense').value=d.montant;
+    $('dateDepense').value=d.date;$('descriptionDepense').value=d.description||'';
+    $('animalDepense').value=d.animalId||'';$('porteeDepense').value=d.porteeId||'';
+    show('depenses');$('montantDepense').focus();
+}
+$('annulerDepense').onclick=()=>{$('depenseForm').reset();$('editDepense').value='';$('dateDepense').value=dateToday();};
+$('depenseForm').onsubmit=e=>{
+    e.preventDefault();
+    const i=$('editDepense').value===''?-1:Number($('editDepense').value);
+    const d={id:i>=0?state.depenses[i].id:newId(),categorie:$('categorieDepense').value,montant:Number($('montantDepense').value),date:$('dateDepense').value,description:$('descriptionDepense').value,animalId:$('animalDepense').value,porteeId:$('porteeDepense').value};
+    const next=[...state.depenses];if(i>=0)next[i]=d;else next.push(d);
+    if(commit('depenses',next)){$('depenseForm').reset();$('editDepense').value='';$('dateDepense').value=dateToday();}
+};
+
+function editRevenue(i) {
+    const d=state.revenus[i];$('editRevenu').value=i;
+    $('sourceRevenu').value=d.source;$('montantRevenu').value=d.montant;
+    $('dateRevenu').value=d.date;$('descriptionRevenu').value=d.description||'';
+    show('depenses');$('montantRevenu').focus();
+}
+$('annulerRevenu').onclick=()=>{$('revenuForm').reset();$('editRevenu').value='';$('dateRevenu').value=dateToday();};
+$('dateRevenu').value=dateToday();
+$('revenuForm').onsubmit=e=>{
+    e.preventDefault();
+    const i=$('editRevenu').value===''?-1:Number($('editRevenu').value);
+    const d={id:i>=0?state.revenus[i].id:newId(),source:$('sourceRevenu').value,montant:Number($('montantRevenu').value),date:$('dateRevenu').value,description:$('descriptionRevenu').value};
+    const next=[...state.revenus];if(i>=0)next[i]=d;else next.push(d);
+    if(commit('revenus',next)){$('revenuForm').reset();$('editRevenu').value='';$('dateRevenu').value=dateToday();}
+};
+
+// Consentement vidéo facultatif, simulation locale seulement.
+const originalBookingSubmit = $('reservationForm').onsubmit;
+$('reservationForm').onsubmit = e => {
+    const videoConsent = $('consentVideo').checked;
+    originalBookingSubmit(e);
+    if (!e.defaultPrevented) return;
+    // Aucun usage externe des données : ce consentement reste un simple indicateur de démo.
+    if(state.reservations.length){
+        const last=state.reservations[state.reservations.length-1];
+        if(last && last.consentVideo===undefined){
+            const next=[...state.reservations];next[next.length-1]={...last,consentVideo:videoConsent};
+            commit('reservations',next);
+        }
+    }
+};
+
+// Sauvegarde complète incluant les nouvelles collections.
+$('exportSauvegarde').onclick = () => {
+    const backup={version:'3.1',date:new Date().toISOString()};
+    Object.keys(key).forEach(k=>backup[k]=state[k]);
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob), link=document.createElement('a');
+    link.href=url;link.download=`compagnons-plus-sauvegarde-${dateToday()}.json`;
+    link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
+};
+// L'ancien gestionnaire d'export de v3 utilise addEventListener et s'exécute aussi;
+// il sera retiré dans le fichier généré pour éviter les téléchargements en double.
+render();
+</script>
+</body>
 </html>
