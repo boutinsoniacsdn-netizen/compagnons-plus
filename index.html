@@ -228,6 +228,32 @@ a {
    </button>
 </nav>
 <main>
+   <section class="card" id="connexion">
+  <h2>🔐 Connexion à Compagnons+</h2>
+  <p>Connectez-vous à votre compte pour accéder à votre espace personnel.</p>
+
+  <form id="connexionForm">
+    <label for="emailConnexion">Adresse courriel</label>
+    <input
+      id="emailConnexion"
+      type="email"
+      autocomplete="email"
+      required
+    />
+
+    <label for="motDePasseConnexion">Mot de passe</label>
+    <input
+      id="motDePasseConnexion"
+      type="password"
+      autocomplete="current-password"
+      required
+    />
+
+    <button type="submit">🔑 Se connecter</button>
+  </form>
+
+  <p id="messageConnexion" role="status"></p>
+</section>
 <section class="card" id="accueil">
 <h2>
      Bienvenue sur Compagnons+ 💜
@@ -714,6 +740,38 @@ a {
   </footer>
 <script>
    'use strict';
+   // Connexion sécurisée à Supabase
+const connexionForm = document.getElementById('connexionForm');
+const messageConnexion = document.getElementById('messageConnexion');
+
+connexionForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('emailConnexion').value.trim();
+  const password = document.getElementById('motDePasseConnexion').value;
+
+  messageConnexion.textContent = 'Connexion en cours...';
+
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      messageConnexion.textContent = '❌ Connexion impossible : ' + error.message;
+      return;
+    }
+
+    if (data.user) {
+      messageConnexion.textContent = '✅ Connexion réussie!';
+      document.getElementById('motDePasseConnexion').value = '';
+    }
+  } catch (error) {
+    messageConnexion.textContent = '❌ Erreur de connexion. Réessaie.';
+    console.error(error);
+  }
+});
 const $=id=>document.getElementById(id), key={animaux:'compagnons_animaux',soins:'compagnons_soins',portees:'compagnons_portees',depenses:'compagnons_depenses',reservations:'compagnons_reservations_demo_v3'};
 function load(k){try{let v=JSON.parse(localStorage.getItem(k));
 return Array.isArray(v)?v:[]}catch{return []}}
