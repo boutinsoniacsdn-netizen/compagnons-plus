@@ -312,6 +312,10 @@ a {
 <button id="exportSauvegarde" type="button">
       ⬇️ Télécharger ma sauvegarde (JSON)
      </button>
+   <button id="importSauvegarde" type="button">
+  📂 Restaurer ma sauvegarde (JSON)
+</button>
+<input id="fichierSauvegarde" type="file" accept=".json" hidden>
 </div>
 </section>
 <section class="card hidden" id="animaux">
@@ -1186,6 +1190,65 @@ $('exportSauvegarde').onclick = () => {
     link.href=url;link.download=`compagnons-plus-sauvegarde-${dateToday()}.json`;
     link.click();setTimeout(()=>URL.revokeObjectURL(url),2000);
 };
+// Restauration sécurisée d'une sauvegarde JSON
+const boutonImport = document.getElementById('importSauvegarde');
+const fichierImport = document.getElementById('fichierSauvegarde');
+
+boutonImport.addEventListener('click', () => {
+  if (!utilisateurConnecteId) {
+    alert('Connecte-toi avant de restaurer une sauvegarde.');
+    return;
+  }
+  fichierImport.click();
+});
+
+fichierImport.addEventListener('change', async () => {
+  const fichier = fichierImport.files[0];
+  if (!fichier) return;
+
+  try {
+    const sauvegarde = JSON.parse(await fichier.text());
+    const collections = Object.keys(key);
+
+    if (!collections.every(k => Array.isArray(sauvegarde[k]))) {
+      alert('Fichier invalide : certaines données sont manquantes.');
+      return;
+    }
+
+    const dejaRempli = collections.some(k => state[k].length > 0);
+
+    if (dejaRempli) {
+      alert('Restauration annulée : ce compte contient déjà des données.');
+      return;
+    }
+
+    const quantites = collections
+      .map(k => `${k} : ${sauvegarde[k].length}`)
+      .join('\n');
+
+    if (!confirm(
+      'Restaurer cette sauvegarde dans ton compte ?\n\n' +
+      quantites
+    )) return;
+
+    collections.forEach(k => {
+      localStorage.setItem(
+        cleUtilisateur(k),
+        JSON.stringify(sauvegarde[k])
+      );
+      state[k] = sauvegarde[k];
+    });
+
+    render();
+    alert('✅ Sauvegarde restaurée avec succès!');
+  } catch (erreur) {
+    console.error(erreur);
+    alert('❌ Impossible de lire cette sauvegarde.');
+  } finally {
+    fichierImport.value = '';
+  }
+});
+   
 // L'ancien gestionnaire d'export de v3 utilise addEventListener et s'exécute aussi;
 // il sera retiré dans le fichier généré pour éviter les téléchargements en double.
 document.getElementById('boutonDeconnexion').addEventListener('click', async () => {
