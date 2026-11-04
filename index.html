@@ -207,6 +207,24 @@ a {
   <button type="button" id="boutonMonEspace">
     🏢 Mon espace ▾
   </button>
+<div id="menuMonEspace" hidden
+     style="margin-top:10px; text-align:left;">
+  <button type="button" id="espacePersonnel">
+    🏠 Mon espace personnel
+  </button>
+
+  <button type="button" id="mesEntreprises">
+    🏢 Mes entreprises
+  </button>
+
+  <button type="button" id="entrerCodeEntreprise">
+    🔑 Entrer un code d'entreprise
+  </button>
+
+  <button type="button" id="creerEntreprise">
+    ➕ Créer une entreprise
+  </button>
+</div>
 </div>
 </header>
 <nav>
@@ -1289,6 +1307,13 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 });
 render();
 show('connexion');
+// Ouvrir et fermer le menu Mon espace
+const boutonMonEspace = document.getElementById('boutonMonEspace');
+const menuMonEspace = document.getElementById('menuMonEspace');
+
+boutonMonEspace.addEventListener('click', () => {
+  menuMonEspace.hidden = !menuMonEspace.hidden;
+});
 </script>
 </body>
 </html>
