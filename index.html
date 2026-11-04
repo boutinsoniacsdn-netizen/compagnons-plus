@@ -254,6 +254,47 @@ a {
 </button>
 </nav>
 <main>
+<section class="card hidden" id="creationEntreprise">
+  <h2>🏢 Créer mon entreprise</h2>
+
+  <p>Bienvenue dans l'espace professionnel de Compagnons+ 💜</p>
+
+  <form id="formCreationEntreprise">
+
+    <label for="nomEntreprise">Nom de l'entreprise</label>
+    <input
+      type="text"
+      id="nomEntreprise"
+      placeholder="Ex. : Refuge Les Pattes Heureuses"
+      required
+    >
+
+    <label for="typeEntreprise">Type d'établissement</label>
+    <select id="typeEntreprise" required>
+      <option value="">Choisir un type</option>
+      <option value="refuge">🐕 Refuge</option>
+      <option value="pension">🏡 Pension animalière</option>
+      <option value="elevage">🐾 Élevage</option>
+      <option value="toilettage">✂️ Salon de toilettage</option>
+      <option value="clinique">🩺 Clinique vétérinaire</option>
+      <option value="autre">🏢 Autre entreprise animalière</option>
+    </select>
+
+    <label for="descriptionEntreprise">Description de l'entreprise</label>
+    <textarea
+      id="descriptionEntreprise"
+      placeholder="Présentez votre établissement..."
+      rows="4"
+    ></textarea>
+
+    <button type="submit">
+      💜 Créer mon établissement
+    </button>
+
+  </form>
+
+  <p id="messageCreationEntreprise"></p>
+</section>
    <section class="card" id="connexion">
   <h2>🔐 Connexion à Compagnons+</h2>
   <p>Connectez-vous à votre compte pour accéder à votre espace personnel.</p>
@@ -1313,6 +1354,11 @@ const menuMonEspace = document.getElementById('menuMonEspace');
 
 boutonMonEspace.addEventListener('click', () => {
   menuMonEspace.hidden = !menuMonEspace.hidden;
+});
+// Afficher le formulaire de création d'entreprise
+document.getElementById('creerEntreprise').addEventListener('click', () => {
+  menuMonEspace.hidden = true;
+  show('creationEntreprise');
 });
 </script>
 </body>
