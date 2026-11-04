@@ -1360,6 +1360,43 @@ document.getElementById('creerEntreprise').addEventListener('click', () => {
   menuMonEspace.hidden = true;
   show('creationEntreprise');
 });
+// Enregistrer une entreprise dans Supabase
+document.getElementById('formCreationEntreprise').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const message = document.getElementById('messageCreationEntreprise');
+
+  if (!utilisateurConnecteId) {
+    message.textContent = '❌ Tu dois être connecté pour créer une entreprise.';
+    return;
+  }
+
+  const nom = document.getElementById('nomEntreprise').value.trim();
+  const type = document.getElementById('typeEntreprise').value;
+  const description = document.getElementById('descriptionEntreprise').value.trim();
+
+  message.textContent = '⏳ Création de ton entreprise...';
+
+  const { data, error } = await supabaseClient
+    .from('entreprises')
+    .insert({
+      nom: nom,
+      type: type,
+      description: description,
+      proprietaire_id: utilisateurConnecteId
+    })
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    message.textContent = '❌ Erreur : ' + error.message;
+    return;
+  }
+
+  message.textContent = '✅ Ton entreprise a été créée avec succès!';
+  document.getElementById('formCreationEntreprise').reset();
+});
 </script>
 </body>
 </html>
