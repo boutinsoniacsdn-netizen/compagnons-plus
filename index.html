@@ -228,6 +228,13 @@ a {
 </div>
 </header>
 <nav>
+<button type="button" id="boutonAnimauxPersonnels">
+  🏠 Mes animaux personnels
+</button>
+
+<button type="button" id="boutonEspaceEntreprise">
+  🏢 Animaux de mon entreprise
+</button>
 <button data-page="accueil">
     🏠 Accueil
    </button>
@@ -254,6 +261,28 @@ a {
 </button>
 </nav>
 <main>
+<section class="card hidden" id="tableauPersonnel">
+  <h2>🏠 Mes animaux personnels</h2>
+  <p>Bienvenue dans ton espace personnel Compagnons+ 💜</p>
+
+  <div class="grid">
+    <button type="button" data-page="animaux">
+      🐶 Mes animaux
+    </button>
+
+    <button type="button" data-page="sante">
+      💉 Santé et soins
+    </button>
+
+    <button type="button" data-page="portees">
+      🐾 Mes portées
+    </button>
+
+    <button type="button" data-page="depenses">
+      💰 Mes dépenses
+    </button>
+  </div>
+</section>
 <section class="card hidden" id="listeEntreprises">
   <h2>🏢 Mes entreprises</h2>
 
@@ -934,7 +963,25 @@ function show(id) {
 
   scrollTo(0, 0);
 }
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.page));
+// Navigation des sections existantes
+document.querySelectorAll('nav button[data-page]').forEach(b => {
+  b.onclick = () => show(b.dataset.page);
+});
+
+// Bouton principal : Mes animaux personnels
+document.getElementById('boutonAnimauxPersonnels').addEventListener('click', () => {
+  show('tableauPersonnel');
+});
+
+// Bouton principal : Animaux de mon entreprise
+document.getElementById('boutonEspaceEntreprise').addEventListener('click', () => {
+  show('listeEntreprises');
+});
+
+// Boutons à l'intérieur du tableau de bord personnel
+document.querySelectorAll('#tableauPersonnel button[data-page]').forEach(b => {
+  b.addEventListener('click', () => show(b.dataset.page));
+});
 function dateToday(){let d=new Date();
 return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
 function row(target,lines,buttons=[]){let d=document.createElement('div');
