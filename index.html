@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Compagnons+ 3.6 — Gestion améliorée (démo locale)</title>
+<title>Compagnons+ 3.7 — Gestion améliorée (démo locale)</title>
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = "https://nrrbjzaufcxbbxxktnql.supabase.co";
@@ -205,7 +205,7 @@ a {
     Parce que chaque compagnon mérite le meilleur ❤️
    </p>
 <strong>
-    Version 3.6 — Prototype de démonstration
+    Version 3.7 — Prototype de démonstration
    </strong>
 <div style="text-align:left; padding-left:20px;">
   <button type="button" id="boutonMonEspace">
@@ -374,6 +374,59 @@ a {
 
   <button type="button" id="retourEntrepriseEmployes">
     ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
+<!-- FORMULAIRE AJOUTER UN EMPLOYÉ -->
+<section class="card hidden" id="pageAjouterEmploye">
+
+  <h2>➕ Ajouter un employé</h2>
+
+  <p>Informations générales de l'employé 💜</p>
+
+  <form id="formAjouterEmploye">
+
+    <label for="prenomEmploye">Prénom</label>
+    <input type="text" id="prenomEmploye" required>
+
+    <label for="nomEmploye">Nom</label>
+    <input type="text" id="nomEmploye" required>
+
+    <label for="courrielEmploye">Courriel</label>
+    <input type="email" id="courrielEmploye" required>
+
+    <label for="telephoneEmploye">Téléphone</label>
+    <input type="tel" id="telephoneEmploye">
+
+    <label for="adresseEmploye">Adresse</label>
+    <input type="text" id="adresseEmploye">
+
+    <label for="dateEmbaucheEmploye">Date d'embauche</label>
+    <input type="date" id="dateEmbaucheEmploye">
+
+    <label for="typeEmploye">Type de collaborateur</label>
+    <select id="typeEmploye">
+      <option value="employe">Employé</option>
+      <option value="benevole">Bénévole</option>
+      <option value="stagiaire">Stagiaire</option>
+      <option value="externe">Collaborateur externe</option>
+    </select>
+
+    <p>
+      🐾 Le poste occupé, l'établissement et les autorisations
+      seront ajoutés dans les prochaines étapes.
+    </p>
+
+    <button type="submit" disabled>
+      💾 Enregistrer l'employé (bientôt disponible)
+    </button>
+
+  </form>
+
+  <hr>
+
+  <button type="button" id="retourListeEmployes">
+    ⬅️ Retour à Mes employés
   </button>
 
 </section>
@@ -1090,6 +1143,14 @@ document.getElementById('boutonEmployesEntreprise').addEventListener('click', ()
 document.getElementById('retourEntrepriseEmployes').addEventListener('click', () => {
   show('tableauEntreprise');
 });
+// Ouvrir le formulaire Ajouter un employé
+document.getElementById('ajouterEmploye').addEventListener('click', () => {
+  show('pageAjouterEmploye');
+});
+// Retourner à la page Mes employés
+document.getElementById('retourListeEmployes').addEventListener('click', () => {
+  show('pageEmployes');
+});
 // Bouton principal : Animaux de mon entreprise
 document.getElementById('boutonEspaceEntreprise').addEventListener('click', () => {
 document.getElementById('mesEntreprises').click();
@@ -1198,7 +1259,7 @@ render();
 
 
 
-// ===================== VERSION 3.6 : AMÉLIORATIONS =====================
+// ===================== VERSION 3.7 : AMÉLIORATIONS =====================
 // Les anciennes clés localStorage sont conservées : aucune fiche existante n'est effacée.
 const EXTRA_KEYS = {
     croissance: 'compagnons_croissance_v31',
