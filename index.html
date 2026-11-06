@@ -250,7 +250,9 @@ a {
 <section class="card hidden" id="tableauPersonnel">
   <h2>🏠 Mes animaux personnels</h2>
   <p>Bienvenue dans ton espace personnel Compagnons+ 💜</p>
-
+<button type="button" id="retourAccueilPersonnel">
+  ⬅️ Retour à l'accueil
+</button>
   <div class="grid">
     <button type="button" data-page="animaux">
       🐶 Mes animaux
@@ -1027,7 +1029,10 @@ document.querySelectorAll('nav button[data-page]').forEach(b => {
 document.getElementById('boutonAnimauxPersonnels').addEventListener('click', () => {
   show('tableauPersonnel');
 });
-
+// Retour à l'accueil depuis l'espace personnel
+document.getElementById('retourAccueilPersonnel').addEventListener('click', () => {
+  show('accueil');
+});
 // Bouton principal : Animaux de mon entreprise
 document.getElementById('boutonEspaceEntreprise').addEventListener('click', () => {
 document.getElementById('mesEntreprises').click();
