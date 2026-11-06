@@ -254,6 +254,15 @@ a {
 </button>
 </nav>
 <main>
+<section class="card hidden" id="listeEntreprises">
+  <h2>🏢 Mes entreprises</h2>
+
+  <p>Retrouvez ici vos établissements enregistrés sur Compagnons+ 💜</p>
+
+  <div id="contenuListeEntreprises">
+    Chargement de vos entreprises...
+  </div>
+</section>
 <section class="card hidden" id="creationEntreprise">
   <h2>🏢 Créer mon entreprise</h2>
 
@@ -1359,6 +1368,54 @@ boutonMonEspace.addEventListener('click', () => {
 document.getElementById('creerEntreprise').addEventListener('click', () => {
   menuMonEspace.hidden = true;
   show('creationEntreprise');
+});
+// Afficher les entreprises enregistrées dans Supabase
+document.getElementById('mesEntreprises').addEventListener('click', async () => {
+  menuMonEspace.hidden = true;
+  show('listeEntreprises');
+
+  const contenu = document.getElementById('contenuListeEntreprises');
+  contenu.textContent = 'Chargement de vos entreprises...';
+
+  if (!utilisateurConnecteId) {
+    contenu.textContent = 'Connecte-toi pour voir tes entreprises.';
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from('entreprises')
+    .select('id, nom, type, description')
+    .eq('proprietaire_id', utilisateurConnecteId)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    contenu.textContent = '❌ Erreur : ' + error.message;
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    contenu.textContent = 'Tu n’as pas encore créé d’entreprise.';
+    return;
+  }
+
+  contenu.replaceChildren();
+
+  data.forEach(entreprise => {
+    const carte = document.createElement('div');
+    carte.className = 'card';
+
+    const titre = document.createElement('h3');
+    titre.textContent = '🏢 ' + entreprise.nom;
+
+    const type = document.createElement('p');
+    type.textContent = 'Type : ' + entreprise.type;
+
+    const description = document.createElement('p');
+    description.textContent = entreprise.description || '';
+
+    carte.append(titre, type, description);
+    contenu.appendChild(carte);
+  });
 });
 // Enregistrer une entreprise dans Supabase
 document.getElementById('formCreationEntreprise').addEventListener('submit', async (event) => {
