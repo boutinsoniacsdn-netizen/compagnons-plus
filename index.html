@@ -332,6 +332,51 @@ a {
   </button>
 
 </section>
+<!-- PAGE MES EMPLOYÉS -->
+<section class="card hidden" id="pageEmployes">
+
+  <h2>👥 Mes employés</h2>
+
+  <p>
+    Gérez vos employés, vos équipes et leurs horaires
+    dans Compagnons+ 💜
+  </p>
+
+  <div class="grid">
+
+    <button type="button" id="ajouterEmploye">
+      ➕ Ajouter un employé
+    </button>
+
+    <button type="button" id="listeEmployes">
+      👥 Liste de mes employés
+    </button>
+
+    <button type="button" id="rolesEmployes">
+      🔐 Rôles et autorisations
+    </button>
+
+    <button type="button" id="equipesEmployes">
+      🏢 Gestion des équipes
+    </button>
+
+    <button type="button" id="punchEmployes">
+      🕒 Punch et feuilles de temps
+    </button>
+
+    <button type="button" id="horairesEmployes">
+      📅 Horaires de travail
+    </button>
+
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourEntrepriseEmployes">
+    ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
 <section class="card hidden" id="listeEntreprises">
   <h2>🏢 Mes entreprises</h2>
 
@@ -1035,6 +1080,15 @@ document.getElementById('boutonAnimauxPersonnels').addEventListener('click', () 
 // Retour à l'accueil depuis l'espace personnel
 document.getElementById('retourAccueilPersonnel').addEventListener('click', () => {
   show('accueil');
+});
+// Ouvrir la page Mes employés
+document.getElementById('boutonEmployesEntreprise').addEventListener('click', () => {
+  show('pageEmployes');
+});
+
+// Retourner au tableau de bord de mon entreprise
+document.getElementById('retourEntrepriseEmployes').addEventListener('click', () => {
+  show('tableauEntreprise');
 });
 // Bouton principal : Animaux de mon entreprise
 document.getElementById('boutonEspaceEntreprise').addEventListener('click', () => {
