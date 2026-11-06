@@ -1460,7 +1460,16 @@ document.getElementById('mesEntreprises').addEventListener('click', async () => 
     const description = document.createElement('p');
     description.textContent = entreprise.description || '';
 
-    carte.append(titre, type, description);
+// Bouton pour entrer dans l'entreprise
+const boutonEntrer = document.createElement('button');
+boutonEntrer.type = 'button';
+boutonEntrer.textContent = '🚪 Entrer dans mon entreprise';
+
+boutonEntrer.addEventListener('click', () => {
+  alert('Bienvenue dans ' + entreprise.nom + ' 💜');
+});
+
+carte.append(titre, type, description, boutonEntrer);
     contenu.appendChild(carte);
   });
 });
