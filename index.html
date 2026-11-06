@@ -287,6 +287,64 @@ a {
     </button>
   </div>
 </section>
+<!-- Tableau de bord de l'entreprise -->
+<section class="card hidden" id="tableauEntreprise">
+
+  <h2 id="titreTableauEntreprise">🏢 Mon entreprise</h2>
+  <p>Bienvenue dans votre espace professionnel Compagnons+ 💜</p>
+
+  <div class="stats-grid">
+    <div class="stat-mini">
+      <strong>0</strong>
+      Animaux accueillis
+    </div>
+    <div class="stat-mini">
+      <strong>0</strong>
+      Réservations
+    </div>
+    <div class="stat-mini">
+      <strong>0</strong>
+      Clients
+    </div>
+  </div>
+
+  <h3>🐾 Gestion de mon établissement</h3>
+
+  <button type="button" id="boutonAnimauxPension">
+    🐾 Animaux en pension
+  </button>
+
+  <button type="button" id="boutonAjouterAnimalPension">
+    ➕ Ajouter un animal
+  </button>
+
+  <button type="button" id="boutonReservationsEntreprise">
+    📅 Réservations
+  </button>
+
+  <button type="button" id="boutonClientsEntreprise">
+    👥 Clients
+  </button>
+
+  <button type="button" id="boutonSoinsEntreprise">
+    🩺 Soins et suivis
+  </button>
+
+  <button type="button" id="boutonFinancesEntreprise">
+    💰 Finances
+  </button>
+
+  <button type="button" id="boutonParametresEntreprise">
+    ⚙️ Paramètres
+  </button>
+
+  <hr>
+
+  <button type="button" id="retourMesEntreprises">
+    ⬅️ Retour à mes entreprises
+  </button>
+
+</section>
 <section class="card hidden" id="listeEntreprises">
   <h2>🏢 Mes entreprises</h2>
 
@@ -1483,7 +1541,7 @@ boutonEntrer.type = 'button';
 boutonEntrer.textContent = '🚪 Entrer dans mon entreprise';
 
 boutonEntrer.addEventListener('click', () => {
-  alert('Bienvenue dans ' + entreprise.nom + ' 💜');
+  show('espaceEntreprise');
 });
 
 carte.append(titre, type, description, boutonEntrer);
