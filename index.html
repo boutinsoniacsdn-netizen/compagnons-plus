@@ -2118,6 +2118,23 @@ if (provenanceAnnonce && animalExistantAnnonce) {
     }
   });
 }
+// Remplir automatiquement l'annonce avec l'animal choisi
+if (animalExistantAnnonce) {
+  animalExistantAnnonce.addEventListener("change", function () {
+    const provenance = provenanceAnnonce.value;
+
+    if (provenance !== "personnel" || this.value === "") return;
+
+    const animal = state.animaux[Number(this.value)];
+    if (!animal) return;
+
+    const champNom = document.getElementById("nomAnnonce");
+    const champEspece = document.getElementById("especeAnnonce");
+
+    if (champNom) champNom.value = animal.nom || "";
+    if (champEspece) champEspece.value = animal.espece || "";
+  });
+}
 </script>
 </body>
 </html>
