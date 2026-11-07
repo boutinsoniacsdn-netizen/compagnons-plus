@@ -689,6 +689,37 @@ a {
     </p>
 
     <form id="formAnnonce">
+   <!-- SELECTION D'UN ANIMAL EXISTANT -->
+
+<div class="entry">
+
+  <h4>🐾 Sélectionner un animal existant</h4>
+
+  <label for="provenanceAnimalAnnonce">
+    D'où provient l'animal ?
+  </label>
+
+  <select id="provenanceAnimalAnnonce">
+    <option value="">-- Choisir une provenance --</option>
+    <option value="personnel">🏠 Mes animaux personnels</option>
+    <option value="entreprise">🏢 Mes animaux de l'entreprise</option>
+  </select>
+
+  <br><br>
+
+  <label for="animalExistantAnnonce">
+    Quel animal souhaitez-vous sélectionner ?
+  </label>
+
+  <select id="animalExistantAnnonce" disabled>
+    <option value="">-- Choisir d'abord une provenance --</option>
+  </select>
+
+  <p id="messageSelectionAnimal"></p>
+
+</div>
+
+<!-- FIN DE LA SELECTION -->
 
       <h4>🐾 Informations sur l'animal</h4>
 
