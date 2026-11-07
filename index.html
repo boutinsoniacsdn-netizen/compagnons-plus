@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>Compagnons+ 3.7 — Gestion améliorée (démo locale)</title>
+<title>Compagnons+ 3.8 — Gestion améliorée (démo locale)</title>
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = "https://nrrbjzaufcxbbxxktnql.supabase.co";
@@ -213,7 +213,7 @@ a {
     Parce que chaque compagnon mérite le meilleur ❤️
    </p>
 <strong>
-    Version 3.7 — Prototype de démonstration
+    Version 3.8 — Prototype de démonstration
    </strong>
 <div style="text-align:left; padding-left:20px;">
   <button type="button" id="boutonMonEspace">
@@ -659,16 +659,10 @@ a {
   <h3>❤️ Nos futurs compagnons</h3>
 
   <div class="entry">
-    <p>
-      🐾 Les annonces d'animaux disponibles
-      apparaîtront bientôt ici.
-    </p>
-    <p>
-      Vous pourrez consulter leurs photos, leurs descriptions
-      et les coordonnées des établissements.
-    </p>
+  <div id="listeAnnonces">
+    <p>🐾 Les annonces disponibles apparaîtront ici.</p>
   </div>
-
+</div>
   <h3>🏢 Refuges et établissements</h3>
 
   <div class="entry">
@@ -1378,7 +1372,7 @@ render();
 
 
 
-// ===================== VERSION 3.7 : AMÉLIORATIONS =====================
+// ===================== VERSION 3.8 : AMÉLIORATIONS =====================
 // Les anciennes clés localStorage sont conservées : aucune fiche existante n'est effacée.
 const EXTRA_KEYS = {
     croissance: 'compagnons_croissance_v31',
@@ -1818,26 +1812,38 @@ function choisirCategorie(categorie) {
     don: "🎁 Animaux à donner"
   };
 
-  const titre = titres[categorie];
-  if (!titre) return;
+  if (!titres[categorie]) return;
 
-  let resultat = document.getElementById("resultatCategorie");
+  const liste = document.getElementById("listeAnnonces");
+  if (!liste) return;
 
-  if (!resultat) {
-    resultat = document.createElement("div");
-    resultat.id = "resultatCategorie";
-    resultat.className = "entry";
+  const annonces = liste.querySelectorAll(".annonce");
+  let nombre = 0;
 
-    const accueil = document.getElementById("accueil");
-    accueil.appendChild(resultat);
+  annonces.forEach(function(annonce) {
+    const correspond = annonce.dataset.categorie === categorie;
+
+    annonce.style.display = correspond ? "" : "none";
+
+    if (correspond) nombre++;
+  });
+
+  let message = document.getElementById("messageCategorie");
+
+  if (!message) {
+    message = document.createElement("div");
+    message.id = "messageCategorie";
+    liste.prepend(message);
   }
 
-  resultat.innerHTML = `
-    <h3>${titre}</h3>
-    <p>Les annonces de cette catégorie apparaîtront ici prochainement.</p>
+  message.innerHTML = `
+    <h3>${titres[categorie]}</h3>
+    ${nombre === 0
+      ? "<p>Aucune annonce disponible dans cette catégorie pour le moment.</p>"
+      : ""}
   `;
 
-  resultat.scrollIntoView({
+  liste.scrollIntoView({
     behavior: "smooth",
     block: "center"
   });
