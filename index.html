@@ -2131,8 +2131,44 @@ if (animalExistantAnnonce) {
     const champNom = document.getElementById("nomAnnonce");
     const champEspece = document.getElementById("especeAnnonce");
 
-    if (champNom) champNom.value = animal.nom || "";
-    if (champEspece) champEspece.value = animal.espece || "";
+   if (champNom) champNom.value = animal.nom || "";
+if (champEspece) champEspece.value = animal.espece || "";
+
+const champAge = document.getElementById("ageAnnonce");
+const champDescription = document.getElementById("descriptionAnnonce");
+
+if (champAge) {
+  let age = "";
+
+  if (animal.naissance) {
+    const naissance = new Date(animal.naissance);
+    const aujourdHui = new Date();
+
+    if (!isNaN(naissance.getTime()) && naissance <= aujourdHui) {
+      let annees = aujourdHui.getFullYear() - naissance.getFullYear();
+      let mois = aujourdHui.getMonth() - naissance.getMonth();
+
+      if (aujourdHui.getDate() < naissance.getDate()) {
+        mois--;
+      }
+
+      if (mois < 0) {
+        annees--;
+        mois += 12;
+      }
+
+      age = annees > 0
+        ? annees + " an(s)" + (mois > 0 ? " et " + mois + " mois" : "")
+        : mois + " mois";
+    }
+  }
+
+  champAge.value = age;
+}
+
+if (champDescription) {
+  champDescription.value = animal.notes || "";
+}
   });
 }
 </script>
