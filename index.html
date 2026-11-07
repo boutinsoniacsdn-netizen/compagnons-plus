@@ -722,17 +722,6 @@ a {
 <!-- FIN DE LA SELECTION -->
 
       <h4>🐾 Informations sur l'animal</h4>
-
-      <label for="animalAnnonce">
-        Choisir un animal dans mes dossiers :
-      </label>
-
-      <select id="animalAnnonce" name="animalAnnonce">
-        <option value="">
-          -- Sélectionner un animal --
-        </option>
-      </select>
-
       <p>
         Vous pourrez aussi compléter ou modifier
         les informations de votre annonce.
@@ -2074,6 +2063,59 @@ if (boutonAjouter) {
   liste.scrollIntoView({
     behavior: "smooth",
     block: "center"
+  });
+}
+// Sélection des animaux pour les annonces
+const provenanceAnnonce = document.getElementById("provenanceAnimalAnnonce");
+const animalExistantAnnonce = document.getElementById("animalExistantAnnonce");
+const messageSelectionAnimal = document.getElementById("messageSelectionAnimal");
+
+if (provenanceAnnonce && animalExistantAnnonce) {
+  provenanceAnnonce.addEventListener("change", function () {
+    const provenance = this.value;
+
+    animalExistantAnnonce.innerHTML =
+      '<option value="">-- Sélectionner un animal --</option>';
+
+    animalExistantAnnonce.disabled = true;
+
+    if (!provenance) {
+      messageSelectionAnimal.textContent = "";
+      return;
+    }
+
+    if (provenance === "entreprise") {
+      messageSelectionAnimal.textContent =
+        "Les animaux de l'entreprise seront disponibles prochainement.";
+      return;
+    }
+
+    if (provenance === "personnel") {
+      if (!utilisateurConnecteId) {
+        messageSelectionAnimal.textContent =
+          "Connectez-vous pour voir vos animaux.";
+        return;
+      }
+
+      const animaux = state.animaux || [];
+
+      if (animaux.length === 0) {
+        messageSelectionAnimal.textContent =
+          "Aucun animal personnel enregistré.";
+        return;
+      }
+
+      animaux.forEach(function (animal, index) {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = animal.nom || "Animal sans nom";
+        animalExistantAnnonce.appendChild(option);
+      });
+
+      animalExistantAnnonce.disabled = false;
+      messageSelectionAnimal.textContent =
+        "Choisissez un animal dans la liste.";
+    }
   });
 }
 </script>
