@@ -674,6 +674,164 @@ a {
     <p>🐾 Les annonces disponibles apparaîtront ici.</p>
   </div>
 </div>
+   <!-- FORMULAIRE COMMUN DES ANNONCES -->
+<div id="zoneFormulaireAnnonce" style="display:none;">
+
+  <div class="entry">
+
+    <h3 id="titreFormulaireAnnonce">
+      🐾 Ajouter un animal à adopter
+    </h3>
+
+    <p>
+      Créez une annonce personnalisée pour présenter
+      votre compagnon aux futurs adoptants.
+    </p>
+
+    <form id="formAnnonce">
+
+      <h4>🐾 Informations sur l'animal</h4>
+
+      <label for="animalAnnonce">
+        Choisir un animal dans mes dossiers :
+      </label>
+
+      <select id="animalAnnonce" name="animalAnnonce">
+        <option value="">
+          -- Sélectionner un animal --
+        </option>
+      </select>
+
+      <p>
+        Vous pourrez aussi compléter ou modifier
+        les informations de votre annonce.
+      </p>
+
+      <label for="nomAnnonce">Nom de l'animal :</label>
+      <input
+        type="text"
+        id="nomAnnonce"
+        name="nomAnnonce"
+        placeholder="Nom de l'animal"
+      >
+
+      <label for="especeAnnonce">Espèce :</label>
+      <input
+        type="text"
+        id="especeAnnonce"
+        name="especeAnnonce"
+        placeholder="Chien, chat, etc."
+      >
+
+      <label for="ageAnnonce">Âge :</label>
+      <input
+        type="text"
+        id="ageAnnonce"
+        name="ageAnnonce"
+        placeholder="Âge de l'animal"
+      >
+
+      <h4>💜 Présentation de l'animal</h4>
+
+      <label for="descriptionAnnonce">
+        Parlez-nous de sa personnalité :
+      </label>
+
+      <textarea
+        id="descriptionAnnonce"
+        name="descriptionAnnonce"
+        rows="5"
+        placeholder="Son caractère, ses habitudes, ce qu'il aime..."
+      ></textarea>
+
+      <label for="infosAnnonce">
+        Informations supplémentaires :
+      </label>
+
+      <textarea
+        id="infosAnnonce"
+        name="infosAnnonce"
+        rows="4"
+        placeholder="Santé, besoins particuliers, conditions..."
+      ></textarea>
+
+      <h4>📸 Photos de l'animal</h4>
+
+      <input
+        type="file"
+        id="photosAnnonce"
+        name="photosAnnonce"
+        accept="image/*"
+        multiple
+      >
+
+      <h4>🎥 Vidéos de l'animal</h4>
+
+      <p>
+        Montrez sa personnalité en vidéo pour aider
+        les gens à mieux le connaître !
+      </p>
+
+      <input
+        type="file"
+        id="videosAnnonce"
+        name="videosAnnonce"
+        accept="video/*"
+        multiple
+      >
+
+      <label for="descriptionVideosAnnonce">
+        Présentez vos vidéos :
+      </label>
+
+      <textarea
+        id="descriptionVideosAnnonce"
+        name="descriptionVideosAnnonce"
+        rows="3"
+        placeholder="Décrivez les moments présentés..."
+      ></textarea>
+
+      <h4>📍 Conditions de l'annonce</h4>
+
+      <label for="prixAnnonce">
+        Prix, si applicable :
+      </label>
+
+      <input
+        type="number"
+        id="prixAnnonce"
+        name="prixAnnonce"
+        min="0"
+        step="0.01"
+        placeholder="Montant en dollars"
+      >
+
+      <label for="conditionsAnnonce">
+        Conditions particulières :
+      </label>
+
+      <textarea
+        id="conditionsAnnonce"
+        name="conditionsAnnonce"
+        rows="3"
+        placeholder="Conditions d'adoption, de vente ou de don..."
+      ></textarea>
+
+      <br><br>
+
+      <button type="button" id="apercuAnnonce">
+        👀 Aperçu de mon annonce
+      </button>
+
+      <button type="button" id="annulerAnnonce">
+        ❌ Annuler
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
   <h3>🏢 Refuges et établissements</h3>
 
   <div class="entry">
@@ -1864,6 +2022,23 @@ const textesBouton = {
 if (boutonAjouter) {
   boutonAjouter.textContent = textesBouton[categorie];
   boutonAjouter.style.display = "inline-block";
+}
+// Ouvrir le formulaire selon la catégorie choisie
+if (boutonAjouter) {
+  boutonAjouter.onclick = function() {
+    const zone = document.getElementById("zoneFormulaireAnnonce");
+    const titre = document.getElementById("titreFormulaireAnnonce");
+
+    if (!zone || !titre) return;
+
+    titre.textContent = textesBouton[categorie];
+    zone.style.display = "block";
+
+    zone.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
 }
   liste.scrollIntoView({
     behavior: "smooth",
