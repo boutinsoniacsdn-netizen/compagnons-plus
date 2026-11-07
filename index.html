@@ -2171,6 +2171,27 @@ if (champDescription) {
 }
   });
 }
+// Afficher un aperçu de l'annonce sans la publier
+document.getElementById("apercuAnnonce")?.addEventListener("click", function () {
+  const formulaire = document.getElementById("formAnnonce");
+  if (!formulaire) return;
+
+  const donnees = new FormData(formulaire);
+  const lignes = [];
+
+  for (const [champ, valeur] of donnees.entries()) {
+    if (typeof valeur === "string" && valeur.trim()) {
+      lignes.push(champ + " : " + valeur);
+    }
+  }
+
+  if (lignes.length === 0) {
+    alert("Veuillez remplir les informations de votre annonce.");
+    return;
+  }
+
+  alert("👀 APERÇU DE MON ANNONCE\n\n" + lignes.join("\n"));
+});
 </script>
 </body>
 </html>
