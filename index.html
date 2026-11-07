@@ -595,9 +595,9 @@ a {
         Découvrez les animaux qui attendent une famille
         aimante dans les refuges et les organismes.
       </p>
-      <button type="button" disabled>
-        🐾 Voir les adoptions — bientôt
-      </button>
+   <button type="button" onclick="choisirCategorie('adoption')">
+       🐾 Voir les adoptions
+   </button>
     </div>
 
     <div class="entry">
@@ -606,9 +606,9 @@ a {
         Consultez les annonces publiées par des particuliers
         et des établissements.
       </p>
-      <button type="button" disabled>
-        💜 Voir les annonces — bientôt
-      </button>
+   <button type="button" onclick="choisirCategorie('vente')">
+      💜 Voir les animaux à vendre
+   </button>
     </div>
 
     <div class="entry">
@@ -617,9 +617,9 @@ a {
         Aidez les animaux qui cherchent gratuitement
         une nouvelle famille.
       </p>
-      <button type="button" disabled>
-        🏠 Voir les dons — bientôt
-      </button>
+   <button type="button" onclick="choisirCategorie('don')">
+      🎁 Voir les animaux à donner
+   </button>
     </div>
 
   </div>
@@ -1809,6 +1809,39 @@ document.getElementById('formCreationEntreprise').addEventListener('submit', asy
   message.textContent = '✅ Ton entreprise a été créée avec succès!';
   document.getElementById('formCreationEntreprise').reset();
 });
+</script>
+<script>
+function choisirCategorie(categorie) {
+  const titres = {
+    adoption: "🐾 Animaux à adopter",
+    vente: "💜 Animaux à vendre",
+    don: "🎁 Animaux à donner"
+  };
+
+  const titre = titres[categorie];
+  if (!titre) return;
+
+  let resultat = document.getElementById("resultatCategorie");
+
+  if (!resultat) {
+    resultat = document.createElement("div");
+    resultat.id = "resultatCategorie";
+    resultat.className = "entry";
+
+    const accueil = document.getElementById("accueil");
+    accueil.appendChild(resultat);
+  }
+
+  resultat.innerHTML = `
+    <h3>${titre}</h3>
+    <p>Les annonces de cette catégorie apparaîtront ici prochainement.</p>
+  `;
+
+  resultat.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
 </script>
 </body>
 </html>
