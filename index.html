@@ -194,6 +194,14 @@ a {
 [hidden] {
   display: none !important;
 }
+#tableauPersonnel:not(.hidden) {
+  display: flex;
+  flex-direction: column;
+}
+
+#tableauPersonnel > .entry {
+  order: 10;
+}
 </style>
 </head>
 <body>
