@@ -509,6 +509,49 @@ a {
     Chargement de vos entreprises...
   </div>
 </section>
+<!-- PAGE : REJOINDRE UNE ENTREPRISE PAR CODE -->
+<section class="card hidden" id="pageCodeEntreprise">
+
+  <h2>🔑 Rejoindre une entreprise</h2>
+
+  <p>
+    Vous avez reçu un code d'invitation de votre employeur ?
+    Entrez-le ici pour demander à rejoindre son établissement
+    sur Compagnons+.
+  </p>
+
+  <div class="entry">
+
+    <label for="codeInvitationEntreprise">
+      🔐 Code d'invitation
+    </label>
+
+    <input
+      type="text"
+      id="codeInvitationEntreprise"
+      placeholder="Entrez votre code d'entreprise"
+      autocomplete="off"
+      maxlength="64"
+    >
+
+    <p class="small">
+      💜 Votre demande devra être approuvée par
+      le responsable de l'établissement.
+    </p>
+
+    <button type="button" id="envoyerCodeEntreprise" disabled>
+      📨 Envoyer ma demande — bientôt disponible
+    </button>
+
+    <p id="messageCodeEntreprise" role="status"></p>
+
+  </div>
+
+  <button type="button" id="retourMenuCodeEntreprise">
+    ⬅️ Retour à mon espace
+  </button>
+
+</section>
 <section class="card hidden" id="creationEntreprise">
   <h2>🏢 Créer mon entreprise</h2>
 
@@ -1427,7 +1470,17 @@ function show(id) {
 document.querySelectorAll('nav button[data-page]').forEach(b => {
   b.onclick = () => show(b.dataset.page);
 });
+// Ouvrir la page pour entrer un code d'entreprise
+document.getElementById('entrerCodeEntreprise').addEventListener('click', () => {
+  show('pageCodeEntreprise');
+  document.getElementById('menuMonEspace').hidden = true;
+});
 
+// Retourner au menu Mon espace
+document.getElementById('retourMenuCodeEntreprise').addEventListener('click', () => {
+  show('accueil');
+  document.getElementById('menuMonEspace').hidden = false;
+});
 // Bouton principal : Mes animaux personnels
 document.getElementById('boutonAnimauxPersonnels').addEventListener('click', () => {
   show('tableauPersonnel');
