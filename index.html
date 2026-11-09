@@ -1432,6 +1432,11 @@ document.querySelectorAll('nav button[data-page]').forEach(b => {
 document.getElementById('boutonAnimauxPersonnels').addEventListener('click', () => {
   show('tableauPersonnel');
 });
+// Ouvrir l'espace personnel depuis le menu Mon espace
+document.getElementById('espacePersonnel').addEventListener('click', () => {
+  show('tableauPersonnel');
+  document.getElementById('menuMonEspace').hidden = true;
+});
 // Retour à l'accueil depuis l'espace personnel
 document.getElementById('retourAccueilPersonnel').addEventListener('click', () => {
   show('accueil');
