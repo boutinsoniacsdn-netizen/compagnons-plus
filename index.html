@@ -2190,8 +2190,49 @@ document.getElementById("apercuAnnonce")?.addEventListener("click", function () 
     return;
   }
 
-  alert("👀 APERÇU DE MON ANNONCE\n\n" + lignes.join("\n"));
+ const contenu = document.getElementById("contenuApercuAnnonce");
+const fenetre = document.getElementById("fenetreApercuAnnonce");
+
+contenu.replaceChildren();
+
+lignes.forEach(function(ligne) {
+  const paragraphe = document.createElement("p");
+  paragraphe.textContent = ligne;
+  paragraphe.style.whiteSpace = "pre-wrap";
+  paragraphe.style.overflowWrap = "anywhere";
+  contenu.appendChild(paragraphe);
+});
+
+fenetre.style.display = "flex";
 });
 </script>
+<!-- Fenêtre d'aperçu des annonces Compagnons+ -->
+<div id="fenetreApercuAnnonce" hidden
+     style="position:fixed;inset:0;z-index:9999;
+            background:rgba(20,12,35,.7);
+            display:none;align-items:center;justify-content:center;
+            padding:20px;">
+
+  <div role="dialog" aria-modal="true" aria-labelledby="titreApercuAnnonce"
+       style="background:white;border-radius:18px;
+              padding:25px;width:100%;max-width:650px;
+              max-height:85vh;overflow-y:auto;
+              box-shadow:0 15px 45px rgba(0,0,0,.3);">
+
+    <h2 id="titreApercuAnnonce" style="color:#70449b;">
+      🐾 Compagnons+ — Aperçu de mon annonce
+    </h2>
+
+    <div id="contenuApercuAnnonce"></div>
+
+    <hr style="margin:20px 0;">
+
+    <button type="button"
+            onclick="document.getElementById('fenetreApercuAnnonce').style.display='none'">
+      ✏️ Retourner à mon annonce
+    </button>
+
+  </div>
+</div>
 </body>
 </html>
