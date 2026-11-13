@@ -417,6 +417,26 @@ a {
 </section>
 <!-- PAGE MES EMPLOYÉS -->
 <!-- PAGE : ANIMAUX EN PENSION -->
+<!-- PAGE : AJOUTER UN ANIMAL EN ENTREPRISE -->
+<section class="card hidden" id="pageAjouterAnimalEntreprise">
+
+  <h2>➕ Ajouter un animal</h2>
+  <p>Ajoutez un animal au registre de votre établissement Compagnons+ 💜</p>
+
+  <div class="grid">
+    <button type="button" disabled>🐶 Ajouter un chien — bientôt disponible</button>
+    <button type="button" disabled>🐱 Ajouter un chat — bientôt disponible</button>
+    <button type="button" disabled>🐴 Ajouter un cheval — bientôt disponible</button>
+    <button type="button" disabled>🐾 Ajouter une autre espèce — bientôt disponible</button>
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourEntrepriseAjoutAnimal">
+    ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
 <section class="card hidden" id="pageAnimauxPension">
 
   <h2>🐾 Animaux en pension</h2>
@@ -1546,6 +1566,15 @@ document.getElementById('retourAccueilPersonnel').addEventListener('click', () =
 });
 // Ouvrir la page Mes employés
 // Ouvrir la page Animaux en pension
+// Ouvrir la page Ajouter un animal
+document.getElementById('boutonAjouterAnimalPension').addEventListener('click', () => {
+  show('pageAjouterAnimalEntreprise');
+});
+
+// Retour au tableau de bord de l'entreprise
+document.getElementById('retourEntrepriseAjoutAnimal').addEventListener('click', () => {
+  show('tableauEntreprise');
+});
 document.getElementById('boutonAnimauxPension').addEventListener('click', () => {
   show('pageAnimauxPension');
 });
