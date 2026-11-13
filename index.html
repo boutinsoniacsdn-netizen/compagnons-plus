@@ -417,6 +417,51 @@ a {
 </section>
 <!-- PAGE MES EMPLOYÉS -->
 <!-- PAGE : ANIMAUX EN PENSION -->
+<!-- PAGE : CLIENTS DE L'ENTREPRISE -->
+<section class="card hidden" id="pageClientsEntreprise">
+
+  <h2>👥 Mes clients</h2>
+
+  <p>
+    Gérez les clients de votre établissement,
+    leurs animaux et leurs dossiers Compagnons+ 💜
+  </p>
+
+  <div class="grid">
+
+    <button type="button" disabled>
+      ➕ Ajouter un client — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📋 Liste de mes clients — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🐾 Animaux de mes clients — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📅 Historique des réservations — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📞 Coordonnées et contacts — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📝 Notes et dossiers clients — bientôt disponible
+    </button>
+
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourEntrepriseClients">
+    ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
 <!-- PAGE : RÉSERVATIONS DE L'ENTREPRISE -->
 <section class="card hidden" id="pageReservationsEntreprise">
 
@@ -1611,6 +1656,15 @@ document.getElementById('retourAccueilPersonnel').addEventListener('click', () =
 });
 // Ouvrir la page Mes employés
 // Ouvrir la page Animaux en pension
+// Ouvrir la page Clients
+document.getElementById('boutonClientsEntreprise').addEventListener('click', () => {
+  show('pageClientsEntreprise');
+});
+
+// Retour au tableau de bord de l'entreprise
+document.getElementById('retourEntrepriseClients').addEventListener('click', () => {
+  show('tableauEntreprise');
+});
 // Ouvrir la page Réservations
 document.getElementById('boutonReservationsEntreprise').addEventListener('click', () => {
   show('pageReservationsEntreprise');
