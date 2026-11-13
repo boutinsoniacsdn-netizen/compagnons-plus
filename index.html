@@ -806,9 +806,11 @@ a {
       seront ajoutés dans les prochaines étapes.
     </p>
 
-    <button type="submit" disabled>
-      💾 Enregistrer l'employé (bientôt disponible)
-    </button>
+   <button type="submit" id="boutonEnregistrerEmploye">
+  💾 Enregistrer l'employé
+</button>
+
+<p id="messageEnregistrementEmploye" role="status"></p>
 
   </form>
 
@@ -2338,6 +2340,52 @@ boutonMonEspace.addEventListener('click', () => {
 document.getElementById('creerEntreprise').addEventListener('click', () => {
   menuMonEspace.hidden = true;
   show('creationEntreprise');
+});
+// Enregistrer un employé dans Supabase
+document.getElementById('formAjouterEmploye').addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const message = document.getElementById('messageEnregistrementEmploye');
+  const bouton = document.getElementById('boutonEnregistrerEmploye');
+
+  message.textContent = '';
+
+  if (!utilisateurConnecteId || !entrepriseActiveId) {
+    message.textContent = '❌ Connecte-toi et sélectionne une entreprise.';
+    return;
+  }
+
+  const employe = {
+    entreprise_id: entrepriseActiveId,
+    prenom: document.getElementById('prenomEmploye').value.trim(),
+    nom: document.getElementById('nomEmploye').value.trim(),
+    email: document.getElementById('courrielEmploye').value.trim(),
+    telephone: document.getElementById('telephoneEmploye').value.trim() || null,
+    adresse: document.getElementById('adresseEmploye').value.trim() || null,
+    date_embauche: document.getElementById('dateEmbaucheEmploye').value || null,
+    type_collaborateur: document.getElementById('typeEmploye').value
+  };
+
+  bouton.disabled = true;
+  message.textContent = '⏳ Enregistrement en cours...';
+
+  try {
+    const { error } = await supabaseClient
+      .from('employes')
+      .insert(employe);
+
+    if (error) throw error;
+
+    message.textContent = '✅ Employé enregistré avec succès !';
+    document.getElementById('formAjouterEmploye').reset();
+
+  } catch (error) {
+    console.error(error);
+    message.textContent = '❌ Erreur : ' + error.message;
+
+  } finally {
+    bouton.disabled = false;
+  }
 });
 // Afficher les entreprises enregistrées dans Supabase
 document.getElementById('mesEntreprises').addEventListener('click', async () => {
