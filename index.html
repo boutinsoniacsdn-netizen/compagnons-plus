@@ -417,6 +417,51 @@ a {
 </section>
 <!-- PAGE MES EMPLOYÉS -->
 <!-- PAGE : ANIMAUX EN PENSION -->
+<!-- PAGE : RÉSERVATIONS DE L'ENTREPRISE -->
+<section class="card hidden" id="pageReservationsEntreprise">
+
+  <h2>📅 Réservations</h2>
+
+  <p>
+    Gérez les réservations et les séjours des animaux
+    dans votre établissement Compagnons+ 💜
+  </p>
+
+  <div class="grid">
+
+    <button type="button" disabled>
+      📥 Nouvelles demandes — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📆 Calendrier des réservations — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🐾 Réservations à venir — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      ✅ Réservations confirmées — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📋 Historique des réservations — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      ➕ Créer une réservation — bientôt disponible
+    </button>
+
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourEntrepriseReservations">
+    ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
 <!-- PAGE : AJOUTER UN ANIMAL EN ENTREPRISE -->
 <section class="card hidden" id="pageAjouterAnimalEntreprise">
 
@@ -1566,6 +1611,15 @@ document.getElementById('retourAccueilPersonnel').addEventListener('click', () =
 });
 // Ouvrir la page Mes employés
 // Ouvrir la page Animaux en pension
+// Ouvrir la page Réservations
+document.getElementById('boutonReservationsEntreprise').addEventListener('click', () => {
+  show('pageReservationsEntreprise');
+});
+
+// Retour au tableau de bord de l'entreprise
+document.getElementById('retourEntrepriseReservations').addEventListener('click', () => {
+  show('tableauEntreprise');
+});
 // Ouvrir la page Ajouter un animal
 document.getElementById('boutonAjouterAnimalPension').addEventListener('click', () => {
   show('pageAjouterAnimalEntreprise');
