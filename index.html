@@ -417,6 +417,55 @@ a {
 </section>
 <!-- PAGE MES EMPLOYÉS -->
 <!-- PAGE : ANIMAUX EN PENSION -->
+<!-- PAGE : SOINS ET SUIVIS DE L'ENTREPRISE -->
+<section class="card hidden" id="pageSoinsEntreprise">
+
+  <h2>🩺 Soins et suivis</h2>
+
+  <p>
+    Gérez les soins, les traitements et les suivis
+    des animaux de votre établissement Compagnons+ 💜
+  </p>
+
+  <div class="grid">
+
+    <button type="button" disabled>
+      💉 Vaccins et vermifuges — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      💊 Médicaments et traitements — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📅 Rendez-vous vétérinaires — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🐾 Suivis quotidiens des animaux — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🚨 Allergies et besoins particuliers — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📋 Historique des soins — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      ➕ Enregistrer un soin — bientôt disponible
+    </button>
+
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourEntrepriseSoins">
+    ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
 <!-- PAGE : CLIENTS DE L'ENTREPRISE -->
 <section class="card hidden" id="pageClientsEntreprise">
 
@@ -1656,6 +1705,15 @@ document.getElementById('retourAccueilPersonnel').addEventListener('click', () =
 });
 // Ouvrir la page Mes employés
 // Ouvrir la page Animaux en pension
+// Ouvrir la page Soins et suivis
+document.getElementById('boutonSoinsEntreprise').addEventListener('click', () => {
+  show('pageSoinsEntreprise');
+});
+
+// Retour au tableau de bord de l'entreprise
+document.getElementById('retourEntrepriseSoins').addEventListener('click', () => {
+  show('tableauEntreprise');
+});
 // Ouvrir la page Clients
 document.getElementById('boutonClientsEntreprise').addEventListener('click', () => {
   show('pageClientsEntreprise');
