@@ -417,6 +417,67 @@ a {
 </section>
 <!-- PAGE MES EMPLOYÉS -->
 <!-- PAGE : ANIMAUX EN PENSION -->
+<!-- PAGE : PARAMÈTRES DE L'ENTREPRISE -->
+<section class="card hidden" id="pageParametresEntreprise">
+
+  <h2>⚙️ Paramètres de mon entreprise</h2>
+
+  <p>
+    Personnalisez et gérez les paramètres de votre
+    établissement Compagnons+ 💜
+  </p>
+
+  <div class="grid">
+
+    <button type="button" disabled>
+      🏢 Informations de l'entreprise — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📍 Adresse et coordonnées — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🕒 Heures d'ouverture — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🐾 Services offerts — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      💲 Tarifs et forfaits — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📅 Disponibilités et capacités d'accueil — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🔔 Notifications et rappels — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🔐 Confidentialité et sécurité — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🎨 Personnalisation du profil entreprise — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📋 Règlements et politiques de l'établissement — bientôt disponible
+    </button>
+
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourEntrepriseParametres">
+    ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
 <!-- PAGE : FINANCES DE L'ENTREPRISE -->
 <section class="card hidden" id="pageFinancesEntreprise">
 
@@ -1754,6 +1815,15 @@ document.getElementById('retourAccueilPersonnel').addEventListener('click', () =
 });
 // Ouvrir la page Mes employés
 // Ouvrir la page Animaux en pension
+// Ouvrir les paramètres de l'entreprise
+document.getElementById('boutonParametresEntreprise').addEventListener('click', () => {
+  show('pageParametresEntreprise');
+});
+
+// Retour au tableau de bord de l'entreprise
+document.getElementById('retourEntrepriseParametres').addEventListener('click', () => {
+  show('tableauEntreprise');
+});
 // Ouvrir la page Finances
 document.getElementById('boutonFinancesEntreprise').addEventListener('click', () => {
   show('pageFinancesEntreprise');
