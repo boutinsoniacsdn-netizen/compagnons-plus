@@ -417,6 +417,55 @@ a {
 </section>
 <!-- PAGE MES EMPLOYÉS -->
 <!-- PAGE : ANIMAUX EN PENSION -->
+<!-- PAGE : FINANCES DE L'ENTREPRISE -->
+<section class="card hidden" id="pageFinancesEntreprise">
+
+  <h2>💰 Finances</h2>
+
+  <p>
+    Gérez les finances de votre établissement,
+    les factures et les paiements avec Compagnons+ 💜
+  </p>
+
+  <div class="grid">
+
+    <button type="button" disabled>
+      📊 Tableau de bord financier — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      🧾 Factures et reçus — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      💳 Paiements des clients — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      💵 Revenus de l'entreprise — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📉 Dépenses de l'entreprise — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      📅 Rapports mensuels et annuels — bientôt disponible
+    </button>
+
+    <button type="button" disabled>
+      ➕ Créer une facture — bientôt disponible
+    </button>
+
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourEntrepriseFinances">
+    ⬅️ Retour à mon entreprise
+  </button>
+
+</section>
 <!-- PAGE : SOINS ET SUIVIS DE L'ENTREPRISE -->
 <section class="card hidden" id="pageSoinsEntreprise">
 
@@ -1705,6 +1754,15 @@ document.getElementById('retourAccueilPersonnel').addEventListener('click', () =
 });
 // Ouvrir la page Mes employés
 // Ouvrir la page Animaux en pension
+// Ouvrir la page Finances
+document.getElementById('boutonFinancesEntreprise').addEventListener('click', () => {
+  show('pageFinancesEntreprise');
+});
+
+// Retour au tableau de bord de l'entreprise
+document.getElementById('retourEntrepriseFinances').addEventListener('click', () => {
+  show('tableauEntreprise');
+});
 // Ouvrir la page Soins et suivis
 document.getElementById('boutonSoinsEntreprise').addEventListener('click', () => {
   show('pageSoinsEntreprise');
