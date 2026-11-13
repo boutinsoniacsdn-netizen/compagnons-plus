@@ -1730,6 +1730,7 @@ document.getElementById('boutonInscription').addEventListener('click', async () 
 });
 const $=id=>document.getElementById(id), key={animaux:'compagnons_animaux',soins:'compagnons_soins',portees:'compagnons_portees',depenses:'compagnons_depenses',reservations:'compagnons_reservations_demo_v3'};
 let utilisateurConnecteId = null;
+let entrepriseActiveId = null;
 function cleUtilisateur(k) {
   if (!utilisateurConnecteId) {
     return null;
@@ -2388,6 +2389,11 @@ boutonEntrer.type = 'button';
 boutonEntrer.textContent = '🚪 Entrer dans mon entreprise';
 
 boutonEntrer.addEventListener('click', () => {
+  entrepriseActiveId = entreprise.id;
+
+  document.getElementById('titreTableauEntreprise').textContent =
+    '🏢 ' + entreprise.nom;
+
   show('tableauEntreprise');
 });
 
