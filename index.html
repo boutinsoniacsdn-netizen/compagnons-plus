@@ -766,6 +766,23 @@ a {
   </button>
 
 </section>
+<!-- PAGE : LISTE DES EMPLOYÉS -->
+<section class="card hidden" id="pageListeEmployes">
+
+  <h2>👥 Liste de mes employés</h2>
+  <p>Retrouvez les collaborateurs de votre établissement 💜</p>
+
+  <div id="contenuListeEmployes" role="status">
+    Chargement des employés...
+  </div>
+
+  <hr>
+
+  <button type="button" id="retourPageEmployes">
+    ⬅️ Retour à Mes employés
+  </button>
+
+</section>
 <!-- FORMULAIRE AJOUTER UN EMPLOYÉ -->
 <section class="card hidden" id="pageAjouterEmploye">
 
@@ -2340,6 +2357,66 @@ boutonMonEspace.addEventListener('click', () => {
 document.getElementById('creerEntreprise').addEventListener('click', () => {
   menuMonEspace.hidden = true;
   show('creationEntreprise');
+});
+// Afficher la liste des employés depuis Supabase
+document.getElementById('listeEmployes').addEventListener('click', async () => {
+  show('pageListeEmployes');
+
+  const contenu = document.getElementById('contenuListeEmployes');
+  contenu.textContent = '⏳ Chargement des employés...';
+
+  if (!utilisateurConnecteId || !entrepriseActiveId) {
+    contenu.textContent = '❌ Connecte-toi et sélectionne une entreprise.';
+    return;
+  }
+
+  try {
+    const { data, error } = await supabaseClient
+      .from('employes')
+      .select('id, prenom, nom, email, telephone, type_collaborateur, date_embauche, statut')
+      .eq('entreprise_id', entrepriseActiveId)
+      .order('nom', { ascending: true });
+
+    if (error) throw error;
+
+    contenu.replaceChildren();
+
+    if (!data || data.length === 0) {
+      contenu.textContent = '🐾 Aucun employé enregistré pour cette entreprise.';
+      return;
+    }
+
+    data.forEach(employe => {
+      const carte = document.createElement('div');
+      carte.className = 'entry';
+
+      const titre = document.createElement('h3');
+      titre.textContent = '👤 ' + employe.prenom + ' ' + employe.nom;
+
+      const details = document.createElement('p');
+
+      details.textContent =
+        '📧 ' + employe.email + '\n' +
+        '📞 ' + (employe.telephone || 'Non renseigné') + '\n' +
+        '🏢 ' + (employe.type_collaborateur || 'Employé') + '\n' +
+        '📅 ' + (employe.date_embauche || 'Non renseignée') + '\n' +
+        '🔐 Statut : ' + employe.statut;
+
+      details.style.whiteSpace = 'pre-line';
+
+      carte.append(titre, details);
+      contenu.appendChild(carte);
+    });
+
+  } catch (error) {
+    console.error('Erreur chargement employés :', error);
+    contenu.textContent = '❌ Erreur : ' + error.message;
+  }
+});
+
+// Retour au menu Mes employés
+document.getElementById('retourPageEmployes').addEventListener('click', () => {
+  show('pageEmployes');
 });
 // Enregistrer un employé dans Supabase
 document.getElementById('formAjouterEmploye').addEventListener('submit', async (event) => {
