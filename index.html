@@ -1221,7 +1221,11 @@ a {
       <br><br>
 
       <button type="button" id="apercuAnnonce">
-        👀 Aperçu de mon annonce
+      👀 Aperçu de mon annonce
+      </button>
+
+      <button type="submit" id="publierAnnonce">
+      📢 Publier mon annonce
       </button>
 
       <button type="button" id="annulerAnnonce">
@@ -2566,6 +2570,7 @@ document.getElementById('formCreationEntreprise').addEventListener('submit', asy
 </script>
 <script>
 function choisirCategorie(categorie) {
+  window.categorieAnnonceActive = categorie;
   const titres = {
     adoption: "🐾 Animaux à adopter",
     vente: "💜 Animaux à vendre",
@@ -2776,6 +2781,57 @@ lignes.forEach(function(ligne) {
 
 fenetre.hidden = false;
 fenetre.style.display = "flex";
+});
+// Publier une annonce dans Supabase
+document.getElementById("formAnnonce").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
+
+  if (authError || !user) {
+    alert("Connecte-toi pour publier une annonce.");
+    return;
+  }
+
+  const nom = document.getElementById("nomAnnonce").value.trim();
+  const espece = document.getElementById("especeAnnonce").value.trim();
+  const age = document.getElementById("ageAnnonce").value.trim();
+  const description = document.getElementById("descriptionAnnonce").value.trim();
+  const conditions = document.getElementById("conditionsAnnonce").value.trim();
+  const prixSaisi = document.getElementById("prixAnnonce").value;
+
+  if (!nom || !espece) {
+    alert("Indique le nom et l'espèce de l'animal.");
+    return;
+  }
+
+  const bouton = document.getElementById("publierAnnonce");
+  bouton.disabled = true;
+
+  try {
+    const { error } = await supabaseClient.from("annonces").insert({
+      auteur_id: user.id,
+      titre: nom,
+      nom: nom,
+      espece: espece,
+      age: age,
+      description: description,
+      conditions: conditions,
+      prix: prixSaisi === "" ? null : Number(prixSaisi),
+      categorie: window.categorieAnnonceActive
+      });
+
+    if (error) throw error;
+
+    alert("✅ Ton annonce a été publiée !");
+    document.getElementById("formAnnonce").reset();
+
+  } catch (error) {
+    alert("❌ Publication impossible : " + error.message);
+    console.error(error);
+  } finally {
+    bouton.disabled = false;
+  }
 });
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
