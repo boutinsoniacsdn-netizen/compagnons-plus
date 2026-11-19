@@ -1246,13 +1246,6 @@ a {
     </p>
   </div>
 
-  <p class="notice">
-    🔒 Version de démonstration :
-    aucune annonce publique réelle n'est encore disponible.
-    Les données enregistrées dans cette version restent
-    dans votre navigateur.
-  </p>
-
 </section>
 <section class="card hidden" id="animaux">
 <h2>
@@ -2569,8 +2562,67 @@ document.getElementById('formCreationEntreprise').addEventListener('submit', asy
 });
 </script>
 <script>
+async function chargerAnnonces() {
+  const liste = document.getElementById("listeAnnonces");
+  if (!liste) return;
+
+  const { data, error } = await supabaseClient
+    .from("annonces")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    liste.textContent = "❌ Impossible de charger les annonces.";
+    return;
+  }
+
+  liste.replaceChildren();
+
+  const filtre = window.categorieAnnonceActive;
+
+  const annonces = (data || []).filter(a =>
+    !filtre || a.categorie === filtre
+  );
+
+  if (annonces.length === 0) {
+    liste.textContent = "🐾 Aucune annonce disponible.";
+    return;
+  }
+
+  annonces.forEach(a => {
+    const carte = document.createElement("div");
+    carte.className = "annonce entry";
+    carte.dataset.categorie = a.categorie;
+    carte.style.maxWidth = "450px";
+
+    const titre = document.createElement("h4");
+    titre.textContent = "🐾 " + (a.titre || a.nom || "Animal");
+
+    const details = document.createElement("p");
+    details.textContent =
+      [a.espece, a.age, a.prix != null ? a.prix + " $" : null]
+      .filter(Boolean).join(" · ");
+
+    const bouton = document.createElement("button");
+    bouton.type = "button";
+    bouton.textContent = "👀 Voir plus";
+
+    bouton.onclick = () => {
+      alert(
+        (a.description || "Aucune description") +
+        "\n\nConditions : " + (a.conditions || "Non précisées")
+      );
+    };
+
+    carte.append(titre, details, bouton);
+    liste.appendChild(carte);
+  });
+}
+chargerAnnonces();
 function choisirCategorie(categorie) {
   window.categorieAnnonceActive = categorie;
+  chargerAnnonces();
   const titres = {
     adoption: "🐾 Animaux à adopter",
     vente: "💜 Animaux à vendre",
@@ -2601,12 +2653,9 @@ function choisirCategorie(categorie) {
     liste.prepend(message);
   }
 
-  message.innerHTML = `
-    <h3>${titres[categorie]}</h3>
-    ${nombre === 0
-      ? "<p>Aucune annonce disponible dans cette catégorie pour le moment.</p>"
-      : ""}
-  `;
+ message.innerHTML = `
+  <h3>${titres[categorie]}</h3>
+`;
 const boutonAjouter = document.getElementById("boutonAjouterAnnonce");
 
 const textesBouton = {
