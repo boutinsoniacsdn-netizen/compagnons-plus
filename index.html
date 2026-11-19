@@ -2609,12 +2609,65 @@ async function chargerAnnonces() {
     bouton.textContent = "👀 Voir plus";
 
     bouton.onclick = () => {
-      alert(
-        (a.description || "Aucune description") +
-        "\n\nConditions : " + (a.conditions || "Non précisées")
-      );
-    };
+    const fond = document.createElement("div");
 
+    fond.style.cssText = `
+        position: fixed;
+        inset: 0;
+        background: rgba(25, 10, 40, 0.8);
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+    `;
+
+    const fiche = document.createElement("div");
+
+    fiche.style.cssText = `
+        background: #fff;
+        border-radius: 22px;
+        padding: 30px;
+        width: 100%;
+        max-width: 650px;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+        box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        color: #302040;
+    `;
+
+    const fermer = document.createElement("button");
+    fermer.textContent = "✖";
+    fermer.style.cssText = "float:right; background:#8654b3; color:white;";
+    fermer.onclick = () => fond.remove();
+
+    const nom = document.createElement("h1");
+    nom.textContent = "🐾 " + (a.nom || a.titre || "Mon compagnon");
+
+    const infos = document.createElement("h3");
+    infos.textContent = [
+        a.espece,
+        a.age,
+        a.prix != null ? a.prix + " $" : null
+    ].filter(Boolean).join(" • ");
+
+    const description = document.createElement("p");
+    description.textContent = a.description || "Aucune description";
+
+    const conditions = document.createElement("p");
+    conditions.textContent = "📋 Conditions : " +
+        (a.conditions || "Non précisées");
+
+    fiche.append(fermer, nom, infos, description, conditions);
+    fond.appendChild(fiche);
+    document.body.appendChild(fond);
+
+    fond.onclick = (e) => {
+        if (e.target === fond) fond.remove();
+    };
+};
 const boutonLike = document.createElement("button");
 boutonLike.type = "button";
 boutonLike.textContent = "🤍 J'aime";
