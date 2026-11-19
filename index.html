@@ -2615,7 +2615,59 @@ async function chargerAnnonces() {
       );
     };
 
-    carte.append(titre, details, bouton);
+const boutonLike = document.createElement("button");
+boutonLike.type = "button";
+boutonLike.textContent = "🤍 J'aime";
+
+boutonLike.onclick = async () => {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        alert("Connecte-toi pour aimer cette annonce ❤️");
+        return;
+    }
+
+    const { data: likeExistant, error: erreurLecture } = await supabaseClient
+        .from("annonce_likes")
+        .select("id")
+        .eq("annonce_id", a.id)
+        .eq("utilisateur_id", user.id)
+        .maybeSingle();
+
+    if (erreurLecture) {
+        alert("Erreur : " + erreurLecture.message);
+        return;
+    }
+
+    if (likeExistant) {
+        const { error } = await supabaseClient
+            .from("annonce_likes")
+            .delete()
+            .eq("id", likeExistant.id);
+
+        if (error) {
+            alert("Erreur : " + error.message);
+            return;
+        }
+
+        boutonLike.textContent = "🤍 J'aime";
+    } else {
+        const { error } = await supabaseClient
+            .from("annonce_likes")
+            .insert({
+                annonce_id: a.id,
+                utilisateur_id: user.id
+            });
+
+        if (error) {
+            alert("Erreur : " + error.message);
+            return;
+        }
+
+        boutonLike.textContent = "❤️ J'aime";
+    }
+};
+    carte.append(titre, details, boutonLike, bouton);
     liste.appendChild(carte);
   });
 }
