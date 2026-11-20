@@ -2963,7 +2963,7 @@ document.getElementById("formAnnonce").addEventListener("submit", async function
   bouton.disabled = true;
 
   try {
-    const { error } = await supabaseClient.from("annonces").insert({
+    const { data: nouvelleAnnonce, error } = await supabaseClient.from("annonces").insert({
       auteur_id: user.id,
       titre: nom,
       nom: nom,
@@ -2973,10 +2973,21 @@ document.getElementById("formAnnonce").addEventListener("submit", async function
       conditions: conditions,
       prix: prixSaisi === "" ? null : Number(prixSaisi),
       categorie: window.categorieAnnonceActive
-      });
+      }).select("id").single();
 
     if (error) throw error;
+const photos = Array.from(document.getElementById("photosAnnonce").files);
+const videos = Array.from(document.getElementById("videosAnnonce").files);
+const medias = [...photos, ...videos];
+    for (const fichier of medias) {
+    const chemin = `${user.id}/${nouvelleAnnonce.id}/${crypto.randomUUID()}-${fichier.name}`;
 
+    const { error: erreurUpload } = await supabaseClient.storage
+        .from("annonces-medias")
+        .upload(chemin, fichier);
+
+    if (erreurUpload) throw erreurUpload;
+}
     alert("✅ Ton annonce a été publiée !");
     document.getElementById("formAnnonce").reset();
 
