@@ -2979,6 +2979,7 @@ document.getElementById("formAnnonce").addEventListener("submit", async function
 const photos = Array.from(document.getElementById("photosAnnonce").files);
 const videos = Array.from(document.getElementById("videosAnnonce").files);
 const medias = [...photos, ...videos];
+    const liensMedias = [];
     for (const fichier of medias) {
     const chemin = `${user.id}/${nouvelleAnnonce.id}/${crypto.randomUUID()}-${fichier.name}`;
 
@@ -2987,6 +2988,22 @@ const medias = [...photos, ...videos];
         .upload(chemin, fichier);
 
     if (erreurUpload) throw erreurUpload;
+    const { data: urlData } = supabaseClient.storage
+  .from("annonces-medias")
+  .getPublicUrl(chemin);
+
+liensMedias.push({
+  type: fichier.type.startsWith("video/") ? "video" : "photo",
+  url: urlData.publicUrl
+});
+}
+    if (liensMedias.length > 0) {
+  const { error: erreurMedias } = await supabaseClient
+    .from("annonces")
+    .update({ medias: liensMedias })
+    .eq("id", nouvelleAnnonce.id);
+
+  if (erreurMedias) throw erreurMedias;
 }
     alert("✅ Ton annonce a été publiée !");
     document.getElementById("formAnnonce").reset();
