@@ -2595,7 +2595,17 @@ async function chargerAnnonces() {
     carte.className = "annonce entry";
     carte.dataset.categorie = a.categorie;
     carte.style.maxWidth = "450px";
+    const photo = document.createElement("img");
+    const premierMedia = Array.isArray(a.medias)
+     ? a.medias.find(m => m.type === "photo")
+     : null;
 
+    if (premierMedia?.url) {
+      photo.src = premierMedia.url;
+      photo.alt = a.nom || "Photo de l'animal";
+      photo.style.cssText = "width:150px;height:150px;object-fit:cover;border-radius:12px;display:block;margin-bottom:10px;";
+      carte.appendChild(photo);
+    }
     const titre = document.createElement("h4");
     titre.textContent = "🐾 " + (a.titre || a.nom || "Animal");
 
