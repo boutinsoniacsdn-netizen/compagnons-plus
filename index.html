@@ -240,7 +240,7 @@ a {
     🏠 Mon espace personnel
   </button>
   <button type="button" id="boutonProfilPersonnel">
-  👤 Mon profil
+  👥 Mes profils
   </button>
   <button type="button" id="mesEntreprises">
     🏢 Mes entreprises
@@ -271,6 +271,22 @@ a {
 </nav>
 <main>
 <section class="card hidden" id="profilPersonnel">
+<h2>👥 Mes profils Compagnons+</h2>
+
+<div class="entry">
+  <h3>🐾 Mon profil personnel</h3>
+  <p>Mes animaux, mes publications et mes annonces.</p>
+
+  <button type="button" id="ouvrirProfilPersonnel">
+    👁️ Afficher mon profil
+  </button>
+</div>
+
+<div id="listeProfilsEntreprises"></div>
+<div id="listeProfilsEmployes"></div>
+  </section>
+
+<section class="card hidden" id="pageProfilPersonnel">
   <h2>💜 Mon profil Compagnons+</h2>
 
   <div id="enteteProfilPersonnel"></div>
@@ -3046,6 +3062,15 @@ document.getElementById("boutonProfilPersonnel").addEventListener("click", () =>
 
     document.getElementById("profilPersonnel").classList.remove("hidden");
     document.getElementById("menuCompte").classList.add("hidden");
+});
+document.getElementById("ouvrirProfilPersonnel").addEventListener("click", () => {
+    document.getElementById("profilPersonnel").classList.add("hidden");
+    document.getElementById("pageProfilPersonnel").classList.remove("hidden");
+});
+
+document.getElementById("retourProfilPersonnel").addEventListener("click", () => {
+    document.getElementById("pageProfilPersonnel").classList.add("hidden");
+    document.getElementById("profilPersonnel").classList.remove("hidden");
 });
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
