@@ -3040,8 +3040,11 @@ liensMedias.push({
   }
 });
 document.getElementById("boutonProfilPersonnel").addEventListener("click", () => {
+    document.querySelectorAll("main > section").forEach(section => {
+        section.classList.add("hidden");
+    });
+
     document.getElementById("profilPersonnel").classList.remove("hidden");
-    document.getElementById("tableauPersonnel").classList.add("hidden");
     document.getElementById("menuCompte").classList.add("hidden");
 });
 </script>
