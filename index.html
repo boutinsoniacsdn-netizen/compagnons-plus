@@ -346,7 +346,42 @@ a {
   </button>
 
 </div>
+<!-- FIL D'ACTUALITÉ DU PROFIL -->
+<div id="filActualitePersonnel">
 
+  <h3>💜 Mon fil d'actualité</h3>
+
+  <div class="card">
+    <h4>🐾 Quoi de neuf ?</h4>
+
+    <textarea
+      id="texteNouvellePublication"
+      placeholder="Partage un moment avec tes compagnons..."
+      rows="4"
+      style="width:100%;box-sizing:border-box;"
+    ></textarea>
+
+    <div style="margin-top:10px;">
+      <label for="mediaNouvellePublication">
+        📷 Photo / 🎥 Vidéo
+      </label>
+
+      <input
+        type="file"
+        id="mediaNouvellePublication"
+        accept="image/*,video/*"
+        multiple
+      >
+    </div>
+
+    <button type="button" id="boutonPublierFil">
+      💜 Publier
+    </button>
+  </div>
+
+  <div id="publicationsProfilPersonnel"></div>
+
+</div>
   <h3>🐾 Mes annonces publiées</h3>
   <div id="filAnnoncesPersonnel"></div>
 
