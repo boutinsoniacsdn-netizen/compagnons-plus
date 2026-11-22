@@ -3135,6 +3135,38 @@ document.getElementById("modifierProfilPersonnel").addEventListener("click", () 
 document.getElementById("annulerModificationProfil").addEventListener("click", () => {
     document.getElementById("formulaireModificationProfil").classList.add("hidden");
 });
+document.getElementById("enregistrerProfilPersonnel").addEventListener("click", async () => {
+    const { data: { user }, error: authError } =
+        await supabaseClient.auth.getUser();
+
+    if (authError || !user) {
+        alert("Tu dois être connecté pour modifier ton profil.");
+        return;
+    }
+
+    const nom = document.getElementById("champNomProfil").value.trim();
+    const bio = document.getElementById("champBioProfil").value.trim();
+
+    const { error } = await supabaseClient
+        .from("profils")
+        .update({
+            nom_affichage: nom,
+            biographie: bio
+        })
+        .eq("id", user.id);
+
+    if (error) {
+        alert("Erreur : " + error.message);
+        return;
+    }
+
+    document.getElementById("nomProfilPersonnel").textContent = nom || "Mon nom";
+    document.getElementById("bioProfilPersonnel").textContent = bio || "Bienvenue sur mon profil Compagnons+ 🐾";
+
+    document.getElementById("formulaireModificationProfil").classList.add("hidden");
+
+    alert("💜 Ton profil a été enregistré !");
+});
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
 <div id="fenetreApercuAnnonce" hidden
