@@ -3136,36 +3136,127 @@ document.getElementById("annulerModificationProfil").addEventListener("click", (
     document.getElementById("formulaireModificationProfil").classList.add("hidden");
 });
 document.getElementById("enregistrerProfilPersonnel").addEventListener("click", async () => {
-    const { data: { user }, error: authError } =
-        await supabaseClient.auth.getUser();
+    const bouton = document.getElementById("enregistrerProfilPersonnel");
+    bouton.disabled = true;
 
-    if (authError || !user) {
-        alert("Tu dois être connecté pour modifier ton profil.");
-        return;
+    try {
+        const { data: { user }, error: authError } =
+            await supabaseClient.auth.getUser();
+
+        if (authError || !user) {
+            throw new Error("Tu dois être connecté pour modifier ton profil.");
+        }
+
+        const nom = document.getElementById("champNomProfil").value.trim();
+        const bio = document.getElementById("champBioProfil").value.trim();
+
+        const fichierProfil = document.getElementById("champPhotoProfil").files[0];
+        const fichierCouverture = document.getElementById("champCouvertureProfil").files[0];
+
+        // Récupérer les anciennes photos pour les conserver
+        const { data: ancienProfil, error: lectureErreur } = await supabaseClient
+            .from("profils")
+            .select("photo_profil, photo_couverture")
+            .eq("id", user.id)
+            .single();
+
+        if (lectureErreur) throw lectureErreur;
+
+        let photoProfil = ancienProfil.photo_profil;
+        let photoCouverture = ancienProfil.photo_couverture;
+
+        // Envoyer une nouvelle photo dans Supabase Storage
+        async function envoyerPhoto(fichier, type) {
+            if (!fichier) return null;
+
+            const typesAcceptes = ["image/jpeg", "image/png", "image/webp"];
+
+            if (!typesAcceptes.includes(fichier.type)) {
+                throw new Error("Utilise une image JPG, PNG ou WEBP.");
+            }
+
+            if (fichier.size > 10 * 1024 * 1024) {
+                throw new Error("Chaque photo doit faire moins de 10 MB.");
+            }
+
+            const extension = fichier.type === "image/png"
+                ? "png"
+                : fichier.type === "image/webp"
+                    ? "webp"
+                    : "jpg";
+
+            const chemin = `${user.id}/${type}-${crypto.randomUUID()}.${extension}`;
+
+            const { error: uploadError } = await supabaseClient.storage
+                .from("profils-medias")
+                .upload(chemin, fichier, {
+                    contentType: fichier.type,
+                    upsert: false
+                });
+
+            if (uploadError) throw uploadError;
+
+            const { data } = supabaseClient.storage
+                .from("profils-medias")
+                .getPublicUrl(chemin);
+
+            return data.publicUrl;
+        }
+
+        if (fichierProfil) {
+            photoProfil = await envoyerPhoto(fichierProfil, "profil");
+        }
+
+        if (fichierCouverture) {
+            photoCouverture = await envoyerPhoto(fichierCouverture, "couverture");
+        }
+
+        // Enregistrer toutes les informations
+        const { data: profilEnregistre, error } = await supabaseClient
+            .from("profils")
+            .update({
+                nom_affichage: nom,
+                biographie: bio,
+                photo_profil: photoProfil,
+                photo_couverture: photoCouverture
+            })
+            .eq("id", user.id)
+            .select("id")
+            .single();
+
+        if (error) throw error;
+        if (!profilEnregistre) throw new Error("Le profil n'a pas été enregistré.");
+
+        // Actualiser le profil affiché
+        document.getElementById("nomProfilPersonnel").textContent =
+            nom || "Mon nom";
+
+        document.getElementById("bioProfilPersonnel").textContent =
+            bio || "Bienvenue sur mon profil Compagnons+ 🐾";
+
+        const imageProfil = document.getElementById("photoProfilPersonnel");
+        const imageCouverture = document.getElementById("photoCouverturePersonnel");
+
+        if (photoProfil) {
+            imageProfil.src = photoProfil;
+            imageProfil.style.display = "block";
+        }
+
+        if (photoCouverture) {
+            imageCouverture.src = photoCouverture;
+            imageCouverture.style.display = "block";
+        }
+
+        document.getElementById("formulaireModificationProfil")
+            .classList.add("hidden");
+
+        alert("💜 Ton profil a été enregistré avec succès !");
+
+    } catch (erreur) {
+        alert("Erreur : " + erreur.message);
+    } finally {
+        bouton.disabled = false;
     }
-
-    const nom = document.getElementById("champNomProfil").value.trim();
-    const bio = document.getElementById("champBioProfil").value.trim();
-
-    const { error } = await supabaseClient
-        .from("profils")
-        .update({
-            nom_affichage: nom,
-            biographie: bio
-        })
-        .eq("id", user.id);
-
-    if (error) {
-        alert("Erreur : " + error.message);
-        return;
-    }
-
-    document.getElementById("nomProfilPersonnel").textContent = nom || "Mon nom";
-    document.getElementById("bioProfilPersonnel").textContent = bio || "Bienvenue sur mon profil Compagnons+ 🐾";
-
-    document.getElementById("formulaireModificationProfil").classList.add("hidden");
-
-    alert("💜 Ton profil a été enregistré !");
 });
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
