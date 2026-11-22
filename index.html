@@ -318,6 +318,34 @@ a {
   </div>
 
 </div>
+  <!-- Formulaire de modification du profil -->
+<div id="formulaireModificationProfil" class="entry hidden">
+
+  <h3>✏️ Modifier mon profil</h3>
+
+  <label for="champNomProfil">Nom affiché</label>
+  <input type="text" id="champNomProfil"
+         placeholder="Ton nom sur Compagnons+">
+
+  <label for="champBioProfil">Ma biographie</label>
+  <textarea id="champBioProfil"
+            placeholder="Parle de toi et de tes animaux..."></textarea>
+
+  <label for="champPhotoProfil">👤 Photo de profil</label>
+  <input type="file" id="champPhotoProfil" accept="image/*">
+
+  <label for="champCouvertureProfil">🖼️ Photo de couverture</label>
+  <input type="file" id="champCouvertureProfil" accept="image/*">
+
+  <button type="button" id="enregistrerProfilPersonnel">
+    💾 Enregistrer les modifications
+  </button>
+
+  <button type="button" id="annulerModificationProfil">
+    ❌ Annuler
+  </button>
+
+</div>
 
   <h3>🐾 Mes annonces publiées</h3>
   <div id="filAnnoncesPersonnel"></div>
@@ -3099,6 +3127,13 @@ document.getElementById("ouvrirProfilPersonnel").addEventListener("click", () =>
 document.getElementById("retourProfilPersonnel").addEventListener("click", () => {
     document.getElementById("pageProfilPersonnel").classList.add("hidden");
     document.getElementById("profilPersonnel").classList.remove("hidden");
+});
+document.getElementById("modifierProfilPersonnel").addEventListener("click", () => {
+    document.getElementById("formulaireModificationProfil").classList.remove("hidden");
+});
+
+document.getElementById("annulerModificationProfil").addEventListener("click", () => {
+    document.getElementById("formulaireModificationProfil").classList.add("hidden");
 });
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
