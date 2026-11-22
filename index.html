@@ -216,8 +216,6 @@ a {
 }
 </style>
 </head>
-</style>
-</head>
 <body>
 <header>
   <img
@@ -1913,6 +1911,9 @@ function mettreAJourNavigation() {
   }
 }
 function show(id) {
+  if (utilisateurConnecteId && id !== 'connexion') {
+    sessionStorage.setItem('dernierePageCompagnons', id);
+  }
   if (!utilisateurConnecteId && id !== 'connexion') {
     id = 'connexion';
   }
@@ -2445,7 +2446,7 @@ document.getElementById('boutonDeconnexion').addEventListener('click', async () 
 
   render();
   show('connexion');
-
+  sessionStorage.removeItem('dernierePageCompagnons');
   document.getElementById('messageConnexion').textContent =
     '✅ Vous êtes déconnecté.';
 });
@@ -2459,6 +2460,15 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 
     render();
     mettreAJourNavigation();
+    if (event === 'INITIAL_SESSION' && session?.user) {
+    const dernierePage = sessionStorage.getItem('dernierePageCompagnons');
+
+    if (dernierePage === 'pageProfilPersonnel') {
+    document.getElementById('ouvrirProfilPersonnel').click();
+} else if (dernierePage && document.getElementById(dernierePage)) {
+    show(dernierePage);
+}
+}
   }, 0);
 });
 render();
@@ -3147,6 +3157,7 @@ liensMedias.push({
   }
 });
 document.getElementById("boutonProfilPersonnel").addEventListener("click", () => {
+    sessionStorage.setItem('dernierePageCompagnons', 'profilPersonnel');
     document.querySelectorAll("main > section").forEach(section => {
         section.classList.add("hidden");
     });
@@ -3157,6 +3168,7 @@ document.getElementById("boutonProfilPersonnel").addEventListener("click", () =>
 document.getElementById("ouvrirProfilPersonnel").addEventListener("click", async () => {
     document.getElementById("profilPersonnel").classList.add("hidden");
     document.getElementById("pageProfilPersonnel").classList.remove("hidden");
+    sessionStorage.setItem('dernierePageCompagnons', 'pageProfilPersonnel');
 
     const { data: { user }, error: authError } =
         await supabaseClient.auth.getUser();
@@ -3206,6 +3218,7 @@ document.getElementById("ouvrirProfilPersonnel").addEventListener("click", async
 document.getElementById("retourProfilPersonnel").addEventListener("click", () => {
     document.getElementById("pageProfilPersonnel").classList.add("hidden");
     document.getElementById("profilPersonnel").classList.remove("hidden");
+    sessionStorage.setItem('dernierePageCompagnons', 'profilPersonnel');
 });
 document.getElementById("modifierProfilPersonnel").addEventListener("click", () => {
     document.getElementById("formulaireModificationProfil").classList.remove("hidden");
