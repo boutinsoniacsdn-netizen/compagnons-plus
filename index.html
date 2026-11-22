@@ -3119,9 +3119,53 @@ document.getElementById("boutonProfilPersonnel").addEventListener("click", () =>
     document.getElementById("profilPersonnel").classList.remove("hidden");
     document.getElementById("menuCompte").classList.add("hidden");
 });
-document.getElementById("ouvrirProfilPersonnel").addEventListener("click", () => {
+document.getElementById("ouvrirProfilPersonnel").addEventListener("click", async () => {
     document.getElementById("profilPersonnel").classList.add("hidden");
     document.getElementById("pageProfilPersonnel").classList.remove("hidden");
+
+    const { data: { user }, error: authError } =
+        await supabaseClient.auth.getUser();
+
+    if (authError || !user) {
+        alert("Tu dois être connecté pour afficher ton profil.");
+        return;
+    }
+
+    const { data: profil, error } = await supabaseClient
+        .from("profils")
+        .select("nom_affichage, biographie, photo_profil, photo_couverture")
+        .eq("id", user.id)
+        .single();
+
+    if (error) {
+        alert("Impossible de charger ton profil : " + error.message);
+        return;
+    }
+
+    document.getElementById("nomProfilPersonnel").textContent =
+        profil.nom_affichage || "Mon nom";
+
+    document.getElementById("bioProfilPersonnel").textContent =
+        profil.biographie || "Bienvenue sur mon profil Compagnons+ 🐾";
+
+    const photo = document.getElementById("photoProfilPersonnel");
+    const couverture = document.getElementById("photoCouverturePersonnel");
+
+    if (profil.photo_profil) {
+        photo.src = profil.photo_profil;
+        photo.style.display = "block";
+    }
+
+    if (profil.photo_couverture) {
+        couverture.src = profil.photo_couverture;
+        couverture.style.display = "block";
+    }
+
+    document.getElementById("champNomProfil").value =
+        profil.nom_affichage || "";
+
+    document.getElementById("champBioProfil").value =
+        profil.biographie || "";
 });
 
 document.getElementById("retourProfilPersonnel").addEventListener("click", () => {
