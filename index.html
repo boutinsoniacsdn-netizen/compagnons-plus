@@ -239,7 +239,9 @@ a {
   <button type="button" id="espacePersonnel">
     🏠 Mon espace personnel
   </button>
-
+  <button type="button" id="boutonProfilPersonnel">
+  👤 Mon profil
+  </button>
   <button type="button" id="mesEntreprises">
     🏢 Mes entreprises
   </button>
@@ -268,6 +270,18 @@ a {
 </button>
 </nav>
 <main>
+<section class="card hidden" id="profilPersonnel">
+  <h2>💜 Mon profil Compagnons+</h2>
+
+  <div id="enteteProfilPersonnel"></div>
+
+  <h3>🐾 Mes annonces publiées</h3>
+  <div id="filAnnoncesPersonnel"></div>
+
+  <button type="button" id="retourProfilPersonnel">
+    ⬅️ Retour à mon espace
+  </button>
+</section>
 <section class="card hidden" id="tableauPersonnel">
   <h2>🏠 Mes animaux personnels</h2>
   <p>Bienvenue dans ton espace personnel Compagnons+ 💜</p>
@@ -3024,6 +3038,11 @@ liensMedias.push({
   } finally {
     bouton.disabled = false;
   }
+});
+document.getElementById("boutonProfilPersonnel").addEventListener("click", () => {
+    document.getElementById("profilPersonnel").classList.remove("hidden");
+    document.getElementById("tableauPersonnel").classList.add("hidden");
+    document.getElementById("menuCompte").classList.add("hidden");
 });
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
