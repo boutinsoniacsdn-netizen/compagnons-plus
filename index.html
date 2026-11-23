@@ -3477,7 +3477,7 @@ async function chargerPublicationsPersonnelles() {
 
     const { data: publications, error } = await supabaseClient
         .from("publications")
-        .select("id, auteur_id, texte, medias, visibilite, created_at")
+        .select("id, auteur_id, texte, medias, visibilite, est_epinglee, created_at")
         .eq("auteur_id", user.id)
         .order("created_at", { ascending: false })
         .limit(20);
@@ -3531,21 +3531,127 @@ async function chargerPublicationsPersonnelles() {
         options.style.cssText =
             "background:#f5f1fa;padding:10px;border-radius:10px;";
 
-        const modifier = document.createElement("button");
-        modifier.textContent = "✏️ Modifier";
-        modifier.type = "button";
-        modifier.onclick = () => {
-            alert("La modification sera ajoutée à la prochaine étape.");
-        };
+        // 💜 COMPAGNONS+ — MENU DE GESTION DES PUBLICATIONS
 
-        const supprimer = document.createElement("button");
-        supprimer.textContent = "🗑️ Supprimer";
-        supprimer.type = "button";
-        supprimer.onclick = () => {
-            alert("La suppression sera ajoutée à la prochaine étape.");
-        };
+// ✏️ MODIFIER
+const modifier = document.createElement("button");
+modifier.type = "button";
+modifier.textContent = "✏️ Modifier";
 
-        options.append(modifier, supprimer);
+modifier.onclick = async () => {
+    const nouveauTexte = prompt(
+        "Modifier ta publication :",
+        publication.texte || ""
+    );
+
+    if (nouveauTexte === null) return;
+
+    const { error } = await supabaseClient
+        .from("publications")
+        .update({ texte: nouveauTexte })
+        .eq("id", publication.id)
+        .eq("auteur_id", user.id);
+
+    if (error) {
+        alert("❌ " + error.message);
+        return;
+    }
+
+    await chargerPublicationsPersonnelles();
+};
+
+// 🗑️ SUPPRIMER
+const supprimer = document.createElement("button");
+supprimer.type = "button";
+supprimer.textContent = "🗑️ Supprimer";
+
+supprimer.onclick = async () => {
+    if (!confirm("Supprimer définitivement cette publication ?")) return;
+
+    const { error } = await supabaseClient
+        .from("publications")
+        .delete()
+        .eq("id", publication.id)
+        .eq("auteur_id", user.id);
+
+    if (error) {
+        alert("❌ " + error.message);
+        return;
+    }
+
+    await chargerPublicationsPersonnelles();
+};
+
+// 🔒 MASQUER OU RENDRE PUBLIC
+const masquer = document.createElement("button");
+masquer.type = "button";
+
+masquer.textContent =
+    publication.visibilite === "public"
+        ? "🔒 Masquer au public"
+        : "🌍 Rendre publique";
+
+masquer.onclick = async () => {
+    const nouvelleVisibilite =
+        publication.visibilite === "public" ? "prive" : "public";
+
+    const { error } = await supabaseClient
+        .from("publications")
+        .update({ visibilite: nouvelleVisibilite })
+        .eq("id", publication.id)
+        .eq("auteur_id", user.id);
+
+    if (error) {
+        alert("❌ " + error.message);
+        return;
+    }
+
+    await chargerPublicationsPersonnelles();
+};
+
+// 📌 ÉPINGLER OU DÉSÉPINGLER
+const epingler = document.createElement("button");
+epingler.type = "button";
+
+epingler.textContent = publication.est_epinglee
+    ? "📌 Désépingler"
+    : "📌 Épingler";
+
+epingler.onclick = async () => {
+
+    if (!publication.est_epinglee) {
+        const { count, error: erreurCompte } = await supabaseClient
+            .from("publications")
+            .select("id", { count: "exact", head: true })
+            .eq("auteur_id", user.id)
+            .eq("est_epinglee", true);
+
+        if (erreurCompte) {
+            alert("❌ " + erreurCompte.message);
+            return;
+        }
+
+        if (count >= 3) {
+            alert("📌 Tu peux épingler un maximum de 3 publications !");
+            return;
+        }
+    }
+
+    const { error } = await supabaseClient
+        .from("publications")
+        .update({ est_epinglee: !publication.est_epinglee })
+        .eq("id", publication.id)
+        .eq("auteur_id", user.id);
+
+    if (error) {
+        alert("❌ " + error.message);
+        return;
+    }
+
+    await chargerPublicationsPersonnelles();
+};
+
+        options.append(modifier, supprimer, masquer, epingler);
         menu.append(troisPoints, options);
 
         entete.append(informations, menu);
