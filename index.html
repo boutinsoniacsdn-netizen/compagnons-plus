@@ -3699,33 +3699,50 @@ function ouvrirModificationPublication(publication) {
 
     let medias = publication.medias || [];
 
-    if (typeof medias === "string") {
-        try {
-            medias = JSON.parse(medias);
-        } catch {
-            medias = [];
-        }
+if (typeof medias === "string") {
+    try {
+        medias = JSON.parse(medias);
+    } catch {
+        medias = [];
+    }
+}
+
+if (!Array.isArray(medias)) {
+    medias = medias ? [medias] : [];
+}
+
+medias.forEach((media) => {
+
+    if (!media || !media.url) return;
+
+    const estVideo =
+        media.type === "video" ||
+        /\.(mp4|webm|mov)(\?|$)/i.test(media.url);
+
+    const element = document.createElement(
+        estVideo ? "video" : "img"
+    );
+
+    element.src = media.url;
+
+    if (estVideo) {
+        element.controls = true;
+    } else {
+        element.alt = "Photo actuelle de la publication";
     }
 
-    if (!Array.isArray(medias)) medias = [];
+    element.style.cssText = `
+        display:block;
+        width:100%;
+        max-height:350px;
+        object-fit:contain;
+        border-radius:12px;
+        margin:12px 0;
+        background:#f8f4fc;
+    `;
 
-    medias.forEach((media) => {
-        const element = document.createElement(
-            media.type === "video" ? "video" : "img"
-        );
-
-        element.src = media.url;
-
-        if (media.type === "video") {
-            element.controls = true;
-        }
-
-        element.style.cssText =
-            "width:100%;max-height:250px;object-fit:contain;" +
-            "border-radius:12px;margin-top:10px;";
-
-        apercu.appendChild(element);
-    });
+    apercu.appendChild(element);
+});
 
     document.getElementById("messageModificationPublication").textContent = "";
     fenetre.style.display = "flex";
