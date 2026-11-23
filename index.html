@@ -2464,6 +2464,7 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
     const dernierePage = sessionStorage.getItem('dernierePageCompagnons');
 
     if (dernierePage === 'pageProfilPersonnel') {
+    show('profilPersonnel');
     document.getElementById('ouvrirProfilPersonnel').click();
 } else if (dernierePage && document.getElementById(dernierePage)) {
     show(dernierePage);
