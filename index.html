@@ -310,9 +310,17 @@ a {
     <h2 id="nomProfilPersonnel">Mon nom</h2>
     <p id="bioProfilPersonnel">Bienvenue sur mon profil Compagnons+ 🐾</p>
 
-    <button type="button" id="modifierProfilPersonnel">
-      ✏️ Modifier mon profil
-    </button>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:15px;">
+
+  <button type="button" id="retourProfilPersonnel">
+    ⬅️ Retour à mes profils
+  </button>
+
+  <button type="button" id="modifierProfilPersonnel">
+    ✏️ Modifier mon profil
+  </button>
+
+</div>
   </div>
 
 </div>
@@ -347,7 +355,17 @@ a {
 <!-- FIL D'ACTUALITÉ DU PROFIL -->
 <div id="filActualitePersonnel">
 
-  <h3>💜 Mon fil d'actualité</h3>
+  <!-- PUBLICATIONS ÉPINGLÉES -->
+<h3>📌 Mes publications épinglées</h3>
+
+<div id="publicationsEpinglees"
+     style="display:grid;
+            grid-template-columns:repeat(3,minmax(0,1fr));
+            gap:10px;
+            margin-bottom:20px;">
+</div>
+
+<h3>💜 Mon fil d'actualité</h3>
 
   <div class="card">
     <h4>🐾 Quoi de neuf ?</h4>
@@ -383,9 +401,6 @@ a {
   <h3>🐾 Mes annonces publiées</h3>
   <div id="filAnnoncesPersonnel"></div>
 
-  <button type="button" id="retourProfilPersonnel">
-    ⬅️ Retour à mon espace
-  </button>
 </section>
 <section class="card hidden" id="tableauPersonnel">
   <h2>🏠 Mes animaux personnels</h2>
