@@ -3229,6 +3229,7 @@ document.getElementById("ouvrirProfilPersonnel").addEventListener("click", async
 
     document.getElementById("champBioProfil").value =
         profil.biographie || "";
+        await chargerPublicationsPersonnelles();
 });
 
 document.getElementById("retourProfilPersonnel").addEventListener("click", () => {
@@ -3456,6 +3457,143 @@ document.getElementById("boutonPublierFil")
         bouton.disabled = false;
     }
 });
+// 💜 COMPAGNONS+ — AFFICHAGE DU FIL PERSONNEL
+
+async function chargerPublicationsPersonnelles() {
+
+    const conteneur = document.getElementById(
+        "publicationsProfilPersonnel"
+    );
+
+    conteneur.textContent = "🐾 Chargement des publications...";
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        conteneur.textContent = "Connecte-toi pour voir tes publications.";
+        return;
+    }
+
+    const { data: publications, error } = await supabaseClient
+        .from("publications")
+        .select("id, auteur_id, texte, medias, visibilite, created_at")
+        .eq("auteur_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(20);
+
+    if (error) {
+        conteneur.textContent = "❌ " + error.message;
+        return;
+    }
+
+    conteneur.replaceChildren();
+
+    if (!publications.length) {
+        conteneur.textContent = "🐾 Aucune publication pour le moment.";
+        return;
+    }
+
+    const nom = document.getElementById("nomProfilPersonnel").textContent;
+
+    for (const publication of publications) {
+
+        const carte = document.createElement("article");
+        carte.className = "card";
+        carte.style.width = "100%";
+
+        const entete = document.createElement("div");
+        entete.style.cssText =
+            "display:flex;justify-content:space-between;align-items:center;gap:10px;";
+
+        const informations = document.createElement("div");
+
+        const auteur = document.createElement("strong");
+        auteur.textContent = "💜 " + nom;
+
+        const date = document.createElement("div");
+        date.className = "small";
+        date.textContent = new Date(
+            publication.created_at
+        ).toLocaleString("fr-CA");
+
+        informations.append(auteur, date);
+
+        // ⋯ Menu de la publication
+        const menu = document.createElement("details");
+
+        const troisPoints = document.createElement("summary");
+        troisPoints.textContent = "⋯";
+        troisPoints.style.cssText =
+            "cursor:pointer;font-size:26px;list-style:none;padding:0 10px;";
+
+        const options = document.createElement("div");
+        options.style.cssText =
+            "background:#f5f1fa;padding:10px;border-radius:10px;";
+
+        const modifier = document.createElement("button");
+        modifier.textContent = "✏️ Modifier";
+        modifier.type = "button";
+        modifier.onclick = () => {
+            alert("La modification sera ajoutée à la prochaine étape.");
+        };
+
+        const supprimer = document.createElement("button");
+        supprimer.textContent = "🗑️ Supprimer";
+        supprimer.type = "button";
+        supprimer.onclick = () => {
+            alert("La suppression sera ajoutée à la prochaine étape.");
+        };
+
+        options.append(modifier, supprimer);
+        menu.append(troisPoints, options);
+
+        entete.append(informations, menu);
+        carte.appendChild(entete);
+
+        if (publication.texte) {
+            const texte = document.createElement("p");
+            texte.textContent = publication.texte;
+            texte.style.whiteSpace = "pre-wrap";
+            carte.appendChild(texte);
+        }
+
+        let medias = publication.medias || [];
+
+        if (typeof medias === "string") {
+            try {
+                medias = JSON.parse(medias);
+            } catch {
+                medias = [];
+            }
+        }
+
+        if (!Array.isArray(medias)) medias = [];
+
+        for (const media of medias) {
+
+            if (!media.url) continue;
+
+            let element;
+
+            if (media.type === "video") {
+                element = document.createElement("video");
+                element.controls = true;
+            } else {
+                element = document.createElement("img");
+                element.alt = "Photo de la publication";
+            }
+
+            element.src = media.url;
+            element.style.cssText =
+                "display:block;width:100%;height:auto;max-height:650px;" +
+                "object-fit:contain;border-radius:12px;margin-top:12px;";
+
+            carte.appendChild(element);
+        }
+
+        conteneur.appendChild(carte);
+    }
+}
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
 <div id="fenetreApercuAnnonce" hidden
