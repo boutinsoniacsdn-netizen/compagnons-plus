@@ -3350,6 +3350,96 @@ document.getElementById("enregistrerProfilPersonnel").addEventListener("click", 
         bouton.disabled = false;
     }
 });
+// COMPAGNONS+ - PUBLICATIONS DU FIL D'ACTUALITÉ
+
+document.getElementById("boutonPublierFil")
+    .addEventListener("click", async () => {
+
+    const bouton = document.getElementById("boutonPublierFil");
+    const texte = document.getElementById("texteNouvellePublication").value.trim();
+
+    const fichiers = Array.from(
+        document.getElementById("mediaNouvellePublication").files
+    );
+
+    if (!texte && fichiers.length === 0) {
+        alert("🐾 Écris un message ou ajoute une photo ou vidéo.");
+        return;
+    }
+
+    const { data: { user }, error: erreurConnexion } =
+        await supabaseClient.auth.getUser();
+
+    if (erreurConnexion || !user) {
+        alert("Tu dois être connecté pour publier.");
+        return;
+    }
+
+    bouton.disabled = true;
+
+    try {
+        const medias = [];
+
+        const typesAutorises = [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/gif",
+            "video/mp4",
+            "video/webm",
+            "video/quicktime"
+        ];
+
+        for (const fichier of fichiers) {
+
+            if (!typesAutorises.includes(fichier.type)) {
+                throw new Error("Format non autorisé : " + fichier.name);
+            }
+
+            if (fichier.size > 50 * 1024 * 1024) {
+                throw new Error("Fichier trop volumineux : " + fichier.name);
+            }
+
+            const chemin = `${user.id}/${crypto.randomUUID()}-${fichier.name}`;
+
+            const { error: erreurUpload } = await supabaseClient.storage
+                .from("publications-medias")
+                .upload(chemin, fichier, { upsert: false });
+
+            if (erreurUpload) throw erreurUpload;
+
+            const { data } = supabaseClient.storage
+                .from("publications-medias")
+                .getPublicUrl(chemin);
+
+            medias.push({
+                type: fichier.type.startsWith("video/") ? "video" : "photo",
+                url: data.publicUrl
+            });
+        }
+
+        const { error } = await supabaseClient
+            .from("publications")
+            .insert({
+                auteur_id: user.id,
+                texte: texte || null,
+                medias: medias,
+                visibilite: "public"
+            });
+
+        if (error) throw error;
+
+        document.getElementById("texteNouvellePublication").value = "";
+        document.getElementById("mediaNouvellePublication").value = "";
+
+        alert("💜 Ta publication a été enregistrée !");
+
+    } catch (erreur) {
+        alert("❌ Erreur de publication : " + erreur.message);
+    } finally {
+        bouton.disabled = false;
+    }
+});
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
 <div id="fenetreApercuAnnonce" hidden
