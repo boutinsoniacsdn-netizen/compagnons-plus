@@ -3538,26 +3538,8 @@ const modifier = document.createElement("button");
 modifier.type = "button";
 modifier.textContent = "✏️ Modifier";
 
-modifier.onclick = async () => {
-    const nouveauTexte = prompt(
-        "Modifier ta publication :",
-        publication.texte || ""
-    );
-
-    if (nouveauTexte === null) return;
-
-    const { error } = await supabaseClient
-        .from("publications")
-        .update({ texte: nouveauTexte })
-        .eq("id", publication.id)
-        .eq("auteur_id", user.id);
-
-    if (error) {
-        alert("❌ " + error.message);
-        return;
-    }
-
-    await chargerPublicationsPersonnelles();
+modifier.onclick = () => {
+    ouvrirModificationPublication(publication);
 };
 
 // 🗑️ SUPPRIMER
@@ -3701,6 +3683,103 @@ epingler.onclick = async () => {
         conteneur.appendChild(carte);
     }
 }
+// 💜 COMPAGNONS+ — MODIFICATION DES PUBLICATIONS
+
+let publicationEnModification = null;
+
+function ouvrirModificationPublication(publication) {
+    publicationEnModification = publication;
+
+    const fenetre = document.getElementById("fenetreModificationPublication");
+    const texte = document.getElementById("texteModificationPublication");
+    const apercu = document.getElementById("apercuMediasModification");
+
+    texte.value = publication.texte || "";
+    apercu.replaceChildren();
+
+    let medias = publication.medias || [];
+
+    if (typeof medias === "string") {
+        try {
+            medias = JSON.parse(medias);
+        } catch {
+            medias = [];
+        }
+    }
+
+    if (!Array.isArray(medias)) medias = [];
+
+    medias.forEach((media) => {
+        const element = document.createElement(
+            media.type === "video" ? "video" : "img"
+        );
+
+        element.src = media.url;
+
+        if (media.type === "video") {
+            element.controls = true;
+        }
+
+        element.style.cssText =
+            "width:100%;max-height:250px;object-fit:contain;" +
+            "border-radius:12px;margin-top:10px;";
+
+        apercu.appendChild(element);
+    });
+
+    document.getElementById("messageModificationPublication").textContent = "";
+    fenetre.style.display = "flex";
+}
+
+function fermerModificationPublication() {
+    document.getElementById("fenetreModificationPublication").style.display = "none";
+    publicationEnModification = null;
+}
+
+document.getElementById("annulerModificationPublication").onclick =
+    fermerModificationPublication;
+
+document.getElementById("enregistrerModificationPublication").onclick =
+    async () => {
+
+    if (!publicationEnModification) return;
+
+    const bouton = document.getElementById("enregistrerModificationPublication");
+    const message = document.getElementById("messageModificationPublication");
+
+    const nouveauTexte =
+        document.getElementById("texteModificationPublication").value.trim();
+
+    const { data: { user }, error: erreurUtilisateur } =
+        await supabaseClient.auth.getUser();
+
+    if (erreurUtilisateur || !user) {
+        message.textContent = "❌ Tu dois être connectée.";
+        return;
+    }
+
+    bouton.disabled = true;
+    message.textContent = "💜 Enregistrement en cours...";
+
+    try {
+        const { error } = await supabaseClient
+            .from("publications")
+            .update({ texte: nouveauTexte })
+            .eq("id", publicationEnModification.id)
+            .eq("auteur_id", user.id);
+
+        if (error) throw error;
+
+        fermerModificationPublication();
+
+        await chargerPublicationsPersonnelles();
+
+    } catch (erreur) {
+        message.textContent = "❌ " + erreur.message;
+    } finally {
+        bouton.disabled = false;
+    }
+};
 </script>
 <!-- Fenêtre d'aperçu des annonces Compagnons+ -->
 <div id="fenetreApercuAnnonce" hidden
@@ -3729,6 +3808,156 @@ epingler.onclick = async () => {
     </button>
 
   </div>
+</div>
+<!-- 💜 COMPAGNONS+ — FENÊTRE DE MODIFICATION DES PUBLICATIONS -->
+<div id="fenetreModificationPublication"
+     style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);
+            z-index:99999;align-items:center;justify-content:center;padding:15px;">
+
+  <div style="background:white;border-radius:18px;padding:25px;
+              width:100%;max-width:650px;max-height:90vh;overflow-y:auto;
+              box-shadow:0 10px 40px rgba(0,0,0,0.25);">
+
+    <h2 style="color:#70449b;margin-top:0;">
+      ✏️ Modifier ma publication
+    </h2>
+
+    <label for="texteModificationPublication">
+      📝 Texte de la publication
+    </label>
+
+    <textarea id="texteModificationPublication"
+              rows="8"
+              style="width:100%;box-sizing:border-box;margin-top:10px;
+                     padding:12px;border:1px solid #ccc;border-radius:10px;
+                     resize:vertical;"></textarea>
+
+    <h3>📸 Photos et vidéos actuelles</h3>
+
+    <div id="mediasModificationPublication"
+         style="display:flex;flex-wrap:wrap;gap:12px;"></div>
+
+    <h3>➕ Ajouter des photos ou vidéos</h3>
+
+    <input type="file"
+           id="ajouterMediasModification"
+           accept="image/*,video/*"
+           multiple>
+
+    <div style="display:flex;justify-content:flex-end;
+                flex-wrap:wrap;gap:10px;margin-top:25px;">
+
+      <button type="button"
+              id="annulerModificationPublication"
+              style="background:#eee;color:#333;">
+        ↩️ Annuler
+      </button>
+
+      <button type="button"
+              id="enregistrerModificationPublication"
+              style="background:#70449b;color:white;">
+        💜 Enregistrer les modifications
+      </button>
+
+    </div>
+
+    <p id="messageModificationPublication"
+       role="status"
+       style="margin-bottom:0;"></p>
+
+  </div>
+</div>
+<!-- 💜 COMPAGNONS+ — FENÊTRE DE MODIFICATION -->
+
+<div id="fenetreModificationPublication"
+     style="
+     display:none;
+     position:fixed;
+     inset:0;
+     z-index:10000;
+     background:rgba(30,15,45,0.65);
+     align-items:center;
+     justify-content:center;
+     padding:20px;
+     ">
+
+    <div style="
+         background:white;
+         border-radius:20px;
+         padding:25px;
+         width:100%;
+         max-width:650px;
+         max-height:90vh;
+         overflow-y:auto;
+         box-shadow:0 15px 45px rgba(0,0,0,0.25);
+         ">
+
+        <h2 style="color:#70449b;margin-top:0;">
+            💜 Modifier ma publication
+        </h2>
+
+        <p style="color:#666;">
+            Modifie ton texte et enregistre tes changements.
+        </p>
+
+        <textarea id="texteModificationPublication"
+                  rows="7"
+                  style="
+                  width:100%;
+                  box-sizing:border-box;
+                  padding:15px;
+                  border:2px solid #e6d8f3;
+                  border-radius:12px;
+                  font-size:16px;
+                  resize:vertical;
+                  "></textarea>
+
+        <h3 style="color:#70449b;">
+            📸 Photos et vidéos actuelles
+        </h3>
+
+        <div id="apercuMediasModification"></div>
+
+        <p id="messageModificationPublication"
+           role="status"
+           style="color:#70449b;"></p>
+
+        <div style="
+             display:flex;
+             justify-content:flex-end;
+             gap:10px;
+             flex-wrap:wrap;
+             margin-top:20px;
+             ">
+
+            <button type="button"
+                    id="annulerModificationPublication"
+                    style="
+                    background:#eeeeee;
+                    color:#333;
+                    padding:12px 20px;
+                    border:none;
+                    border-radius:10px;
+                    cursor:pointer;
+                    ">
+                Annuler
+            </button>
+
+            <button type="button"
+                    id="enregistrerModificationPublication"
+                    style="
+                    background:#70449b;
+                    color:white;
+                    padding:12px 20px;
+                    border:none;
+                    border-radius:10px;
+                    cursor:pointer;
+                    ">
+                💜 Enregistrer
+            </button>
+
+        </div>
+    </div>
 </div>
 </body>
 </html>
